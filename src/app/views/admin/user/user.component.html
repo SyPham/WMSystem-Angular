@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-md-12 pb-4">
+    <button
+      type="button"
+      class="btn bg-gradient-secondary btn-sm"
+      (click)='openAddUserModal()'
+    >
+      <i class="fas fa-plus"></i>Add User
+    </button>
+  </div>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">List Users</h5>
+        <div class="card-tools">
+          <div class="input-group input-group-sm" style="width: 150px;">
+            <input
+              type="text"
+              name="table_search"
+              class="form-control float-right"
+              placeholder="Search"
+            />
+
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-default">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <!-- <ngx-spinner
+          bdOpacity="0.2"
+          bdColor="rgba(51,51,51,0.8)"
+          size="medium"
+          color="#20A8D8"
+          type="pacman"
+        >
+        </ngx-spinner> -->
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Position</th>
+              <th>Option</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data; let i = index" >
+              <td>{{(pagination.currentPage - 1) * pagination.itemsPerPage + i + 1}}</td>
+              <td>{{item.Username}}</td>
+              <td>{{item.Email}}</td>
+              <td>{{item.RoleName}}</td>
+              <td>{{item.isLeader == true ?"Leader" : "Staff"}}</td>
+              <td class="py-0 align-middle">
+                <div class="btn-group btn-group-sm">
+                  <a style="cursor: pointer;" (click)='openEditModal(item)' class="btn btn-info">
+                    <i style="color:white" class="fas fa-edit"></i>
+                  </a>
+                  <a style="cursor: pointer;" (click)='delete(item.ID)' class="btn btn-danger">
+                    <i style="color:white" class="fas fa-trash"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- ./card-body -->
+      <div class="card-footer">
+        <ngb-pagination (pageChange)="onPageChange($event)" [collectionSize]="pagination.totalItems"  [directionLinks]='true' [(page)]="pagination.currentPage" [pageSize]='pagination.itemsPerPage' [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+      </div>
+      <!-- /.card-footer -->
+    </div>
+    <!-- /.card -->
+  </div>
+  <!-- /.col -->
+</div>

@@ -1,0 +1,11 @@
+
+.switch-control {
+    width: 100px;
+  }
+  .e-switch-wrapper .e-switch-off {
+    background-color: green;
+    color: #fff;
+}
+.e-switch-wrapper .e-switch-inner {
+    border: none;
+}

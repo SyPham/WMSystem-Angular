@@ -1,0 +1,205 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="form-group">
+        <label for="JobType">Task Name</label>
+        <small class="text-danger">(*) Require</small>
+        <input
+          type="text"
+          [(ngModel)]="jobname"
+          class="form-control JobType"
+          placeholder='Enter task name'
+        />
+      </div>
+    </div>
+    <div class="col-md-4">
+     <div class="form-group">
+      <label for="JobType">Be Assigned</label>
+      <ejs-multiselect [dataSource]='Users' [(ngModel)]="pic" [fields]='fields' [placeholder]='waterMark'></ejs-multiselect>
+      <!-- <ejs-multiselect [dataSource]='Users'  [mode]='default' [allowFiltering]='true'  [fields]='fields' [placeholder]='waterMark'></ejs-multiselect> -->
+    </div>
+    </div>
+   
+    <div class="col-md-12">
+      <div class="card card-primary card-outline card-outline-tabs">
+        <div class="card-header p-0 border-bottom-0">
+          <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                id="tabs-who-tab"
+                data-toggle="pill"
+                href="#tabs-who"
+                role="tab"
+                aria-controls="tabs-who"
+                aria-selected="true"
+              >From Who?</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                id="tabs-where-tab"
+                data-toggle="pill"
+                href="#tabs-where"
+                role="tab"
+                aria-controls="tabs-where"
+                aria-selected="false"
+              >From Where?</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="tab-content" id="custom-tabs-three-tabContent">
+            <div
+              class="tab-pane fade active show"
+              id="tabs-who"
+              role="tabpanel"
+              aria-labelledby="tabs-who"
+            >
+            <div class="form-group">
+              <label for="JobType">Who</label>
+              <small class="text-danger">(*) Require</small>
+              <ejs-dropdownlist id='ddlelement' [dataSource]='Users' [(ngModel)]="who" [fields]='fields' [placeholder]='waterMark'></ejs-dropdownlist>
+            </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="tabs-where"
+              role="tabpanel"
+              aria-labelledby="tabs-where"
+            >
+            <div class="form-group">
+              <label for="JobType">Where</label>
+              <small class="text-danger">(*) Require</small>
+              <ejs-dropdownlist id='ddlelement' [dataSource]='Areas' [(ngModel)]="where" [fields]='fieldsAreas' [placeholder]='waterMark'></ejs-dropdownlist>
+            </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="Period">Period</label>
+            <small  class="text-danger">(*) Default is due date</small>
+            <select id="Period" [(ngModel)]="selectedPeriodMain" (change)="change($event)" class="form-control">
+              <option value="reset">Choose period</option>
+              <option value="Daily">Daily</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Yearly">Yearly</option>
+              <option value="DueDate">Due Date</option>
+            </select>
+          </div>
+        </div>
+        <div [class]="duedate?'col-md-3 d-none':'col-md-3'">
+          <div class="form-group">
+            <label for="JobType">Datetime</label>
+            <small class="text-danger">(*) Require</small>
+            <ejs-datetimepicker [(ngModel)]="deadline" placeholder='Please select date and time'></ejs-datetimepicker>
+          </div>
+        </div>
+       
+        <!-- Daily -->
+        <div class="col-md-6 d-none" *ngIf="daily" style="cursor: not-allowed;">
+          <div class="form-group">
+            <label for="JobType">Daily</label>
+            <small class="text-danger">(*) Require</small>
+            <ejs-datepicker [format]="format" [(ngModel)]="duedatedaily" [allowEdit]="allowEdit" placeholder='Enter date or select date'></ejs-datepicker>
+          </div>
+        </div>
+        <!-- ----Daily -->
+        <!-- Weekly -->
+        <div [class]="weekly?'col-md-2 d-none':'col-md-2'">
+          <div class="form-group">
+            <label for="JobType">Weekkday</label>
+            <small class="text-danger">(*) Require</small>
+            <ejs-dropdownlist [dataSource]='weekdays' [(ngModel)]="weekday" (change)="onChangeWeekday($event)" [placeholder]='waterMark'></ejs-dropdownlist>
+          </div>
+        </div>
+        <div [class]="weekly?'col-md-2 d-none':'col-md-2'">
+          <div class="form-group">
+            <label for="JobType">Month</label>
+            <small class="text-danger">(*) Require</small>
+            <ejs-dropdownlist [dataSource]='months'(change)="onChangeMonth($event)" [(ngModel)]="monthSelected" [placeholder]='waterMark'></ejs-dropdownlist>
+          </div>
+        </div>
+        <div [class]="weekly?'col-md-2 d-none':'col-md-2'">
+          <div class="form-group">
+            <label for="JobType">Effective date</label>
+            <small class="text-danger">(*) Require</small>
+            <ejs-dropdownlist [dataSource]='weekdaysOfMonth' [(ngModel)]="duedateweekly" [placeholder]='waterMark'></ejs-dropdownlist>
+          </div>
+        </div>
+        <!-- ---Weekly -->       
+        <!-- Yearly -->
+        <div [class]="yearly?'col-md-6 d-none':'col-md-6'">
+          <div class="form-group">
+            <label for="JobType">Date Yearly</label>
+            <small class="text-danger">(*) Require</small>
+            <ejs-datepicker [format]="format" [(ngModel)]="duedateyearly" [allowEdit]="allowEdit" (focus)="onFocus($event)" placeholder='Enter date or select date'></ejs-datepicker>
+          </div>
+        </div>
+        <!-- ---Yearly -->
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label>Priority</label>
+      <small  class="text-danger">(*) Default is medium</small>
+
+      <div class="form-group">
+        <div class="custom-control custom-radio">
+          <input
+            class="custom-control-input"
+            type="radio"
+            id="priorityHigh"
+            [(ngModel)]="priority"
+            name="priority"
+            value="H"
+          />
+          <label for="priorityHigh" class="custom-control-label">High</label>
+        </div>
+
+        <div class="custom-control custom-radio">
+          <input
+            class="custom-control-input"
+            checked="true"
+            type="radio"
+            value="M"
+            [(ngModel)]="priority"
+            id="priorityMedium"
+            name="priority"
+          />
+          <label for="priorityMedium" class="custom-control-label">Medium</label>
+        </div>
+
+        <div class="custom-control custom-radio">
+          <input
+            class="custom-control-input"
+            type="radio"
+            id="priorityLow"
+            [(ngModel)]="priority"
+            name="priority"
+            value="L"
+          />
+          <label for="priorityLow" class="custom-control-label">Low</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer justify-content-between">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+
+  <button type="button" class="btn btn-outline-dark" (click)="createTask()">Save</button>
+</div>

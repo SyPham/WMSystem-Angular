@@ -1,0 +1,57 @@
+<div>
+  <div class="comment-box-wrapper">
+    <div class="comment-box">
+      <img [src]="imageBase64(node.ImageBase64)" class="commenter-image" alt="commenter_image" />
+      <div class="comment-content">
+        <div class="commenter-head">
+          <span class="commenter-name">
+            <a href>{{node.Username}}</a>
+          </span>
+          <span class="comment-date">
+            <i class="far fa-clock"></i>
+            {{datetime(node.CreatedTime)}}
+          </span>
+        </div>
+        <div class="comment-body">
+          <span class="comment">{{node.Content}}</span>
+        </div>
+        <div class="comment-footer">
+          <span class="comment-reply">
+            <a v-show="node.HasChildren">{{ node.HasChildren ? node.children.length : 0 }}</a>
+            <a
+              class="comment-action"
+              style="cursor: pointer;"
+              (click)="clickReply()"
+            >{{ node.HasChildren ? "Replies" : "Reply" }}</a>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="nested-comments" *ngIf="node.HasChildren">
+      <div class="comment-box-wrapper">
+        <ng-container *ngFor="let child of node.children; let i = index">
+          <app-node-tree  [node]="child" *ngIf="i < totalShow;" [taskID]="taskID" ></app-node-tree>
+        </ng-container>
+        <small
+        style="cursor: pointer;"
+        *ngIf="checkMore()"
+        (click)="increseTotalShow()"
+        class="text-center text-primary d-block"
+      >
+        Load more 
+        <i class="fas fa-chevron-down text-small"></i>
+      </small>
+      </div>
+    </div>
+    <div class="comment-box" *ngIf="isShow === true">
+      <img [src]="imageBase64CurrentUser()" class="commenter-image" alt="commenter_image" />
+      <input
+        class="form-control ml-1 mt-1 form-control-sm"
+        type="text"
+        (keyup.enter)="addSubComment($event, node?.ID)"
+        [(ngModel)]="content"
+        placeholder="Type a comment"
+      />
+    </div>
+  </div>
+</div>

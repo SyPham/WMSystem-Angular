@@ -1,0 +1,13 @@
+<div class="row">
+    <div *ngFor="let item of data" class="col-12 col-sm-6 col-md-3">
+      <div class="info-box" [routerLink]="item.path" >
+        <span class="info-box-icon bg-info elevation-1"><i [class]="item.icon"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">{{item.title}}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+ 
+</div>

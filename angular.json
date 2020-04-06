@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "WM": {
@@ -19,14 +19,24 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "./node_modules/admin-lte/dist/css/adminlte.min.css",
+              "./node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css",
+              "./node_modules/bootstrap4-toggle/css/bootstrap4-toggle.min.css",
+              "./node_modules/alertifyjs/build/css/alertify.min.css",
+              "./node_modules/alertifyjs/build/css/themes/bootstrap.min.css",
+              "./node_modules/@syncfusion/ej2-angular-dropdowns/styles/multi-select/bootstrap.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/admin-lte/plugins/jquery/jquery.min.js",
+              "./node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js",
+              "./node_modules/admin-lte/dist/js/adminlte.min.js",
+              "./node_modules/alertifyjs/build/alertify.min.js",
+              "./node_modules/sweetalert2/dist/sweetalert2.js",
+              "./node_modules/bootstrap4-toggle/js/bootstrap4-toggle.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -83,13 +93,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         },
@@ -101,9 +106,7 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -119,6 +122,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "WM"
 }

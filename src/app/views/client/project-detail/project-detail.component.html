@@ -1,0 +1,158 @@
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Projects Detail</h3>
+
+    <div class="card-tools">
+      <button
+        type="button"
+        class="btn btn-tool"
+        data-card-widget="collapse"
+        data-toggle="tooltip"
+        title="Collapse"
+      >
+        <i class="fas fa-minus"></i>
+      </button>
+      <button
+        type="button"
+        class="btn btn-tool"
+        data-card-widget="remove"
+        data-toggle="tooltip"
+        title="Remove"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
+        <h3 class="text-primary pb-3">
+          <i class="fas fa-paint-brush"></i>
+          {{projectName}}
+        </h3>
+        <div class="row">
+          <div class="col-12 col-sm-4">
+            <div
+              class="info-box bg-light"
+              (click)="open(managerModal)"
+              style="cursor: pointer;"
+            >
+              <div class="info-box-content">
+                <span class="info-box-text text-center text-muted"
+                  >Project Manager</span
+                >
+                <span class="info-box-number text-center text-muted mb-0">
+                  {{managersName}}</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-8">
+            <div
+              class="info-box bg-light"
+              (click)="open(memberModal)"
+              style="cursor: pointer;"
+            >
+              <div class="info-box-content">
+                <span class="info-box-text text-center text-muted"
+                  >Team Members</span
+                >
+                <span class="info-box-number text-center text-muted mb-0">
+                 {{membersName}} 
+                  <span></span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 pb-2">
+            <small class="text-danger"
+              >(*) Note: Please click on project manager or team member to edit
+              or add it.</small
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+     <div class="row" style="display: block;
+     /* width: 100%; */
+     overflow-x: auto;">
+       <app-list-task-project [Id]="projectId"></app-list-task-project>
+     </div> 
+    <!-- /.card-body -->
+  </div>
+
+  <ng-template #managerModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">
+        {{ titleManagerModal }}
+      </h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="Name">Name</label>
+            <ejs-multiselect [dataSource]='usersData' [(ngModel)]='managerSelected' (change)="changeManager($event)" [mode]='default' [value]='managerSelected' (filtering)='onFiltering($event)' [allowFiltering]='true'  [fields]='fields' [placeholder]='waterMark'></ejs-multiselect>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer justify-content-between">
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="c('Save click')"
+      >
+        Close
+      </button>
+      <button type="button" (click)="addManager()" class="btn btn-outline-dark">
+        Save
+      </button>
+    </div>
+  </ng-template>
+  <ng-template #memberModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{ titleMemberModal }}</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="Name">Name</label>
+            <ejs-multiselect [dataSource]='usersData' [(ngModel)]='memberSelected' (change)="changeMember($event)" (filtering)='onFiltering($event)' [allowFiltering]='true' [mode]='default' [fields]='fields' [value]='memberSelected' [placeholder]='waterMark'></ejs-multiselect>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer justify-content-between">
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="c('Save click')"
+      >
+        Close
+      </button>
+      <button type="button" (click)="addMember()" class="btn btn-outline-dark">
+        Save
+      </button>
+    </div>
+  </ng-template>
+</div>

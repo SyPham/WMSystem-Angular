@@ -1,0 +1,70 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row" *ngIf="action==='Add'">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="name">Username</label> <small *ngIf="action=== 'Add'" class="text-danger text-small text-small"> *Require</small>
+        <input type="text" id='Username' [(ngModel)]="user.username" class="form-control">
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="Password">Password</label><small *ngIf="action=== 'Add'" class="text-danger text-small"> *Require</small>
+        <input type="password" id='Password' [(ngModel)]="user.password" class="form-control">
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="Email">Email</label><small *ngIf="action=== 'Add'" class="text-danger text-small"> *Require</small>
+        <input type="text" id='Email' [(ngModel)]="user.email" class="form-control">
+      </div>
+    </div>
+    
+    <div class="col-lg-6">
+      <label for="">Role</label><small *ngIf="action=== 'Add'" class="text-danger text-small"> *Require</small>
+      <ejs-dropdownlist id='role'  [placeholder]='text' [(ngModel)]="user.roleid" [fields]='fields'  [dataSource]='role'></ejs-dropdownlist>
+    </div>
+    <div class="col-lg-6">
+      <ng-container>
+        <ejs-switch  onLabel="Leader" offLabel="Staff"  cssClass="switch-control" [(ngModel)]="user.isLeader" (change)='!user.isLeader'
+        [checked]="user.isLeader"></ejs-switch>
+        <small *ngIf="action=== 'Add'" class="text-danger text-small"> *Require</small>
+      </ng-container>
+    </div>
+  </div>
+  <div class="row" *ngIf="action==='Edit'">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="name">Username</label> 
+        <input type="text" id='Username' [(ngModel)]="user.Username" class="form-control">
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="text" id='Email' [(ngModel)]="user.Email" class="form-control">
+      </div>
+    </div>
+    
+    <div class="col-lg-6">
+      <label for="">Role</label>
+      <ejs-dropdownlist id='role'  [placeholder]='text' [(ngModel)]="user.RoleID" [fields]='fields'  [dataSource]='role'></ejs-dropdownlist>
+    </div>
+    <div class="col-lg-6">
+      <ng-container>
+        <ejs-switch  onLabel="Leader" offLabel="Staff"  cssClass="switch-control" [(ngModel)]="user.isLeader" (change)='!user.isLeader'
+        [checked]="user.isLeader"></ejs-switch>
+      
+      </ng-container>
+    </div>
+  </div>
+</div>
+<div class="modal-footer justify-content-between">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="btn btn-outline-dark" (click)="save()">Save</button>
+</div>

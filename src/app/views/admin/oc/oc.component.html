@@ -1,0 +1,45 @@
+<div class="col-md-12 pb-4">
+  <button
+    type="button"
+    class="btn bg-gradient-secondary btn-sm"
+    (click)='openMainOCModal()'
+  >
+    <i class="fas fa-plus"></i> Add OC
+  </button>
+</div>
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title"><i class="fas fa-project-diagram"></i> List OCs
+      </h3>
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body table-responsive p-0">
+      <ejs-treegrid #treegrid [dataSource]="data" 
+      contextMenuClick='contextMenuClick($event)' 
+      [treeColumnIndex]='1' 
+      allowPaging='true' 
+      allowSorting='true'
+      gridLines='Both' 
+      (created)='created()' 
+      (dataSourceChanged)='dataSourceChanged()' 
+      [editSettings]="editing" 
+      (actionComplete)="actionComplete($event)" 
+      [toolbar]='toolbar' 
+      childMapping="children" 
+      [contextMenuItems]='contextMenuItems'
+      (contextMenuClick)="contextMenuClick($event)"
+      (rowSelected)="rowSelected($event)">
+        <e-columns>
+          <e-column field="levelnumber" width="80" isPrimaryKey="true" headerText="#" [disableHtmlEncode]="false">
+          </e-column>
+          <e-column field="title" [edit]="editparams" editType="stringedit" headerText="Project Name"
+          >
+          </e-column>
+        </e-columns>
+      </ejs-treegrid>
+    </div>
+    <!-- /.card-body -->
+  </div>
+</div>

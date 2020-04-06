@@ -1,0 +1,91 @@
+<div id="frame">
+  <div id="sidepanel">
+    <div id="profile">
+      <div class="wrap">
+        <img id="profile-img" [src]="defaultImage()" class="offline" alt />
+        <p>projectName</p>
+        <div id="status-options">
+          <ul>
+            <li id="status-online">
+              <span class="status-circle"></span>
+              <p>Online</p>
+            </li>
+            <li id="status-offline">
+              <span class="status-circle"></span>
+              <p>Offline</p>
+            </li>
+          </ul>
+        </div>
+        <div id="expanded">
+        </div>
+      </div>
+    </div>
+    <div id="search">
+      <label for>
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </label>
+      <input type="text" (keyup.enter)='searchProjects()' [(ngModel)]="keyword" placeholder="Search project..." />
+    </div>
+    <div id="contacts">
+      <ul>
+        <li class="contact" *ngFor="let item of projects" (click)="joinGroup(item)">
+          <div class="wrap">
+            <img [src]="defaultImage()" alt />
+            <div class="meta">
+              <p class="name">{{item.Name}}</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div id="bottom-bar">
+      <button id="addcontact" class="d-none">
+        <i class="fa fa-user-plus fa-fw" aria-hidden="true"></i>
+        <span>Add group</span>
+      </button>
+      <button id="settings" class="d-none">
+        <i class="fa fa-cog fa-fw" aria-hidden="true"></i>
+        <span>Settings</span>
+      </button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="contact-profile">
+      <img [src]="defaultImage()" alt />
+      <p>{{projectName}}</p>
+      <div class="social-media">
+        <i class="fab fa-facebook-f"></i>
+        <i class="fab fa-twitter-square"></i>
+        <i class="fab fa-instagram-square"></i>
+      </div>
+    </div>
+
+    <div class="messages" ref="messageBox">
+      <ul>
+        <li *ngFor="let item of messages; let i=index"
+        [class]="checkShowMessage(item.UserID)"
+        >
+          <div class="clearfix">
+            <div [class]="checkShowMessageUsername(item.UserID)">{{item.Username}}, {{datetime(item.CreatedTime)}}</div>
+          </div>
+          <div></div>
+          <div>
+            <img [src]="imageBase64(item.ImageBase64)" alt />
+            <p>{{item.Message}}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="message-input">
+      <div class="pl-2">
+        <small style="color:#808080" class="typing">{{typing}}</small>
+      </div>
+      <div class="wrap">
+        <input type="text" [attr.disabled]="projectName?.length === 0 ? true : null" id="inputChat" (keyup)='sendMessage($event)' [(ngModel)]="message" placeholder="Write your message..." />
+        <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+        <button class="submit" (click)='sendToGroup()'>
+          <i class="fa fa-paper-plane" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>

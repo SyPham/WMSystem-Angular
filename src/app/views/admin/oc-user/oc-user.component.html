@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-project-diagram"></i> Organization Chart
+        </h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <ejs-treegrid #treegrid [dataSource]="ocs" created='created()' [treeColumnIndex]='1' allowPaging='true' allowSorting='true'
+          gridLines='Both' [toolbar]='toolbarOptions' childMapping="children" (rowSelected)="rowSelected($event)">
+          <e-columns>
+            <e-column field="levelnumber" width="80" textAlign="Center" headerText="Level"></e-column>
+            <e-column field="title" headerText="OC Name"></e-column>
+          </e-columns>
+        </ejs-treegrid>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-list-ol"></i> List Users
+        </h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <p class="text-danger text-center" *ngIf="!show">
+          * Note: Please click on a department to display list user.
+        </p>
+        <table class="table table-hover" *ngIf="show">
+          <thead>
+            <tr>
+              <th width='20'>#</th>
+              <th class="text-center">Username</th>
+              <th class="text-center">Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data; let i = index" >
+              <td>{{(pagination.currentPage - 1) * pagination.itemsPerPage + i + 1}}</td>
+              <td class="text-center">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <ejs-switch onLabel="ON" offLabel="OFF" (change)='onChange($event, item)'  [checked]="item.Status"></ejs-switch>
+                    </div>
+                    <div class="col-lg-6"> {{item.Username}}</div>
+                  </div>
+               
+              </td>
+              <td class="text-center">{{item.RoleName}}</td>
+          
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+      <div class="card-footer" *ngIf="show">
+        <ngb-pagination (pageChange)="onPageChange($event)"[collectionSize]="totalItems"  [directionLinks]='true' [(page)]="page" [pageSize]='pageSize' [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>

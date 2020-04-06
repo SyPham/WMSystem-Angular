@@ -1,0 +1,51 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{title}} ParentID: {{parentid}} , ProjectID: {{projectid}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" id='modal-tutorial'>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="JobType">Name</label>
+        <small class="text-danger">(*) Require</small>
+        <input
+          type="text"
+          [(ngModel)]="item.Name"
+          placeholder='Enter task name'
+          class="form-control disabled"
+        />
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="Link">Link</label>
+        <small class="text-danger">(*) Require</small>
+        <input
+          id="Link"
+          type="file"
+          (change)='onChange($event)'
+          class="form-control Link"
+        />
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="Path">Path</label>
+        <input
+          id="Path"
+          type="text"
+          [(ngModel)]="item.Path"
+          placeholder='Path'
+          class="form-control"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer justify-content-between">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+
+  <button type="button" class="btn btn-outline-dark" (click)="create()">Save</button>
+</div>

@@ -1,0 +1,65 @@
+<div class="col-md-12 pb-4">
+  <button
+    type="button"
+    class="btn bg-gradient-secondary btn-sm"
+    (click)='openMainTutorialModal()'
+  >
+    <i class="fas fa-plus"></i> Add Tutorial Video
+  </button>
+</div>
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title"><i class="fas fa-project-diagram"></i> Tutorial Video
+      </h3>
+    </div>
+    <!-- /.card-header -->
+
+    <div class="card-body table-responsive p-0">
+      <ejs-treegrid #treegrid [dataSource]="data" contextMenuClick='contextMenuClick($event)' [treeColumnIndex]='1' allowPaging='true' allowSorting='true'
+        gridLines='Both' (created)='created()' (dataSourceChanged)='dataSourceChanged()' [editSettings]="editing" (actionComplete)="actionComplete($event)" [toolbar]='toolbarOptions' childMapping="children" (rowSelected)="rowSelected($event)">
+        <e-columns>
+          <e-column field="index" width="80" isPrimaryKey="true" headerText="#" [disableHtmlEncode]="false">
+          </e-column>
+          <e-column field="Name" editType="stringedit" headerText="Project Name" [edit]="editparams"
+          >
+            <ng-template #template let-data>
+              <a>
+                {{data.Name}}
+              </a>
+            </ng-template>
+
+          </e-column>
+          <e-column field="URL" editType="stringedit" headerText="Video Toturial" isPrimaryKey="true"
+            [edit]="editparams" [disableHtmlEncode]="false">
+            <ng-template #template let-data>
+              <div class="btn-group">
+                <a class="btn btn-success btn-sm" *ngIf="data.URL" (click)="watchvideo(data)" style="cursor:pointer ; color: white">Watch
+                  Video</a>
+              </div>
+            </ng-template>
+          </e-column>
+
+          <e-column field="" editType="stringedit" headerText="" width="100" [edit]="editparams"
+            [disableHtmlEncode]="false">
+            <ng-template #template let-data>
+              <i *ngIf="data.Path" style="cursor: pointer;font-size: 14px;" (click)="copy(data.Path)"
+                class="far fa-clone"></i>
+            </ng-template>
+
+          </e-column>
+
+          <e-column field="Path" editType="stringedit" headerText="Link Path" [edit]="editparams"
+            [disableHtmlEncode]="false">
+            <ng-template #template let-data>
+              <a (click)="open(data.Path)" style="cursor:pointer ; color: blue">{{data.Path}}</a>
+            </ng-template>
+
+          </e-column>
+
+        </e-columns>
+      </ejs-treegrid>
+    </div>
+    <!-- /.card-body -->
+  </div>
+</div>
