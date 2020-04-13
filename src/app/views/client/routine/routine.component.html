@@ -44,7 +44,7 @@
           [pageSettings]='pageSetting' [filterSettings]='filterSettings' [contextMenuItems]='contextMenuItems'
           [toolbar]='toolbarOptionsTasks' allowPaging='true' [allowExcelExport]='true' [allowPdfExport]='true'
           gridLines='Both' [allowResizing]='true' showColumnMenu='true' allowSorting='true' allowFiltering='true'
-          (toolbarClick)='toolbarClick($event)' (contextMenuClick)="contextMenuClick($event)"  (recordDoubleClick)="recordDoubleClick($event)"
+          (toolbarClick)='toolbarClick($event)' [searchSettings]='searchSettings' (contextMenuClick)="contextMenuClick($event)"  (recordDoubleClick)="recordDoubleClick($event)"
           (contextMenuOpen)='contextMenuOpen($event)'>
           <e-columns>
             <e-column field="Follow" headerText="Follow" width="130" textAlign="Center">

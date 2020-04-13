@@ -37,6 +37,22 @@ export class OcUserService {
       })
     );
   }
+  search(page = 1, pageSize = 10, ocid = 0, text = '%20'): Observable<PaginatedResult<any[]>> {
+    const paginatedResult: PaginatedResult<any[]> = new PaginatedResult<any[]>();
+    return this.http.get(`${this.baseUrl}OcUsers/GetUsers/${page}/${pageSize}/${ocid}/${text}`, {
+      observe: 'response'
+    }).pipe(
+      map((response: any) => {
+        paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') != null) {
+          paginatedResult.pagination = JSON.parse(
+            response.headers.get('Pagination')
+            );
+          }
+        return paginatedResult;
+      })
+    );
+  }
   addOrUpdate(userid, ocid, status) {
     return this.http.get(`${this.baseUrl}OCUsers/AddOrUpdate/${userid}/${ocid}/${status}`)
   }

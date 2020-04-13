@@ -41,5 +41,25 @@ export class RoleService {
         })
       );
   }
+  search(page?, pageSize? , text = '%20'): Observable<PaginatedResult<IRole[]>> {
+    const paginatedResult: PaginatedResult<IRole[]> = new PaginatedResult<
+    IRole[]
+    >();
+    return this.http
+      .get<IRole[]>(`${this.baseUrl}Roles/GetRoles/${page}/${pageSize}/${text}`, {
+        observe: 'response'
+      })
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination')
+              );
+            }
+          return paginatedResult;
+        })
+      );
+  }
 
 }

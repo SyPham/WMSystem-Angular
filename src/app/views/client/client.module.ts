@@ -45,6 +45,10 @@ import { SwitchModule } from '@syncfusion/ej2-angular-buttons';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbPaginationModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HistoryResolver } from 'src/app/_core/_resolvers/history.resolvers';
+import { MentionModule } from 'angular-mentions';
+import { ContentEditableFormDirective } from 'src/app/content-editable-form.directive';
+import { DragScrollModule } from 'ngx-drag-scroll';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -68,8 +72,10 @@ import { HistoryResolver } from 'src/app/_core/_resolvers/history.resolvers';
     DateRangePickerAllModule,
     SafePipeModule,
     SwitchModule,
+    DragScrollModule,
     NgbModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    MentionModule,
     ],
   declarations: [
     TodolistComponent,
@@ -88,6 +94,7 @@ import { HistoryResolver } from 'src/app/_core/_resolvers/history.resolvers';
     WatchTutorialVideoComponent,
     CommentComponent,
     NodeTreeComponent,
+    ContentEditableFormDirective,
     TreeComponent
   ],
   providers: [RoutineResolver],

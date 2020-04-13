@@ -41,5 +41,8 @@ export class CommentService {
   addComment(comment: IComment) {
     return this.http.post(this.baseUrl + 'Comments/Add', comment);
   }
+  getUsernames() {
+    return this.http.get(this.baseUrl + 'Users/getUsernames');
+  }
 }
 

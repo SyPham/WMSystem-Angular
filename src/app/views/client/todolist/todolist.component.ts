@@ -22,6 +22,7 @@ import { CommentComponent } from '../modals/comment/comment.component';
 import { HeaderService } from 'src/app/_core/_service/header.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
 import { RoutineService } from 'src/app/_core/_service/routine.service';
+import { DragScrollComponent } from 'ngx-drag-scroll';
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
@@ -60,6 +61,8 @@ export class TodolistComponent implements OnInit {
     searchSettings: object;
     @ViewChild('treegrid')
     public treeGridObj: TreeGridComponent;
+    @ViewChild('nav', {read: DragScrollComponent, static: true}) ds: DragScrollComponent;
+
     ngOnInit(): void {
       this.optionGridTree();
       this.resolver();
@@ -170,11 +173,24 @@ export class TodolistComponent implements OnInit {
         this.data = res;
       });
     }
+    sortByAssignedJob() {
+      this.todolistSerivce.sortByAssignedJob().subscribe((res) => {
+        console.log('sortByAssignedJob: ', res);
+        this.data = res;
+      });
+    }
+    sortByBeAssignedJob() {
+      this.todolistSerivce.sortByBeAssignedJob().subscribe((res) => {
+        console.log('sortByBeAssignedJob: ', res);
+        this.data = res;
+      });
+    }
     all() {
       this.getListTree();
       this.search = '';
       this.treeGridObj.search('');
       console.log(this.router.url.split('?')[0]);
+      this.router.navigate(['/todolist']);
     }
     getListTree() {
       this.todolistSerivce.getTasks().subscribe((res) => {
@@ -263,5 +279,23 @@ export class TodolistComponent implements OnInit {
         break;
     }
   }
+ 
+  moveLeft() {
+    this.ds.moveLeft();
+  }
 
+  moveRight() {
+    this.ds.moveRight();
+  }
+
+  moveTo(index) {
+    this.ds.moveTo(index);
+  }
+
+  // ngAfterViewInit() {
+  //   // Starting ngx-drag-scroll from specified index(3)
+  //   setTimeout(() => {
+  //     this.ds.moveTo(0);
+  //   }, 0);
+  // }
 }

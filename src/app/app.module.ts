@@ -44,10 +44,14 @@ import { OcResolver } from 'src/app/_core/_resolvers/oc.resolvers';
 // module
 import { MomentModule } from 'ngx-moment';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { ImageCropperModule } from 'ngx-image-cropper';
 import { UserResolver } from './_core/_resolvers/user.resolvers';
 import { BasicAuthInterceptor } from './_core/_helper/basic-auth.interceptor';
 import { RoleResolver } from './_core/_resolvers/role.resolvers';
+import { MentionModule } from 'angular-mentions';
+import { UploaderModule  } from '@syncfusion/ej2-angular-inputs';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { AvatarModalComponent } from './views/layout/header/avatar-modal/avatar-modal.component';
+import { PreviewModalComponent } from './views/layout/header/preview-modal/preview-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +61,9 @@ import { RoleResolver } from './_core/_resolvers/role.resolvers';
     BreadcrumbComponent,
     LoginComponent,
     P404Component,
-    P500Component
+    P500Component,
+    AvatarModalComponent,
+    PreviewModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,10 +77,11 @@ import { RoleResolver } from './_core/_resolvers/role.resolvers';
     MultiSelectModule,
     HttpClientModule,
     SafePipeModule,
-    CommonModule,
     MomentModule,
-    ImageCropperModule,
     InfiniteScrollModule,
+    MentionModule,
+    ImageCropperModule,
+    UploaderModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,

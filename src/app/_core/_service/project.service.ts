@@ -82,7 +82,6 @@ export class ProjectService {
       httpOptions
     );
   }
-
   delete(id: any) {
     return this.http.delete(
       this.baseUrl + 'Projects/DeleteProject/' + id,

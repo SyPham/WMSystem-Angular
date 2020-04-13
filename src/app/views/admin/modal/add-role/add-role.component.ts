@@ -3,7 +3,6 @@ import { RoleService } from 'src/app/_core/_service/role.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
 import { IRole } from 'src/app/_core/_model/role';
-
 @Component({
   selector: 'app-add-role',
   templateUrl: './add-role.component.html',

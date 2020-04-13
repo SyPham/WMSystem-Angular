@@ -10,13 +10,14 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./comment.component.css']
 })
 export class CommentComponent implements OnInit {
-@Input() title: string;
-public content: string;
-@Input() taskID: number;
-userid = JSON.parse(localStorage.getItem('user')).User.ID;
-comment: IComment;
-dataComment: ICommentTreeView[];
-totalShow = -1;
+  @Input() title: string;
+  public content: string;
+  @Input() taskID: number;
+  userid = JSON.parse(localStorage.getItem('user')).User.ID;
+  comment: IComment;
+  dataComment: ICommentTreeView[];
+  totalShow = -1;
+ 
   constructor(
     private commentService: CommentService,
     public activeModal: NgbActiveModal,
@@ -24,6 +25,11 @@ totalShow = -1;
   ) { }
 
   ngOnInit() {
+    this.initialParams();
+    this.onService();
+    this.getAllComment();
+  }
+  initialParams() {
     this.totalShow = 3;
     this.comment = {
       Content: this.content,
@@ -31,18 +37,19 @@ totalShow = -1;
       TaskID: this.taskID,
       UserID: this.userid
     };
+  }
+  onService() {
     this.commentService.currentMessage.subscribe(res => {
       if (res === 200) {
-         this.getAllComment();
+        this.getAllComment();
       }
     });
-    this.getAllComment();
   }
   increseTotalShow() {
     this.totalShow += 3;
   }
   checkLoadMore() {
-   return this.totalShow < this.dataComment.length;
+    return this.totalShow < this.dataComment.length;
   }
 
   getAllComment() {
@@ -52,15 +59,15 @@ totalShow = -1;
     });
   }
   addComment() {
-      console.log('addComment');
-      this.comment.Content = this.content;
-      this.commentService.addComment(this.comment).subscribe(res => {
-        if (res) {
-          this.alertify.success('You have already added the comment successfully!');
-          this.getAllComment();
-        } else {
-          this.alertify.error('You have already added the comment failed!');
-        }
-      });
+    console.log('addComment');
+    this.comment.Content = this.content;
+    this.commentService.addComment(this.comment).subscribe(res => {
+      if (res) {
+        this.alertify.success('You have already added the comment successfully!');
+        this.getAllComment();
+      } else {
+        this.alertify.error('You have already added the comment failed!');
+      }
+    });
   }
 }

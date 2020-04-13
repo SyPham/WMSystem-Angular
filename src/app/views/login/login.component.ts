@@ -36,42 +36,43 @@ export class LoginComponent implements OnInit {
       next => {
         this.role = JSON.parse(localStorage.getItem('user')).User.Role;
         this.alertifyService.success('Login Success!!');
+        this.checkRole();
       },
       error => {
         this.alertifyService.error('Login failed!!');
       },
       () => {
-        this.checkRole();
       }
     );
   }
   checkRoute(uri) {
+    let flag = false;
     this.routerLinkAdmin.forEach(element => {
       if (uri.includes(element)) {
-        return true;
+        flag = true;
       }
     });
-    return false;
+    return flag;
   }
   checkRole() {
     const uri = decodeURI(this.uri);
     if (this.role === 1) {
-      if (uri) {
+      if (uri !== 'undefined') {
         if (this.checkRoute(uri)) {
-        this.router.navigate([uri]);
+          this.router.navigate([uri]);
         } else {
-        this.router.navigate(['/admin/dash']);
+          this.router.navigate(['/admin/dash']);
         }
       } else {
         this.router.navigate(['/admin/dash']);
       }
-    } else  if (this.role === 2) {
-      if (uri) {
+    } else if (this.role === 2) {
+      if (uri !== 'undefined') {
         if (!this.checkRoute(uri)) {
           this.router.navigate([uri]);
-          } else {
+        } else {
           this.router.navigate(['/todolist']);
-          }
+        }
       } else {
         this.router.navigate(['/todolist']);
       }

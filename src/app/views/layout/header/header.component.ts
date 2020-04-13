@@ -9,6 +9,8 @@ import { CalendarsService } from 'src/app/_core/_service/calendars.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
 import * as moment from 'moment';
 import { Nav } from 'src/app/_core/_model/nav';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AvatarModalComponent } from './avatar-modal/avatar-modal.component';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -26,6 +28,7 @@ export class HeaderComponent implements OnInit {
   public currentTime: any;
   userid: number;
   role: number;
+  avatar: any;
   constructor(
     private authService: AuthService,
     private alertify: AlertifyService,
@@ -33,24 +36,54 @@ export class HeaderComponent implements OnInit {
     private headerService: HeaderService,
     private calendarsService: CalendarsService,
     private sanitizer: DomSanitizer,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal,
+
   ) {}
 
   ngOnInit(): void {
     this.navAdmin = new Nav().getNavAdmin();
     this.navClient = new Nav().getNavClient();
     this.checkTask();
+    this.getAvatar();
     this.role = JSON.parse(localStorage.getItem('user')).User.Role;
     this.currentUser = JSON.parse(localStorage.getItem('user')).User.Username;
     this.page = 1;
-    console.log('Header: ', JSON.parse(localStorage.getItem('user')).User);
     this.pageSize = 10;
     this.signalrService.startConnection();
     this.userid = JSON.parse(localStorage.getItem('user')).User.ID;
-    console.log('Initial: ', this.userid);
     this.getNotifications();
+    this.onService();
     this.currentTime = moment().format('LTS');
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
+
+  }
+  onService() {
+    this.headerService.currentImage
+      .subscribe(arg => {
+        console.log('onService header: ', arg);
+        if (arg) {
+          this.changeAvatar(arg);
+        }
+      });
+    // this.headerService.imgSource.subscribe(res => {
+    //   console.log('on Service Avatar', res);
+    //   if (res) {
+    //      ;
+    //   }
+    // });
+  }
+  changeAvatar(avt) {
+    let avatar;
+    if (avt) {
+      avatar = avt.replace('data:image/png;base64,', '').trim();
+      // this.avatar = this.sanitizer.bypassSecurityTrustResourceUrl(avt);
+      localStorage.removeItem('avatar');
+      localStorage.setItem('avatar', avatar);
+      this.getAvatar();
+    } else {
+      this.avatar = this.defaultImage();
+    }
 
   }
   onScrollDown() {
@@ -83,12 +116,42 @@ export class HeaderComponent implements OnInit {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('avatar');
     this.authService.decodedToken = null;
     this.authService.currentUser = null;
     this.alertify.message('Logged out');
     const uri = this.router.url;
     this.router.navigate(['login'], {queryParams: {uri}});
 
+  }
+  openAvatarModal() {
+    const modalRef = this.modalService.open(AvatarModalComponent, { size: 'lg' });
+    modalRef.componentInstance.title = 'Add Routine Main Task';
+    // modalRef.componentInstance.user = 1;
+    modalRef.result.then((result) => {
+      console.log('openAvatarModal', result);
+    }, (reason) => {
+    });
+  }
+
+  pushToMainPage() {
+    let role = JSON.parse(localStorage.getItem('user')).User.Role;
+    if (role === 1) {
+      this.router.navigate(['/admin/dash']);
+    } else if (role === 2) {
+      this.router.navigate(['/todolist']);
+    }
+  }
+  checkServer() {
+    let user = JSON.parse(localStorage.getItem('user')).User.Username;
+    setInterval(() => {
+      console.log(user + 'yeu cau server check alert');
+      this.checkAlert();
+    }, 30000);
+  }
+  checkAlert() {
+    let userId = JSON.parse(localStorage.getItem('user')).User.ID;
+    this.signalrService.checkAlert(userId);
   }
   getNotifications() {
     console.log('getNotifications: ', this.userid);
@@ -109,12 +172,12 @@ export class HeaderComponent implements OnInit {
       qPglhzROL+Xye4tmT4WvRcQ2/m81p+/rdguOi8Hc5L/8Qk4vhZzy08DduGt9eVQyP
       2qoTM1zi0/uf4hvBWf5c77e69Gf798y08L7j0RERERERERERH9P99ZpSVRivB/rgAAAABJRU5ErkJggg==`);
   }
-  currentUserIMG() {
-    let img = JSON.parse(localStorage.getItem('user')).User.image;
+  getAvatar() {
+    let img = localStorage.getItem('avatar');
     if (img == null) {
-      return this.defaultImage();
+      this.avatar = this.defaultImage();
     } else {
-      return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64, ' + img);
+      this.avatar = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64, ' + img);
     }
   }
   imageBase64(img) {

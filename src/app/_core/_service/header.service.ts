@@ -20,10 +20,15 @@ export class HeaderService {
   baseUrl = environment.apiUrl;
   messageSource = new BehaviorSubject<IHeader>(null);
   currentMessage = this.messageSource.asObservable();
+  imgSource = new BehaviorSubject<string>('');
+  currentImage = this.imgSource.asObservable();
   constructor(private http: HttpClient) {}
   // method này để change source message
   changeMessage(message) {
     this.messageSource.next(message);
+  }
+  changeImage(message) {
+    this.imgSource.next(message);
   }
   getAllNotificationCurrentUser(page, pageSize, userid) {
     return this.http.get(`${this.baseUrl}Home/getAllNotificationCurrentUser/${page}/${pageSize}/${userid}`).pipe(

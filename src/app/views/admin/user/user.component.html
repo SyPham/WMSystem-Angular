@@ -19,11 +19,13 @@
               name="table_search"
               class="form-control float-right"
               placeholder="Search"
+              [(ngModel)]="text"
+              (keyup.enter)='search()'
             />
 
             <div class="input-group-append">
-              <button type="submit" class="btn btn-default">
-                <i class="fas fa-search"></i>
+              <button (click)='refresh()' class="btn btn-default">
+                <i class="fas fa-sync"></i>
               </button>
             </div>
           </div>

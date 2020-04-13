@@ -56,7 +56,13 @@ export class SignalrService {
       console.error(err.toString());
    });
  }
-
+ public checkAlert(user: string) {
+  this.hubConnection
+  .invoke('CheckAlert', user)
+  .catch((err) => {
+     console.error(err.toString());
+  });
+}
  public receiveJoinGroup(callBack: (user: string, username: string) => any) {
    this.hubConnection.on('ReceiveJoinGroup', callBack);
  }

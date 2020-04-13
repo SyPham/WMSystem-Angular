@@ -21,7 +21,7 @@
             <a
               class="comment-action"
               style="cursor: pointer;"
-              (click)="clickReply()"
+              (click)="clickReply($event, node)"
             >{{ node.HasChildren ? "Replies" : "Reply" }}</a>
           </span>
         </div>
@@ -50,6 +50,8 @@
         type="text"
         (keyup.enter)="addSubComment($event, node?.ID)"
         [(ngModel)]="content"
+        [mention]="usernames"
+        [mentionConfig]="mentionConfig"
         placeholder="Type a comment"
       />
     </div>

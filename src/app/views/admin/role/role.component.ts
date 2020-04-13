@@ -14,7 +14,8 @@ import { AddRoleComponent } from '../modal/add-role/add-role.component';
 export class RoleComponent implements OnInit {
   public role: any;
   public data: any;
-  public search: string;
+  public text: string;
+
   pagination: Pagination;
   constructor(
     private roleService: RoleService,
@@ -60,6 +61,17 @@ export class RoleComponent implements OnInit {
       this.data = res.result;
       this.pagination = res.pagination;
     });
+  }
+  search() {
+    this.roleService.search(this.pagination.currentPage, this.pagination.itemsPerPage, this.text).subscribe( res => {
+      console.log('Users: ', res.result);
+      this.data = res.result;
+      this.pagination = res.pagination;
+    });
+  }
+  refresh() {
+    this.text = '';
+    this.getAll();
   }
   onPageChange($event) {
     this.pagination.currentPage = $event;

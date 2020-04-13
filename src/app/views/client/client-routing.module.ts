@@ -38,7 +38,7 @@ const routes: Routes = [
         resolve: { todolist: TodolistResolver },
         component: TodolistComponent,
         data: {
-          title: 'To Do List'
+          title: 'To Do List 2'
         }
       },
       {
@@ -66,7 +66,23 @@ const routes: Routes = [
         }
       },
       {
+        path: 'routine/:taskname',
+        component: RoutineComponent,
+        resolve: { ocs: RoutineResolver },
+        data: {
+          title: 'Rotine'
+        }
+      },
+      {
         path: 'abnormal',
+        resolve: { ocs: RoutineResolver },
+        component: AbnormalComponent,
+        data: {
+          title: 'Abnormal'
+        }
+      },
+      {
+        path: 'abnormal/:taskname',
         resolve: { ocs: RoutineResolver },
         component: AbnormalComponent,
         data: {
@@ -82,7 +98,23 @@ const routes: Routes = [
         }
       },
       {
+        path: 'history/:taskname',
+        resolve: { histories: HistoryResolver },
+        component: HistoryComponent,
+        data: {
+          title: 'History'
+        }
+      },
+      {
         path: 'follow',
+        resolve: { follows: FollowResolver },
+        component: FollowComponent,
+        data: {
+          title: 'Follow'
+        }
+      },
+      {
+        path: 'follow/:taskname',
         resolve: { follows: FollowResolver },
         component: FollowComponent,
         data: {

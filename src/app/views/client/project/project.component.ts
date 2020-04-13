@@ -151,6 +151,10 @@ export class ProjectComponent implements OnInit {
       this.load();
     });
   }
+  refresh() {
+    this.text = '';// sao may chay lag vay meo biet sao cpu 100%
+    this.load();
+  }
   search() {
     if (this.text !== '') {
       this.projectService

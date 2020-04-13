@@ -17,8 +17,7 @@ export class TodolistService {
   baseUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
   getTasks() {
-    const headers_object = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
-    return this.http.get(`${this.baseUrl}Tasks/GetListTreeTask`, {headers: headers_object}).pipe(
+    return this.http.get(`${this.baseUrl}Tasks/GetListTreeTask/%20/%20/%20/%20/%20/%20/%20`).pipe(
       map(response => {
         console.log('get tasks todolist: ', response);
         return response;
@@ -42,5 +41,11 @@ export class TodolistService {
   }
   sortLow() {
     return this.http.get(`${this.baseUrl}Tasks/GetListTreeTask/L/%20`);
+  }
+  sortByAssignedJob() {
+    return this.http.get(`${this.baseUrl}Tasks/SortBy/assigned/Assigned`);
+  }
+  sortByBeAssignedJob() {
+    return this.http.get(`${this.baseUrl}Tasks/SortBy/beAssigned/BeAssigned`);
   }
 }

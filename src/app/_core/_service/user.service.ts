@@ -23,6 +23,7 @@ export class UserService {
   changeMessage(message) {
     this.messageSource.next(message);
   }
+
   constructor(private http: HttpClient) { }
   delete(id) { return this.http.delete(`${this.baseUrl}Users/Delete/${id}`); }
   rename(edit) { return this.http.post(`${this.baseUrl}Users/rename`, edit, {headers: httpOptions.headers}); }
@@ -50,6 +51,29 @@ export class UserService {
           return paginatedResult;
         })
       );
+  }
+  search(page?, pageSize?, text = '%20' ): Observable<PaginatedResult<UserGetAll[]>> {
+    const paginatedResult: PaginatedResult<UserGetAll[]> = new PaginatedResult<
+    UserGetAll[]
+    >();
+    return this.http
+      .get<UserGetAll[]>(`${this.baseUrl}Users/GetAllUsers/${page}/${pageSize}/${text}`, {
+        observe: 'response'
+      })
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination')
+              );
+            }
+          return paginatedResult;
+        })
+      );
+  }
+  changeAvatar(img) {
+    return this.http.post(this.baseUrl + 'Users/ChangedAvatar', img);
   }
   getRole() {
     return this.http.get(`${this.baseUrl}Roles/GetAll`);

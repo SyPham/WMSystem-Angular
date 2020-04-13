@@ -1,6 +1,6 @@
 <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
   <div class="container-fluid">
-    <a href="/" class="navbar-brand">
+    <a (click)='pushToMainPage()' style="cursor:pointer" class="navbar-brand">
       <img
         src="../../../../assets/img/logo-1.png"
         alt="AdminLTE Logo"
@@ -38,10 +38,10 @@
 
     <!-- Right navbar links -->
     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-      <li class="nav-item user-menu">
+      <li class="nav-item user-menu" (click)='openAvatarModal()'>
         <a class="nav-link">
           <i class="fa fa-sign-out"></i>
-          <img [src]="currentUserIMG()" class="user-image img-circle elevation-2" [alt]="currentUser" />
+          <img [src]="avatar" class="user-image img-circle elevation-2" [alt]="currentUser" />
           <span class="font-weight-bold text-danger">{{ currentUser | titlecase  }}</span>
         </a>
         </li>

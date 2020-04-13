@@ -19,7 +19,9 @@ export class NodeTreeComponent implements OnInit {
   totalShow: number;
   content: string;
   id: number;
+  usernames: any;
   userid = Number(JSON.parse(localStorage.getItem('user')).User.ID);
+  mentionConfig: any;
   constructor(
     private commentService: CommentService,
     private alertify: AlertifyService,
@@ -30,13 +32,37 @@ export class NodeTreeComponent implements OnInit {
   ngOnInit() {
     this.isShow = false;
     this.totalShow = 3;
-    console.log(this.node);
+    this.initialParams();
+    this.content = '';
+  }
+  initialParams() {
+    this.getUsernames();
+
+    this.mentionConfig = {
+      triggerChar: '@',
+      allowSpace: true,
+      maxItems: 10,
+      mentionSelect($event) {
+        console.log($event);
+        return `\r@${$event.label}\r `;
+      }
+    };
   }
   increseTotalShow() {
     this.totalShow += 3;
   }
-  clickReply() {
-    this.isShow = !this.isShow;
+  clickReply($event, item) {
+    if (item.Level === 2 || item.Level === 1) {
+      if (this.userid !== item.UserID) {
+        this.content = `\r@${item.Username}\r `;
+      }
+      this.isShow = !this.isShow;
+    }
+  }
+  getUsernames() {
+    this.commentService.getUsernames().subscribe(res => {
+      this.usernames = res;
+    });
   }
   getAllComment() {
     this.commentService.getAllComment(this.taskID, this.userid).subscribe((res: ICommentTreeView[]) => {
@@ -48,6 +74,7 @@ export class NodeTreeComponent implements OnInit {
     return this.totalShow < this.node.children.length || this.node.children.length > this.totalShow;
   }
   addSubComment(event, parentid) {
+    if (event.target.value) {
       console.log('addSubComment');
       console.log(event);
       const subComment: IComment = {
@@ -67,6 +94,9 @@ export class NodeTreeComponent implements OnInit {
           this.alertify.error('You have already added the comment failed!');
         }
       });
+    } else {
+      this.alertify.warning('Enter a content!', true);
+    }
   }
   datetime(d) {
     return this.calendar.JSONDateWithTime(d);

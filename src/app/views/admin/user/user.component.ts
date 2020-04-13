@@ -15,7 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class UserComponent implements OnInit {
   public user: any;
   public data: any;
-  public search: string;
+  public text: string;
   pagination: Pagination;
   constructor(
     private userService: UserService,
@@ -61,6 +61,17 @@ export class UserComponent implements OnInit {
       this.data = res.result;
       this.pagination = res.pagination;
     });
+  }
+  search() {
+    this.userService.search(this.pagination.currentPage, this.pagination.itemsPerPage, this.text).subscribe( res => {
+      console.log('Search: ', res.result);
+      this.data = res.result;
+      this.pagination = res.pagination;
+    });
+  }
+  refresh() {
+    this.text = '';
+    this.getAll();
   }
   onPageChange($event) {
     this.pagination.currentPage = $event;

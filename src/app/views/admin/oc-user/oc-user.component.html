@@ -23,6 +23,24 @@
       <div class="card-header">
         <h3 class="card-title"><i class="fas fa-list-ol"></i> List Users
         </h3>
+        <div class="card-tools" *ngIf="show">
+          <div class="input-group input-group-sm" style="width: 150px;">
+            <input
+              type="text"
+              name="table_search"
+              class="form-control float-right"
+              placeholder="Search"
+              [(ngModel)]="text"
+              (keyup.enter)='search()'
+            />
+
+            <div class="input-group-append">
+              <button (click)='refresh()' class="btn btn-default">
+                <i class="fas fa-sync"></i>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- /.card-header -->
       <div class="card-body table-responsive p-0">

@@ -19,6 +19,7 @@ export class OcUserComponent implements OnInit {
   ocid: 0;
   totalItems: number;
   show: boolean;
+  text: string;
   constructor(
     private ocUserService: OcUserService,
     private userService: UserService,
@@ -75,6 +76,20 @@ export class OcUserComponent implements OnInit {
       this.pageSize = res.pagination.itemsPerPage;
       this.totalItems = res.pagination.totalItems;
     });
+  }
+  search() {
+    this.ocUserService.search(this.page, this.pageSize, this.ocid, this.text).subscribe( res => {
+      console.log('Search: ', res.result);
+      this.data = res.result;
+      this.pagination = res.pagination;
+      this.page = res.pagination.currentPage;
+      this.pageSize = res.pagination.itemsPerPage;
+      this.totalItems = res.pagination.totalItems;
+    });
+  }
+  refresh() {
+    this.text = '';
+    this.getListUser();
   }
   onPageChange($event) {
     this.page = $event;

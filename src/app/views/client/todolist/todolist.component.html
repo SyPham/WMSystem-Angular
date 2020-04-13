@@ -2,7 +2,7 @@
   <div class="col-md-12 col-xs-12 col-12">
     <h5 class="text-primary">Sort By:</h5>
   </div>
-  <div class="col-lg-6 col-xs-12 col-12 pb-4">
+  <div class="col-lg-12 col-xs-12 col-12 pb-4">
     <button type="button" (click)="sortProject()" class="btn bg-gradient-secondary btn-sm  mr-1">
       <i class="fas fa-tasks"></i> Project
     </button>
@@ -21,6 +21,12 @@
     <button type="button" (click)="sortLow()" class="btn bg-gradient-secondary btn-sm  mr-1">
       <i class="fas fa-low-vision"></i> Low
     </button>
+    <button type="button" (click)="sortByAssignedJob()" class="btn bg-gradient-secondary btn-sm">
+      <i class="fas fa-marker"></i> Assigned
+    </button>
+    <button type="button" (click)="sortByBeAssignedJob()" class="btn bg-gradient-secondary btn-sm">
+      <i class="fas fa-pencil-alt"></i> BeAssigned
+    </button>
     <button type="button" (click)="all()" class="btn bg-gradient-secondary btn-sm  mr-1">
       <i class="fas fa-sync-alt"></i> All
     </button>
@@ -28,63 +34,71 @@
 </div>
 <div class="card">
   <div class="card-header">
-   
     <h5 class="card-title"><i class="fas fa-list"></i> To Do List
     </h5>
   </div>
-  <div class="card-bodytable-responsive">
+  <div class="card-body table-responsive p-0">
     <div class="row">
-      <div class="col-md-12">
-        <div class="control-section">
-          <ejs-treegrid #treegrid [dataSource]='data' childMapping='children' [treeColumnIndex]='2'
-            [pageSettings]='pageSetting' [filterSettings]='filterSettings' [contextMenuItems]='contextMenuItems'
-            [toolbar]='toolbarOptions' allowPaging='true' [allowExcelExport]='true' [allowPdfExport]='true' gridLines='Both'
-            [allowResizing]='true' showColumnMenu='true' allowSorting='true' allowFiltering='true'
-            [editSettings]='editSettings' (toolbarClick)='toolbarClick($event)' (created)='create()'
-            (recordDoubleClick)="recordDoubleClick($event)"
-            [searchSettings]="searchSettings"
-            (contextMenuClick)="contextMenuClick($event)">
-            <e-columns>
-              <e-column field="Follow" headerText="Follow" width="130" textAlign="Center">
-                <ng-template #template let-data>
-                  <div class="btn-group">
-                    <button type="button" (click)='follow(data.ID)' [class]="data.Follow == 'No' ? 'btn btn-success btn-xs':'btn btn-danger btn-xs'"
-                      ng-if="data.Level == 1"><i [class]="data.Follow == 'No'  ? 'fas fa-bell':'fas fa-bell-slash'"></i>
-                      {{data.Follow == 'No' ?'Follow':'Unfollow'}}</button>
-                  </div>
-                </ng-template>
-              </e-column>
-              <e-column field="Priority" headerText="Priority" width="110" textAlign="Center">
-                <ng-template #template let-data>
-                  <span id="priority"
-                    [class]="data.Priority == 'High' ? 'badge bg-danger' : data.Priority =='Medium' ? 'badge bg-warning' : 'badge bg-info'"
-                    style="padding:4px;color:white">{{data.Priority}}</span>
-                </ng-template>
-              </e-column>
-              <e-column field="JobName" headerText="Task Name" clipMode='EllipsisWithTooltip' textAlign="Center" width="240">
-              </e-column>
-              <e-column field="From" headerText="From" width="120"></e-column>
-              <e-column field="PIC" headerText="PIC" width="180" format="yMd" textAlign="Center"></e-column>
-              <e-column field="state" headerText="Status" width="120" textAlign="Center">
-                <ng-template #template let-data>
-                  <span id="priority" [class]="data.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
-                    style="padding:4px;color:white">{{data.state}}</span>
-                </ng-template>
-              </e-column>
-              <e-column field="SpecificDate" headerText="Due Date" width="200" textAlign="Center"></e-column>
-              <e-column field="CreatedDateForEachTask" headerText="Created Date" width="200" textAlign="Center"></e-column>
-              <e-column field="DueDateDaily" headerText="Daily" width="160" textAlign="Center"></e-column>
-              <e-column field="DueDateWeekly" headerText="Weekly" width="160" textAlign="Center"></e-column>
-              <e-column field="DueDateMonthly" headerText="Monthly" width="160" textAlign="Center"></e-column>
-              <e-column field="DueDateQuarterly" headerText="Quarterly" width="160" textAlign="Center"></e-column>
-              <e-column field="DueDateYearly" headerText="Yearly" width="160" textAlign="Center"></e-column>
-              <e-column field="WatchVideo" [disableHtmlEncode]="false" headerText="Watch Video" width="200" textAlign="Center">
-                <ng-template #template let-data>
-                  <button [class]="data.VideoStatus? 'btn btn-sm btn-success' : 'd-none'" (click)="openWatchTutorialWatchModalByButton(data)">Watch</button>
-                </ng-template>
-              </e-column>
-            </e-columns>
-          </ejs-treegrid>
+      <div>
+        <div class="col-md-12">
+          <div class="control-section">
+            <ejs-treegrid #treegrid [dataSource]='data' childMapping='children' [treeColumnIndex]='2'
+              [pageSettings]='pageSetting' [filterSettings]='filterSettings' [contextMenuItems]='contextMenuItems'
+              [toolbar]='toolbarOptions' allowPaging='true' [allowExcelExport]='true' [allowPdfExport]='true'
+              gridLines='Both' [allowResizing]='true' showColumnMenu='true' allowSorting='true' allowFiltering='true'
+              [editSettings]='editSettings' (toolbarClick)='toolbarClick($event)' (created)='create()'
+              (recordDoubleClick)="recordDoubleClick($event)" [searchSettings]="searchSettings"
+              (contextMenuClick)="contextMenuClick($event)">
+              <drag-scroll #nav>
+                <e-columns>
+                  <e-column field="Follow" headerText="Follow" width="130" textAlign="Center">
+                    <ng-template #template let-data>
+                      <div class="btn-group">
+                        <button type="button" (click)='follow(data.ID)'
+                          [class]="data.Follow == 'No' ? 'btn btn-success btn-xs':'btn btn-danger btn-xs'"
+                          ng-if="data.Level == 1"><i
+                            [class]="data.Follow == 'No'  ? 'fas fa-bell':'fas fa-bell-slash'"></i>
+                          {{data.Follow == 'No' ?'Follow':'Unfollow'}}</button>
+                      </div>
+                    </ng-template>
+                  </e-column>
+                  <e-column field="Priority" headerText="Priority" width="110" textAlign="Center">
+                    <ng-template #template let-data>
+                      <span id="priority"
+                        [class]="data.Priority == 'High' ? 'badge bg-danger' : data.Priority =='Medium' ? 'badge bg-warning' : 'badge bg-info'"
+                        style="padding:4px;color:white">{{data.Priority}}</span>
+                    </ng-template>
+                  </e-column>
+                  <e-column field="JobName" headerText="Task Name" clipMode='EllipsisWithTooltip' textAlign="Center"
+                    width="240">
+                  </e-column>
+                  <e-column field="From" headerText="From" width="120"></e-column>
+                  <e-column field="PIC" headerText="PIC" width="180" format="yMd" textAlign="Center"></e-column>
+                  <e-column field="state" headerText="Status" width="120" textAlign="Center">
+                    <ng-template #template let-data>
+                      <span id="priority" [class]="data.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
+                        style="padding:4px;color:white">{{data.state}}</span>
+                    </ng-template>
+                  </e-column>
+                  <e-column field="SpecificDate" headerText="Due Date" width="200" textAlign="Center"></e-column>
+                  <e-column field="CreatedDateForEachTask" headerText="Created Date" width="200" textAlign="Center">
+                  </e-column>
+                  <e-column field="DueDateDaily" headerText="Daily" width="160" textAlign="Center"></e-column>
+                  <e-column field="DueDateWeekly" headerText="Weekly" width="160" textAlign="Center"></e-column>
+                  <e-column field="DueDateMonthly" headerText="Monthly" width="160" textAlign="Center"></e-column>
+                  <e-column field="DueDateQuarterly" headerText="Quarterly" width="160" textAlign="Center"></e-column>
+                  <e-column field="DueDateYearly" headerText="Yearly" width="160" textAlign="Center"></e-column>
+                  <e-column field="WatchVideo" [disableHtmlEncode]="false" headerText="Watch Video" width="200"
+                    textAlign="Center">
+                    <ng-template #template let-data>
+                      <button [class]="data.VideoStatus? 'btn btn-sm btn-success' : 'd-none'"
+                        (click)="openWatchTutorialWatchModalByButton(data)">Watch</button>
+                    </ng-template>
+                  </e-column>
+                </e-columns>
+              </drag-scroll>
+            </ejs-treegrid>
+          </div>
         </div>
       </div>
     </div>

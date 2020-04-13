@@ -47,6 +47,7 @@ export class RoutineComponent implements OnInit {
   public contextMenuItems: object;
   public filterSettings: FilterSettingsModel;
   private tutorialName: string;
+  searchSettings: object;
   constructor(
     config: NgbModalConfig,
     private modalService: NgbModal,
@@ -59,6 +60,27 @@ export class RoutineComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.resolver();
+    this.optionGridTree();
+    this.checkRole();
+  }
+  optionGridTree() {
+    this.filterSettings = { type: 'CheckBox' };
+    this.pageSetting = { pageCount: 2, pageSizes: true } ;
+    this.toolbarOptions = [
+      'Search',
+      'ExpandAll',
+      'CollapseAll'
+    ];
+    this.searchSettings = {
+      hierarchyMode: 'Parent',
+      fields: ['JobName'],
+      operator: 'contains',
+      key: '',
+      ignoreCase: true
+    };
+  }
+  resolver() {
     this.spinner.show();
     this.route.data.subscribe(data => {
       this.ocs = data.ocs;
@@ -68,15 +90,20 @@ export class RoutineComponent implements OnInit {
            this.getTasks();
         }
       });
+      this.onRouteChange();
     });
-    this.filterSettings = { type: 'CheckBox' };
-    this.pageSetting = { pageCount: 2, pageSizes: true } ;
-    this.toolbarOptions = [
-      'Search',
-      'ExpandAll',
-      'CollapseAll'
-    ];
-    this.checkRole();
+  }
+  onRouteChange() {
+    this.route.data.subscribe(data => {
+      const taskname = this.route.snapshot.paramMap.get('taskname');
+      this.searchSettings = {
+        hierarchyMode: 'None',
+        fields: ['JobName'],
+        operator: 'contains',
+        key: taskname || '',
+        ignoreCase: true
+      };
+    });
   }
   getOCs() {
     this.routineService.getOCs().subscribe(res => this.ocs = res);
