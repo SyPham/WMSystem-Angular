@@ -24,7 +24,7 @@
               [pageSettings]='pageSetting' [filterSettings]='filterSettings' [contextMenuItems]='contextMenuItems'
               [toolbar]='toolbarOptions' allowPaging='true' [allowExcelExport]='true' [allowPdfExport]='true' gridLines='Both'
               [allowResizing]='true' showColumnMenu='true' allowSorting='true' allowFiltering='true'
-              (toolbarClick)='toolbarClick($event)' (created)='create()'
+              (recordDoubleClick)="recordDoubleClick($event)" (toolbarClick)='toolbarClick($event)' (created)='create()'
               (contextMenuClick)="contextMenuClick($event)">
               <e-columns>
                 <e-column field="Undo" [disableHtmlEncode]="false" headerText="Undo" width="150" textAlign="Center">

@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://10.4.4.224:11111/api/',
-  hub: 'http://10.4.4.224:11111/working-management-hub'
+  apiUrl: 'http://10.4.4.224:106/api/',
+  hub: 'http://10.4.4.224:106/working-management-hub'
 };
 
 /*

@@ -7,6 +7,7 @@ import { P404Component } from './views/p404/p404.component';
 import { P500Component } from './views/p500/p500.component';
 import { AuthGuard } from './_core/_guards/auth.guard';
 import { SelectivePreloadingStrategyService } from './_core/_preloading/selective-preloading-strategy.service';
+import { MaintenanceComponent } from './views/maintenance/maintenance.component';
 
 const routes: Routes = [
   // App routes goes here here
@@ -46,6 +47,13 @@ const routes: Routes = [
     component: P404Component,
     data: {
       title: 'Not Found'
+    }
+  },
+  {
+    path: 'maintenance',
+    component: MaintenanceComponent,
+    data: {
+      title: 'Maintenance'
     }
   },
   {

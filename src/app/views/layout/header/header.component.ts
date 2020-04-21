@@ -56,7 +56,6 @@ export class HeaderComponent implements OnInit {
     this.onService();
     this.currentTime = moment().format('LTS');
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
-
   }
   onService() {
     this.headerService.currentImage
@@ -145,8 +144,14 @@ export class HeaderComponent implements OnInit {
   checkServer() {
     let user = JSON.parse(localStorage.getItem('user')).User.Username;
     setInterval(() => {
-      console.log(user + 'yeu cau server check alert');
-      this.checkAlert();
+      if (this.signalrService.hubConnection.state) {
+        console.log(user + 'yeu cau server check alert');
+        this.checkAlert();
+      } else {
+        setTimeout( () => {
+          this.router.navigate(['/maintenance']);
+        });
+      }
     }, 30000);
   }
   checkAlert() {

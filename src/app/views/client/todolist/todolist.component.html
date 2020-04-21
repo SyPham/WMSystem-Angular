@@ -3,6 +3,9 @@
     <h5 class="text-primary">Sort By:</h5>
   </div>
   <div class="col-lg-12 col-xs-12 col-12 pb-4">
+    <button type="button" (click)="all()" class="btn bg-gradient-secondary btn-sm  mr-1">
+      <i class="fas fa-sync-alt"></i> All
+    </button>
     <button type="button" (click)="sortProject()" class="btn bg-gradient-secondary btn-sm  mr-1">
       <i class="fas fa-tasks"></i> Project
     </button>
@@ -27,9 +30,7 @@
     <button type="button" (click)="sortByBeAssignedJob()" class="btn bg-gradient-secondary btn-sm">
       <i class="fas fa-pencil-alt"></i> BeAssigned
     </button>
-    <button type="button" (click)="all()" class="btn bg-gradient-secondary btn-sm  mr-1">
-      <i class="fas fa-sync-alt"></i> All
-    </button>
+
   </div>
 </div>
 <div class="card">
@@ -42,12 +43,13 @@
       <div>
         <div class="col-md-12">
           <div class="control-section">
-            <ejs-treegrid #treegrid [dataSource]='data' childMapping='children' [treeColumnIndex]='2'
+            <ejs-treegrid #treegrid [dataSource]='data' childMapping='children' [treeColumnIndex]='3'
               [pageSettings]='pageSetting' [filterSettings]='filterSettings' [contextMenuItems]='contextMenuItems'
               [toolbar]='toolbarOptions' allowPaging='true' [allowExcelExport]='true' [allowPdfExport]='true'
               gridLines='Both' [allowResizing]='true' showColumnMenu='true' allowSorting='true' allowFiltering='true'
               [editSettings]='editSettings' (toolbarClick)='toolbarClick($event)' (created)='create()'
               (recordDoubleClick)="recordDoubleClick($event)" [searchSettings]="searchSettings"
+              (dataBound)="dataBound($event)"
               (contextMenuClick)="contextMenuClick($event)">
               <drag-scroll #nav>
                 <e-columns>
@@ -69,25 +71,18 @@
                         style="padding:4px;color:white">{{data.Priority}}</span>
                     </ng-template>
                   </e-column>
+                  <e-column field="ProjectName" headerText="Project Name" clipMode='EllipsisWithTooltip' textAlign="Center"
+                    width="240">
+                  </e-column>
                   <e-column field="JobName" headerText="Task Name" clipMode='EllipsisWithTooltip' textAlign="Center"
                     width="240">
                   </e-column>
                   <e-column field="From" headerText="From" width="120"></e-column>
                   <e-column field="PIC" headerText="PIC" width="180" format="yMd" textAlign="Center"></e-column>
-                  <e-column field="state" headerText="Status" width="120" textAlign="Center">
-                    <ng-template #template let-data>
-                      <span id="priority" [class]="data.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
-                        style="padding:4px;color:white">{{data.state}}</span>
-                    </ng-template>
-                  </e-column>
-                  <e-column field="SpecificDate" headerText="Due Date" width="200" textAlign="Center"></e-column>
-                  <e-column field="CreatedDateForEachTask" headerText="Created Date" width="200" textAlign="Center">
-                  </e-column>
-                  <e-column field="DueDateDaily" headerText="Daily" width="160" textAlign="Center"></e-column>
-                  <e-column field="DueDateWeekly" headerText="Weekly" width="160" textAlign="Center"></e-column>
-                  <e-column field="DueDateMonthly" headerText="Monthly" width="160" textAlign="Center"></e-column>
-                  <e-column field="DueDateQuarterly" headerText="Quarterly" width="160" textAlign="Center"></e-column>
-                  <e-column field="DueDateYearly" headerText="Yearly" width="160" textAlign="Center"></e-column>
+                 
+                  <e-column field="DueDate" headerText="Due Date" width="160" textAlign="Center"></e-column>
+                  <e-column field="ModifyDateTime" headerText="Finished DateTime" width="160" textAlign="Center"></e-column>
+                  <e-column field="CreatedDateForEachTask" headerText="Created Date" width="200" textAlign="Center"></e-column>
                   <e-column field="WatchVideo" [disableHtmlEncode]="false" headerText="Watch Video" width="200"
                     textAlign="Center">
                     <ng-template #template let-data>

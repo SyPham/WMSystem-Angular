@@ -52,6 +52,7 @@ import { UploaderModule  } from '@syncfusion/ej2-angular-inputs';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { AvatarModalComponent } from './views/layout/header/avatar-modal/avatar-modal.component';
 import { PreviewModalComponent } from './views/layout/header/preview-modal/preview-modal.component';
+import { MaintenanceComponent} from './views/maintenance/maintenance.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,6 +65,7 @@ import { PreviewModalComponent } from './views/layout/header/preview-modal/previ
     P500Component,
     AvatarModalComponent,
     PreviewModalComponent,
+    MaintenanceComponent
   ],
   imports: [
     BrowserModule,

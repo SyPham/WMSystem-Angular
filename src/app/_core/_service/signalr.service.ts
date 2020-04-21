@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class SignalrService {
-  private hubConnection: signalR.HubConnection;
+  public hubConnection: signalR.HubConnection;
   constructor() {
     this.startConnection();
   }
@@ -57,6 +57,7 @@ export class SignalrService {
    });
  }
  public checkAlert(user: string) {
+   
   this.hubConnection
   .invoke('CheckAlert', user)
   .catch((err) => {

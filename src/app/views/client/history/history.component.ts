@@ -9,6 +9,7 @@ import { CalendarsService } from 'src/app/_core/_service/calendars.service';
 import { CalendarComponent, DateRangePickerComponent } from '@syncfusion/ej2-angular-calendars';
 import { HeaderService } from 'src/app/_core/_service/header.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
+import { CommentComponent } from '../modals/comment/comment.component';
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
@@ -59,6 +60,19 @@ export class HistoryComponent implements OnInit {
         if (arg?.router?.toLowerCase() === 'history') {
           this.search = arg.message;
         }
+      });
+    }
+    recordDoubleClick(agrs) {
+      alert(JSON.stringify(agrs));
+      this.openCommentModal(agrs);
+    }
+    openCommentModal(args) {
+      const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
+      modalRef.componentInstance.title = args.rowData.JobName;
+      modalRef.componentInstance.taskID = args.rowData.ID;
+      modalRef.result.then((result) => {
+        console.log('openCommentModal From Todolist', result );
+      }, (reason) => {
       });
     }
     resolver() {

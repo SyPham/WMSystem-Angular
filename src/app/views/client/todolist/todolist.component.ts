@@ -108,7 +108,9 @@ export class TodolistComponent implements OnInit {
         'ExpandAll',
         'CollapseAll',
         'ExcelExport',
-        'Print'
+        'Print',
+        { text: 'All columns', tooltipText: 'Show all columns', prefixIcon: 'e-add', id: 'AllColumns' },
+        { text: 'Default columns', tooltipText: 'Show default columns', prefixIcon: 'e-add', id: 'DefaultColumns' },
       ];
       this.editSettings = { allowAdding: true, mode: 'Row'};
       this.pageSetting = { pageCount: 2, pageSizes: true } ;
@@ -120,12 +122,32 @@ export class TodolistComponent implements OnInit {
             id: 'Done'
           },
           {
+            text: 'Follow',
+            iconCss: ' fa fa-bell',
+            target: '.e-content',
+            id: 'Follow'
+          },
+          {
             text: 'Watch Video',
             iconCss: ' e-icons e-add',
             target: '.e-content',
             id: 'WatchVideo'
           }
         ];
+    }
+    showAllColumnsTreegrid() {
+      const hide = ['Follow', 'Priority', 'From', 'Task Name',
+      'Project Name', 'Created Date', 'Finished DateTime',
+      'PIC', 'Status', 'Deputy'];
+      for (const item of hide) {
+        this.treeGridObj.showColumns([item, 'Ship Name']);
+      }
+    }
+    defaultColumnsTreegrid() {
+      const hide = ['Follow', 'Priority', 'From'];
+      for (const item of hide) {
+        this.treeGridObj.hideColumns([item, 'Ship Name']);
+      }
     }
     toolbarClick(args: any): void {
       console.log(args.item.text);
@@ -136,6 +158,12 @@ export class TodolistComponent implements OnInit {
         case 'Excel Export':
           this.treeGridObj.excelExport({hierarchyExportMode: 'All'});
           break;
+          case 'All columns':
+          this.showAllColumnsTreegrid();
+          break;
+          case 'Default columns':
+            this.defaultColumnsTreegrid();
+            break;
       }
     }
     sortProject() {
@@ -264,6 +292,9 @@ export class TodolistComponent implements OnInit {
           .setAttribute('style', 'display: none;');
     }
   }
+  dataBound($event) {
+    this.defaultColumnsTreegrid();
+  }
   contextMenuClick(args?: any): void {
     console.log('contextMenuClick', args);
     const data = args.rowInfo.rowData;
@@ -274,12 +305,14 @@ export class TodolistComponent implements OnInit {
       case 'Done':
         this.done();
         break;
+        case 'Follow':
+          this.follow(data.ID);
+          break;
        case 'WatchVideo':
         this.openWatchTutorialWatchModal();
         break;
     }
   }
- 
   moveLeft() {
     this.ds.moveLeft();
   }
