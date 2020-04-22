@@ -44,7 +44,11 @@
           [pageSettings]='pageSetting' [filterSettings]='filterSettings' [contextMenuItems]='contextMenuItems'
           [toolbar]='toolbarOptionsTasks' allowPaging='true' [allowExcelExport]='true' [allowPdfExport]='true'
           gridLines='Both' [allowResizing]='true' showColumnMenu='true' allowSorting='true' allowFiltering='true'
-          (toolbarClick)='toolbarClick($event)' [searchSettings]='searchSettings' (contextMenuClick)="contextMenuClick($event)"  (recordDoubleClick)="recordDoubleClick($event)"
+          (toolbarClick)='toolbarClick($event)' 
+          [searchSettings]='searchSettings' 
+          (contextMenuClick)="contextMenuClick($event)"  
+          (recordDoubleClick)="recordDoubleClick($event)"
+          (dataBound)="dataBound($event)"
           (contextMenuOpen)='contextMenuOpen($event)'>
           <e-columns>
             <e-column field="Follow" headerText="Follow" width="130" textAlign="Center">
@@ -74,13 +78,13 @@
                   style="padding:4px;color:white">{{data.state}}</span>
               </ng-template>
             </e-column>
-            <e-column field="CreatedDateForEachTask" headerText="Created Date" width="200" textAlign="Center">
+            <e-column field="DueDate" headerText="Due Date" width="200" textAlign="Center">
             </e-column>
-            <e-column field="DueDateDaily" headerText="Daily" width="160" textAlign="Center"></e-column>
-            <e-column field="DueDateWeekly" headerText="Weekly" width="160" textAlign="Center"></e-column>
-            <e-column field="DueDateMonthly" headerText="Monthly" width="160" textAlign="Center"></e-column>
-            <e-column field="DueDateQuarterly" headerText="Quarterly" width="160" textAlign="Center"></e-column>
-            <e-column field="DueDateYearly" headerText="Yearly" width="160" textAlign="Center"></e-column>
+            <e-column field="ModifyDateTime" headerText="Finished DateTime" width="200" textAlign="Center">
+            </e-column>
+            <e-column field="CreatedDate" headerText="Created Date" width="200" textAlign="Center">
+            </e-column>
+         
             <e-column field="WatchVideo" [disableHtmlEncode]="false" headerText="Watch Video" width="200" textAlign="Center">
               <ng-template #template let-data>
                 <button [class]="data.VideoStatus? 'btn btn-sm btn-success' : 'd-none'" (click)="openWatchTutorialWatchModalByButton(data)">Watch</button>

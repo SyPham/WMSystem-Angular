@@ -11,5 +11,5 @@ export enum PeriodType
     Monthly = 3,
     Quarterly = 4,
     Yearly = 5,
-    SpecificDay = 6
+    SpecificDate = 6
 }

@@ -145,6 +145,8 @@ export class AddSubTaskComponent implements OnInit {
         case 6:
           this.selectedPeriodMain = 'DueDate';
           this.changeStatus(true, true, true, false);
+          console.log('Project Edit: .....................', this.deadline)
+
           break;
       }
     }
@@ -289,7 +291,7 @@ export class AddSubTaskComponent implements OnInit {
       case 'DueDate':
       this.changeStatus(true, true, true, false);
       this.clearPeriod(false, false, false, false, false, true);
-      this.periodtype = PeriodType.SpecificDay;
+      this.periodtype = PeriodType.SpecificDate;
       break;
     }
   }

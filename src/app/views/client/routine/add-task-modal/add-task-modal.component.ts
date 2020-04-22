@@ -31,6 +31,10 @@ export class AddTaskModalComponent implements OnInit {
   fromWho: any;
   beAssigned: any;
   // config datetimepicker
+  public month: number = new Date().getMonth();
+  public fullYear: number = new Date().getFullYear();
+  public minDate: Date = new Date(this.fullYear, this.month, 22, 12);
+  public maxDate: Date = new Date(this.fullYear, this.month, 25, 17);
   fields = { text: 'Username', value: 'ID' };
   fieldsAreas = { text: 'Name', value: 'ID' };
   waterMark = 'Search or add a tag';
@@ -40,7 +44,7 @@ export class AddTaskModalComponent implements OnInit {
   allowEdit = false;
   Areas: any;
   public months = Months;
-  public format = 'MMM dd, yyyy';
+  public format = 'dd MMM, yyyy hh:mm:ss a';
   weekday: any;
   monthSelected: any;
   userSelected: number;
@@ -112,25 +116,26 @@ export class AddTaskModalComponent implements OnInit {
     private routineService: RoutineService) { }
 
   ngOnInit() {
+    console.log('load Edit......................', this.edit);
+
     this.jobtypeService.currentMessage.subscribe(res => {
       console.log('Add-Task-Modal: ', res);
       if (res === JobType.Routine) {
-       this.checkRoutine();
-       } else if (res === JobType.Abnormal) {
-       this.checkAbnormal();
-       }
+        this.checkRoutine();
+      } else if (res === JobType.Abnormal) {
+        this.checkAbnormal();
+      }
     });
     this.getBeAssigned();
     this.getFromWho();
-    this.checkCurrentQuarter();
     let ls = JSON.parse(localStorage.getItem('user'));
-    this.who = ls['User']['ID'] as number;
+    this.who = ls.User.ID as number;
   }
   checkAbnormal() {
-    this.periodtype = PeriodType.SpecificDay;
+    this.periodtype = PeriodType.SpecificDate;
     this.period = [
-       'DueDate'
-      ];
+      'DueDate'
+    ];
     this.selectedPeriodMain = 'DueDate';
     this.changeStatus(true, true, true, false);
     console.log('Open add Modal from Abnormal');
@@ -147,9 +152,7 @@ export class AddTaskModalComponent implements OnInit {
     this.period = [
       'Daily',
       'Weekly',
-      'Monthly',
-      'Quarterly',
-      'Yearly'
+      'Monthly'
     ];
     this.selectedPeriodMain = 'Daily';
     this.periodtype = PeriodType.Daily;
@@ -167,61 +170,67 @@ export class AddTaskModalComponent implements OnInit {
       this.jobname = edit._JobName;
       this.who = edit._FromWhoID;
       this.deputies = edit._Deputies;
-      this.duedateweekly = edit._DueDateWeekly;
-      this.duedatemonthly = edit._DueDateMonthly;
-      this.duedatequarterly = edit._DueDateQuarterly;
-      this.duedateyearly = edit._DueDateYearly;
       this.priority = edit._Priority;
       this.pic = edit._PIC;
-      this.duedatedaily = edit._DueDateDaily;
-      this.deadline = edit._SpecificDate;
-      switch (edit._periodtype) {
-        case 1:
-          this.selectedPeriodMain = 'Daily';
-          this.changeStatus(true, true, true, true);
-          this.periodtype = PeriodType.Daily;
-          break;
-        case 2:
-          this.selectedPeriodMain = 'Weekly';
-          this.weekday = edit._DueDateWeekly;
-          this.monthSelected =  new Date(edit._DateOfWeekly).getMonth() + 1;
-          this.duedateweekly = edit._DateOfWeekly;
-          this.periodtype = PeriodType.Weekly;
-          this.changeStatus(true, false, true);
-          break;
-        case 3:
-          this.selectedPeriodMain = 'Monthly';
-          this.duedatemonthly = edit._DueDateMonthly;
-          this.periodtype = PeriodType.Monthly;
-          this.changeStatus(true, true, true, true, true, false);
-          break;
-        case 4:
-          this.selectedPeriodMain = 'Quarterly';
-          if (this.duedatequarterly.length > 0) {
-            let date = this.duedatequarterly.split(',')[1].trim();
-            let quarter = this.duedatequarterly.split(',')[0].trim();
-            this.quarterlySelected = quarter;
-            this.duedatequarterly = date + ', ' + new Date().getFullYear();
-          }
-          this.changeStatus(true, true, true, true, false);
-          this.clearPeriod(false, false, false, true, false, false);
-          this.periodtype = PeriodType.Quarterly;
-
-          break;
-        case 5:
-          this.selectedPeriodMain = 'Yearly';
-          this.changeStatus(true, true, false);
-          this.periodtype = PeriodType.Yearly;
-          break;
-        case 6:
-          this.selectedPeriodMain = 'DueDate';
-          this.periodtype = PeriodType.SpecificDay;
-          this.changeStatus(true, true, true, false);
-          break;
-      }
+      this.mapPeriodWithDueDate(edit._periodtype, edit);
     }
   }
+  mapPeriodWithDueDate(periodType, item: Task) {
+    switch (periodType) {
+      case PeriodType.Daily:
+        this.periodtype = PeriodType.Daily;
+        this.selectedPeriodMain = 'Daily';
+        this.changeStatus(true, true, true, true);
+        this.duedatedaily = item._DueDate;
+        break;
+      case PeriodType.Weekly:
+        this.periodtype = PeriodType.Weekly;
+        this.selectedPeriodMain = 'Weekly';
+        this.duedateweekly = item._DueDate;
+        this.changeStatus(true, false, true);
+        break;
+        case PeriodType.Monthly:
+        this.periodtype = PeriodType.Monthly;
+        this.selectedPeriodMain = 'Monthly';
+        this.duedatemonthly = item._DueDate;
+        this.changeStatus(true, true, true, true, true, false);
+        break;
+      case PeriodType.SpecificDate:
+        this.periodtype = PeriodType.SpecificDate;
+        this.selectedPeriodMain = 'DueDate';
+        this.deadline = item._DueDate;
+        this.changeStatus(true, true, true, false);
+        break;
+      default:
+        break;
+    }
+  }
+  mapDueDateWithPeriod(periodType: PeriodType): string {
+    let result: string;
+    switch (periodType) {
+      case PeriodType.Daily:
+        this.periodtype = PeriodType.Daily;
+        result = this.duedatedaily;
+        break;
+      case PeriodType.Weekly:
+        this.periodtype = PeriodType.Weekly;
+        result = this.duedateweekly;
+        break;
+      case PeriodType.Monthly:
+        this.periodtype = PeriodType.Monthly;
+        result = this.duedatemonthly;
+        break;
+      case PeriodType.SpecificDate:
+        this.periodtype = PeriodType.SpecificDate;
+        result = this.deadline;
+        break;
+      default:
+        break;
+    }
+    return result;
+  }
   createTask() {
+    console.log('create Task duedateweekly: ', this.duedateweekly);
     if (this.checkValidation()) {
       let beAsigned: any;
       this.pic = this.pic || 0;
@@ -230,31 +239,20 @@ export class AddTaskModalComponent implements OnInit {
       } else {
         beAsigned = this.pic;
       }
-      if (this.periodtype === PeriodType.Quarterly) {
-        let date = this.calendarService.toFormatDate(this.duedatequarterly, false);
-        this.duedatequarterly = this.quarterlySelected + ', ' + date;
-      }
-
-      const task = new Task().createNewTask(this.Id,
+      const task = new Task().create(this.Id,
         this.jobname,
         beAsigned,
         this.who,
         0,
-        this.deadline,
-        this.duedatedaily,
-        this.duedateweekly,
-        this.duedatemonthly?.substr(0, this.duedatemonthly?.length - 2),
-        this.duedatequarterly,
-        this.calendarService.toFormatDate(this.duedateyearly, true),
         false,
         this.priority,
         this.parentId,
         this.periodtype,
         0,
         this.jobtype,
-        '',
         this.deputies,
-        this.ocid);
+        this.ocid,
+        this.mapDueDateWithPeriod(this.periodtype));
       console.log(task);
       if (this.parentId > 0) {
         this.projectDetailService.createSubTask(task).subscribe(res => {
@@ -271,7 +269,7 @@ export class AddTaskModalComponent implements OnInit {
           this.activeModal.close('createMainTask');
         });
       }
-     }
+    }
   }
 
   getBeAssigned() {
@@ -292,151 +290,64 @@ export class AddTaskModalComponent implements OnInit {
       this.Users = res;
     });
   }
-
-  checkCurrentQuarter() {
-    let index = this.calendarService.getQuarter(new Date());
-    switch (this.QUARTERLY[index - 1]) {
-      case this.QUARTERLY[0]:
-         this.max = new Date(new Date().getFullYear(), 3, 0);
-         this.min = new Date(new Date().getFullYear(), 1 - 1, 1);
-         break;
-      case this.QUARTERLY[1]:
-        this.max = new Date(new Date().getFullYear(), 6, 0);
-        this.min = new Date(new Date().getFullYear(), 4 - 1, 1);
-        break;
-      case this.QUARTERLY[2]:
-        this.max = new Date(new Date().getFullYear(), 9, 0);
-        this.min = new Date(new Date().getFullYear(), 7 - 1, 1);
-        break;
-       case this.QUARTERLY[3]:
-        this.max = new Date(new Date().getFullYear(), 12, 0);
-        this.min = new Date(new Date().getFullYear(), 10 - 1, 1);
-        break;
-    }
-    this.periodtype = PeriodType.Quarterly;
-  }
   onChangeMonthly(arg?) {
     this.periodtype = PeriodType.Monthly;
-  }
-  onChangeQuarterly(arg?) {
-    this.quarterlySelected = arg?.value;
-    switch (arg.value) {
-      case this.QUARTERLY[0]:
-        this.max = new Date(new Date().getFullYear(), 3, 0);
-        this.min = new Date(new Date().getFullYear(), 1 - 1, 1);
-        break;
-     case this.QUARTERLY[1]:
-       this.max = new Date(new Date().getFullYear(), 6, 0);
-       this.min = new Date(new Date().getFullYear(), 4 - 1, 1);
-       break;
-     case this.QUARTERLY[2]:
-       this.max = new Date(new Date().getFullYear(), 9, 0);
-       this.min = new Date(new Date().getFullYear(), 7 - 1, 1);
-       break;
-      case this.QUARTERLY[3]:
-       this.max = new Date(new Date().getFullYear(), 12, 0);
-       this.min = new Date(new Date().getFullYear(), 10 - 1, 1);
-       break;
-    }
-    this.periodtype = PeriodType.Quarterly;
-  }
-  onChangeWeekday(args) {
-    this.weekday = args.value;
-    this.getWeekdaysOfMonth();
-  }
-  onChangeMonth(args) {
-    this.getWeekdaysOfMonth();
-  }
-  getWeekdaysOfMonth() {
-    let newVal = this.monthSelected;
-    let w = this.weekday;
-    let indexof = this.weekdays.indexOf(w);
-    switch (indexof) {
-      case 0:
-        this.weekdaysOfMonth = this.calendarService.getMondaysInMonth(newVal);
-        break;
-      case 1:
-        this.weekdaysOfMonth = this.calendarService.getWednesdaysInMonth(newVal);
-        break;
-      case 2:
-        this.weekdaysOfMonth = this.calendarService.getTuesdaysInMonth(newVal);
-        break;
-      case 3:
-        this.weekdaysOfMonth = this.calendarService.getThursdaysInMonth(newVal);
-        break;
-      case 4:
-        this.weekdaysOfMonth = this.calendarService.getFridaysInMonth(newVal);
-        break;
-      case 5:
-        this.weekdaysOfMonth = this.calendarService.getSaturdaysInMonth(newVal);
-        break;
-    }
   }
   change(arg?) {
     console.log('change: ', arg.target.value);
     switch (arg.target.value) {
       case 'reset': this.changeStatus(); break;
       case 'Daily':
-      this.changeStatus();
-      this.clearPeriod(true, false, false, false, false, false);
-      this.duedatedaily = new Date().toISOString();
-      this.periodtype = PeriodType.Daily;
-      break;
+        this.changeStatus();
+        this.clearPeriod(true, false, false, false, false, false);
+        this.duedatedaily = new Date().toISOString();
+        this.periodtype = PeriodType.Daily;
+        break;
       case 'Weekly':
-      this.changeStatus(true, false);
-      this.clearPeriod(false, true, false, false, false, false);
-      this.periodtype = PeriodType.Weekly;
-      break;
+        this.changeStatus(true, false);
+        this.clearPeriod(false, true, false, false, false, false);
+        this.periodtype = PeriodType.Weekly;
+        break;
       case 'Monthly':
         this.changeStatus(true, true, true, true, true, false);
         this.clearPeriod(false, false, true, false, false, false);
         this.periodtype = PeriodType.Monthly;
         break;
-      case 'Quarterly':
-        this.changeStatus(true, true, true, true, false);
-        this.clearPeriod(false, false, false, true, false, false);
-        this.periodtype = PeriodType.Quarterly;
-        break;
-      case 'Yearly':
-      this.changeStatus(true, true, false);
-      this.clearPeriod(false, false, false, false, true, false);
-      this.periodtype = PeriodType.Yearly;
-      break;
       case 'DueDate':
-      this.changeStatus(true, true, true, false);
-      this.clearPeriod(false, false, false, false, false, true);
-      this.periodtype = PeriodType.SpecificDay;
-      break;
+        this.changeStatus(true, true, true, false);
+        this.clearPeriod(false, false, false, false, false, true);
+        this.periodtype = PeriodType.SpecificDate;
+        break;
     }
   }
-  clearPeriod(daily = false, weekly = false, monthly = false, quarterly= false, yearly= false, deadline= false) {
+  clearPeriod(daily = false, weekly = false, monthly = false, quarterly = false, yearly = false, deadline = false) {
     if (!weekly) {
-     this.duedateweekly = '';
+      this.duedateweekly = '';
     }
     if (!monthly) {
-       this.duedatemonthly = '';
-     }
+      this.duedatemonthly = '';
+    }
     if (!quarterly) {
-       this.duedatequarterly = '';
-     }
+      this.duedatequarterly = '';
+    }
     if (!yearly) {
-     this.duedateyearly = '';
+      this.duedateyearly = '';
     }
     if (!daily) {
-     this.duedatedaily = '';
-     }
+      this.duedatedaily = '';
+    }
     if (!deadline) {
-     this.deadline = '';
-     }
-   }
-   checkValidation() {
-     if (this.jobname === undefined) {
-        this.alertify.validation('Warning!', 'Please enter the job name!');
-        return false;
-     } else if (this.who === undefined) {
+      this.deadline = '';
+    }
+  }
+  checkValidation() {
+    if (this.jobname === undefined) {
+      this.alertify.validation('Warning!', 'Please enter the job name!');
+      return false;
+    } else if (this.who === undefined) {
       this.alertify.validation('Warning!', 'Please select on from!');
       return false;
-     } else if (this.selectedPeriodMain !== '') {
+    } else if (this.selectedPeriodMain !== '') {
       switch (this.selectedPeriodMain) {
         case 'Weekly':
           if (this.duedateweekly === undefined) {
@@ -470,28 +381,28 @@ export class AddTaskModalComponent implements OnInit {
           break;
       }
     }
-     return true;
-   }
-   clearForm() {
-     this.Id = 0;
-     this.jobname = '';
-     this.who = 0;
-     this.deputies = 0;
-     this.duedateweekly = '';
-     this.duedatemonthly = '';
-     this.duedatequarterly = '';
-     this.duedateyearly = '';
-     this.duedatedaily = '';
-     this.deadline = '';
-     this.priority = 'M';
-     this.pic = 0;
-     this.jobtypeService.currentMessage.subscribe(res => {
-     if (res === JobType.Routine) {
-      this.periodtype = PeriodType.Daily;
-     } else if (res === JobType.Abnormal) {
-      this.changeStatus(true, true, true, false);
-      this.periodtype = PeriodType.SpecificDay;
-     }
+    return true;
+  }
+  clearForm() {
+    this.Id = 0;
+    this.jobname = '';
+    this.who = 0;
+    this.deputies = 0;
+    this.duedateweekly = '';
+    this.duedatemonthly = '';
+    this.duedatequarterly = '';
+    this.duedateyearly = '';
+    this.duedatedaily = '';
+    this.deadline = '';
+    this.priority = 'M';
+    this.pic = 0;
+    this.jobtypeService.currentMessage.subscribe(res => {
+      if (res === JobType.Routine) {
+        this.periodtype = PeriodType.Daily;
+      } else if (res === JobType.Abnormal) {
+        this.changeStatus(true, true, true, false);
+        this.periodtype = PeriodType.SpecificDate;
+      }
     });
-   }
+  }
 }

@@ -22,7 +22,7 @@ import { JobType } from 'src/app/_core/enum/task.enum';
 import { JobTypeService } from 'src/app/_core/_service/jobType.service';
 import { SignalrService } from 'src/app/_core/_service/signalr.service';
 import { CommentComponent } from '../modals/comment/comment.component';
-
+declare let $: any;
 @Component({
   selector: 'app-abnormal',
   templateUrl: './abnormal.component.html',
@@ -64,16 +64,7 @@ export class AbnormalComponent implements OnInit {
 
   ngOnInit() {
     this.signalr.startConnection();
-    this.spinner.show();
-    this.route.data.subscribe(data => {
-      this.ocs = data['ocs'];
-      this.spinner.hide();
-      this.addTaskService.currentMessage.subscribe(res => {
-        if (res === 101) {
-           this.getTasks();
-        }
-      });
-    });
+    this.resolver();
     this.filterSettings = { type: 'CheckBox' };
     this.pageSetting = { pageCount: 2, pageSizes: true } ;
     this.toolbarOptions = [
@@ -83,11 +74,28 @@ export class AbnormalComponent implements OnInit {
     ];
     this.checkRole();
   }
+  resolver() {
+    $('#overlay').fadeIn();
+    this.route.data.subscribe(data => {
+      $('#overlay').fadeOut();
+      this.ocs = data.ocs;
+      this.addTaskService.currentMessage.subscribe(res => {
+        if (res === 101) {
+           this.getTasks();
+        }
+      });
+    });
+  }
   getOCs() {
     this.abnormalService.getOCs().subscribe(res => this.ocs = res);
   }
   getTasks() {
-    this.abnormalService.getTasks(this.ocId).subscribe(res => this.tasks = res);
+    $('#overlay').fadeIn();
+    this.abnormalService.getTasks(this.ocId).subscribe(res => {
+      this.tasks = res;
+      $('#overlay').fadeOut();
+
+    });
   }
   delete() {
     if (this.taskId > 0) {
@@ -138,14 +146,20 @@ export class AbnormalComponent implements OnInit {
       ];
       this.contextMenuItems = [
         {
+          text: 'Finish Task',
+          iconCss: ' e-icons e-edit',
+          target: '.e-content',
+          id: 'Done'
+        },
+        {
           text: 'Add Tutorial Video',
-          iconCss: ' e-icons e-add',
+          iconCss: 'fa fa-plus-square-o',
           target: '.e-content',
           id: 'Tutorial'
         },
         {
           text: 'Edit Tutorial',
-          iconCss: ' e-icons e-edit',
+          iconCss: 'fa fa-wrench',
           target: '.e-content',
           id: 'EditTutorial'
         },
@@ -156,10 +170,10 @@ export class AbnormalComponent implements OnInit {
           id: 'WatchVideo'
         },
         {
-          text: 'Finish Task',
-          iconCss: ' e-icons e-edit',
+          text: 'Follow',
+          iconCss: ' fa fa-bell',
           target: '.e-content',
-          id: 'Done'
+          id: 'Follow'
         }
       ];
     } else {
@@ -179,30 +193,6 @@ export class AbnormalComponent implements OnInit {
           id: 'Add-Sub-Task'
         },
         {
-          text: 'Add Tutorial Video',
-          iconCss: ' e-icons e-add',
-          target: '.e-content',
-          id: 'Tutorial'
-        },
-        {
-          text: 'Edit Tutorial',
-          iconCss: ' e-icons e-edit',
-          target: '.e-content',
-          id: 'EditTutorial'
-        },
-        {
-          text: 'Watch Video',
-          iconCss: ' e-icons e-add',
-          target: '.e-content',
-          id: 'WatchVideo'
-        },
-        {
-          text: 'Finish Task',
-          iconCss: ' e-icons e-edit',
-          target: '.e-content',
-          id: 'Done'
-        },
-        {
           text: 'Edit',
           iconCss: ' e-icons e-edit',
           target: '.e-content',
@@ -213,6 +203,36 @@ export class AbnormalComponent implements OnInit {
           iconCss: ' e-icons e-delete',
           target: '.e-content',
           id: 'DeleteTask'
+        },
+        {
+          text: 'Add Tutorial Video',
+          iconCss: 'fa fa-plus-square',
+          target: '.e-content',
+          id: 'Tutorial'
+        },
+        {
+          text: 'Edit Tutorial',
+          iconCss: 'fa fa-wrench',
+          target: '.e-content',
+          id: 'EditTutorial'
+        },
+        {
+          text: 'Watch Video',
+          iconCss: 'fa fa-play',
+          target: '.e-content',
+          id: 'WatchVideo'
+        },
+        {
+          text: 'Finish Task',
+          iconCss: 'fa fa-check',
+          target: '.e-content',
+          id: 'Done'
+        },
+        {
+          text: 'Follow',
+          iconCss: ' fa fa-bell',
+          target: '.e-content',
+          id: 'Follow'
         }
       ];
     }

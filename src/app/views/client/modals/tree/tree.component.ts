@@ -24,6 +24,6 @@ export class TreeComponent implements OnInit {
       ParentID: 0,
       TaskID: 0,
       UserID: this.userID
-    }
+    };
   }
 }

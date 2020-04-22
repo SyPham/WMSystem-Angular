@@ -10,6 +10,7 @@ import {
   NgbModal,
   NgbModalRef
 } from '@ng-bootstrap/ng-bootstrap';
+declare let $: any;
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
@@ -41,17 +42,13 @@ export class ProjectComponent implements OnInit {
 
   ngOnInit() {
     this.createdBy = JSON.parse(localStorage.getItem('user')).User.ID;
-
-    this.spinner.show();
+    $('#overlay').fadeIn();
     this.route.data.subscribe(data => {
-      this.spinner.hide();
+      $('#overlay').fadeOut();
       this.projects = data.projects.result;
-
       this.pagination = data.projects.pagination;
       console.log('getProjects: ', this.pagination);
-
     });
-
     console.log('Data: ', this.projects);
   }
   open(content) {
@@ -63,14 +60,14 @@ export class ProjectComponent implements OnInit {
     this.modalRef.close();
   }
   load() {
-    this.spinner.show();
+    $('#overlay').fadeIn();
     this.projectService
       .getProjects(this.pagination.currentPage, this.pagination.itemsPerPage)
       .subscribe(
         (res: PaginatedResult<Project[]>) => {
           this.projects = res.result;
           this.pagination = res.pagination;
-          this.spinner.hide();
+          $('#overlay').fadeOut();
         },
         error => {
           this.alertify.error(error);

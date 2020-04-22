@@ -125,17 +125,24 @@ export class Task {
     set _Priority(value: string) {
         this.Priority = value || '';
     }
+    private DueDate: string;
+    get _DueDate(): string {
+        return this.DueDate;
+    }
+    set _DueDate(value: string) {
+        this.DueDate = value || '';
+    }
     private PIC: any;
     get _PIC(): any {
         if (this.PIC === 0) {
             return [];
         } else {
-           return this.PIC;
+            return this.PIC;
         }
     }
     set _PIC(value: any) {
         if (value === 0) {
-            this.PIC =  [];
+            this.PIC = [];
         } else {
             this.PIC = value;
         }
@@ -145,12 +152,12 @@ export class Task {
         if (this.Deputies === 0) {
             return [];
         } else {
-           return this.Deputies;
+            return this.Deputies;
         }
     }
     set _Deputies(value: any) {
         if (value === 0) {
-            this.Deputies =  [];
+            this.Deputies = [];
         } else {
             this.Deputies = value;
         }
@@ -196,30 +203,64 @@ export class Task {
         JobTypeID: JobType = JobType.Routine,
         DateOfWeekly: string = '',
         Deputies: any = [],
-        OCID: number = 0
-        )
-        {
-            const task = new Task();
-            task.ID = ID;
-            task.JobName = taskname;
-            task.FromWhoID = who;
-            task.DepartmentID = where;
-            task.DueDateWeekly = weekly;
-            task.DueDateMonthly = monthly;
-            task.DueDateQuarterly = quarterly;
-            task.DueDateYearly = yearly;
-            task.Status = Status;
-            task.Priority = Priority;
-            task.ParentID = ParentID;
-            task.periodtype = periodtype;
-            task.JobTypeID = JobTypeID;
-            task.PIC = PIC;
-            task.DueDateDaily = daily;
-            task.ProjectID = ProjectID;
-            task.SpecificDate = SpecificDate;
-            task.DateOfWeekly = DateOfWeekly;
-            task.Deputies = Deputies;
-            task.OCID = OCID;
-            return task;
-        }
+        OCID: number = 0,
+        DueDate: string = '',
+    ) {
+        const task = new Task();
+        task.ID = ID;
+        task.JobName = taskname;
+        task.FromWhoID = who;
+        task.DepartmentID = where;
+        task.DueDateWeekly = weekly;
+        task.DueDateMonthly = monthly;
+        task.DueDateQuarterly = quarterly;
+        task.DueDateYearly = yearly;
+        task.Status = Status;
+        task.Priority = Priority;
+        task.ParentID = ParentID;
+        task.periodtype = periodtype;
+        task.JobTypeID = JobTypeID;
+        task.PIC = PIC;
+        task.DueDateDaily = daily;
+        task.ProjectID = ProjectID;
+        task.SpecificDate = SpecificDate;
+        task.DateOfWeekly = DateOfWeekly;
+        task.Deputies = Deputies;
+        task.OCID = OCID;
+        task.DueDate = DueDate;
+        return task;
+    }
+    create(
+        ID: number = 0,
+        taskname: string = 'Task Demo',
+        PIC: any = 0,
+        who: number = 0,
+        where: number = 0,
+        Status: boolean = true,
+        Priority: string = 'M',
+        ParentID: number = 0,
+        periodtype: PeriodType = PeriodType.Daily,
+        ProjectID: number = 0,
+        JobTypeID: JobType = JobType.Routine,
+        Deputies: any = [],
+        OCID: number = 0,
+        DueDate: string = '',
+    ) {
+        const task = new Task();
+        task.ID = ID;
+        task.JobName = taskname;
+        task.FromWhoID = who;
+        task.DepartmentID = where;
+        task.Status = Status;
+        task.Priority = Priority;
+        task.ParentID = ParentID;
+        task.periodtype = periodtype;
+        task.JobTypeID = JobTypeID;
+        task.PIC = PIC;
+        task.ProjectID = ProjectID;
+        task.Deputies = Deputies;
+        task.OCID = OCID;
+        task.DueDate = DueDate;
+        return task;
+    }
 }

@@ -23,6 +23,7 @@ import { HeaderService } from 'src/app/_core/_service/header.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
 import { RoutineService } from 'src/app/_core/_service/routine.service';
 import { DragScrollComponent } from 'ngx-drag-scroll';
+declare let $: any;
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
@@ -89,8 +90,10 @@ export class TodolistComponent implements OnInit {
       });
     }
     resolver() {
-      this.route.data.subscribe(data => {
+        $('#overlay').fadeIn();
+        this.route.data.subscribe(data => {
         this.data = data.todolist;
+        $('#overlay').fadeOut();
         this.onRouteChange();
       });
     }
@@ -117,7 +120,7 @@ export class TodolistComponent implements OnInit {
       this.contextMenuItems = [
           {
             text: 'Finish Task',
-            iconCss: ' e-icons e-edit',
+            iconCss: 'fa fa-check',
             target: '.e-content',
             id: 'Done'
           },
@@ -138,13 +141,13 @@ export class TodolistComponent implements OnInit {
     showAllColumnsTreegrid() {
       const hide = ['Follow', 'Priority', 'From', 'Task Name',
       'Project Name', 'Created Date', 'Finished DateTime',
-      'PIC', 'Status', 'Deputy'];
+      'PIC', 'Status', 'Deputy', 'Watch Video'];
       for (const item of hide) {
         this.treeGridObj.showColumns([item, 'Ship Name']);
       }
     }
     defaultColumnsTreegrid() {
-      const hide = ['Follow', 'Priority', 'From'];
+      const hide = ['Follow', 'Priority', 'From', 'Watch Video'];
       for (const item of hide) {
         this.treeGridObj.hideColumns([item, 'Ship Name']);
       }
@@ -221,8 +224,10 @@ export class TodolistComponent implements OnInit {
       this.router.navigate(['/todolist']);
     }
     getListTree() {
+      $('#overlay').fadeIn();
       this.todolistSerivce.getTasks().subscribe((res) => {
         console.log('getTasks: ', res);
+        $('#overlay').fadeOut();
         this.data = res;
       });
     }
@@ -233,7 +238,7 @@ export class TodolistComponent implements OnInit {
     done() {
       if (this.taskId > 0) {
         this.projectDetailService.done(this.taskId).subscribe(res => {
-          console.log('DOne: ', res);
+          console.log('Done: ', res);
           if (res) {
             this.alertify.success('You have already finished this one!')
             this.getListTree();
