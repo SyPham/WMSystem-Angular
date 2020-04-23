@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open --host 10.4.4.224 --port 100 --disableHostCheck",
+    "dev_henry": "ng serve --open --host 192.168.1.11 --port 1003 --disableHostCheck",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

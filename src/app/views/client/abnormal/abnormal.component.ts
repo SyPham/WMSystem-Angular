@@ -80,7 +80,7 @@ export class AbnormalComponent implements OnInit {
       $('#overlay').fadeOut();
       this.ocs = data.ocs;
       this.addTaskService.currentMessage.subscribe(res => {
-        if (res === 101) {
+        if (res === JobType.Abnormal) {
            this.getTasks();
         }
       });

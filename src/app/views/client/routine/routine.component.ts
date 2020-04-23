@@ -87,9 +87,9 @@ export class RoutineComponent implements OnInit {
       this.ocs = data.ocs;
       $('#overlay').fadeOut();
       this.addTaskService.currentMessage.subscribe(res => {
-        if (res === 101) {
+        if (res === JobType.Routine) {
           this.getTasks();
-        }
+       }
       });
       this.onRouteChange();
     });

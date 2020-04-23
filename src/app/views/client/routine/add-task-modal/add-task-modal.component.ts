@@ -117,7 +117,6 @@ export class AddTaskModalComponent implements OnInit {
 
   ngOnInit() {
     console.log('load Edit......................', this.edit);
-
     this.jobtypeService.currentMessage.subscribe(res => {
       console.log('Add-Task-Modal: ', res);
       if (res === JobType.Routine) {
@@ -258,14 +257,22 @@ export class AddTaskModalComponent implements OnInit {
         this.projectDetailService.createSubTask(task).subscribe(res => {
           console.log('createSubTask: ', res);
           this.clearForm();
-          this.addTaskService.changeMessage(101);
+          if (this.jobtype === JobType.Abnormal){
+            this.addTaskService.changeMessage(JobType.Abnormal);
+          } else {
+            this.addTaskService.changeMessage(JobType.Routine);
+          }
           this.activeModal.close('createSubTask');
         });
       } else {
         this.projectDetailService.createMainTask(task).subscribe(res => {
           console.log('createMainTask: ', res);
           this.clearForm();
-          this.addTaskService.changeMessage(101);
+          if (this.jobtype === JobType.Abnormal){
+            this.addTaskService.changeMessage(JobType.Abnormal);
+          } else {
+            this.addTaskService.changeMessage(JobType.Routine);
+          }
           this.activeModal.close('createMainTask');
         });
       }
