@@ -66,7 +66,7 @@ export class AddTaskModalComponent implements OnInit {
   public who: number;
   public pic: number;
   public deadline: string;
-  public duedatedaily: string;
+  public duedatedaily: any = new Date();
   public duedateweekly: string;
   public duedatemonthly: string;
   public duedatequarterly: string;
@@ -300,7 +300,7 @@ export class AddTaskModalComponent implements OnInit {
       case 'Daily':
         this.changeStatus();
         this.clearPeriod(true, false, false, false, false, false);
-        this.duedatedaily = new Date().toISOString();
+        this.duedatedaily = new Date();
         this.periodtype = PeriodType.Daily;
         break;
       case 'Weekly':
@@ -334,7 +334,7 @@ export class AddTaskModalComponent implements OnInit {
       this.duedateyearly = '';
     }
     if (!daily) {
-      this.duedatedaily = '';
+      this.duedatedaily = new Date().toISOString();
     }
     if (!deadline) {
       this.deadline = '';
@@ -358,18 +358,6 @@ export class AddTaskModalComponent implements OnInit {
         case 'Monthly':
           if (this.duedatemonthly === undefined) {
             this.alertify.validation('Warning!', 'Please select on monthly!');
-            return false;
-          }
-          break;
-        case 'Quarterly':
-          if (this.duedatequarterly === undefined) {
-            this.alertify.validation('Warning!', 'Please select on quarterly!');
-            return false;
-          }
-          break;
-        case 'Yearly':
-          if (this.duedateyearly === undefined) {
-            this.alertify.validation('Warning!', 'Please select on yearly!');
             return false;
           }
           break;

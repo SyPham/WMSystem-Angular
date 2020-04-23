@@ -18,7 +18,7 @@ import { getValue, isNullOrUndefined } from '@syncfusion/ej2-base';
 import { BeforeOpenCloseEventArgs } from '@syncfusion/ej2-angular-inputs';
 import { TutorialModalComponent } from './tutorial-modal/tutorial-modal.component';
 import { WatchTutorialVideoComponent } from './watch-tutorial-video/watch-tutorial-video.component';
-import { JobType } from 'src/app/_core/enum/task.enum';
+import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
 import { JobTypeService } from 'src/app/_core/_service/jobType.service';
 import { CommentComponent } from '../modals/comment/comment.component';
 declare let $: any;
@@ -112,8 +112,8 @@ export class RoutineComponent implements OnInit {
   getTasks() {
     $('#overlay').fadeIn();
     this.routineService.getTasks(this.ocId).subscribe(res => {
-      $('#overlay').fadeOut();
-      this.tasks = res;
+        $('#overlay').fadeOut();
+        this.tasks = res;
     });
   }
   delete() {
@@ -279,16 +279,23 @@ export class RoutineComponent implements OnInit {
         break;
     }
   }
+   getEnumKeyByEnumValue(myEnum, enumValue) {
+    let keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
+    return keys.length > 0 ? keys[0] : null;
+  }
+  periodText(enumVal) {
+   return this.getEnumKeyByEnumValue(PeriodType, Number(enumVal));
+  }
   showAllColumnsTreegrid() {
     const hide = ['Follow', 'Priority', 'From', 'Task Name',
      'Created Date', 'Finished DateTime',
-      'PIC', 'Status', 'Deputy', 'Watch Video'];
+      'PIC', 'Status', 'Deputy', 'Watch Video', 'Period Type'];
     for (const item of hide) {
       this.treeGridObj.showColumns([item, 'Ship Name']);
     }
   }
   defaultColumnsTreegrid() {
-    const hide = ['Follow', 'Priority', 'From', 'Status', 'Watch Video'];
+    const hide = ['Follow', 'Priority', 'From', 'Status', 'Watch Video', 'Deputy', 'Period Type'];
     for (const item of hide) {
       this.treeGridObj.hideColumns([item, 'Ship Name']);
     }
@@ -318,15 +325,15 @@ export class RoutineComponent implements OnInit {
     }
     if (this.ocLevel >= 3 && !this.isLeader) {
       if (users.includes(this.currentUser)) {
-        document
-          .querySelectorAll('li#Add-Sub-Task')[0]
-          .setAttribute('style', 'display: none;');
-        document
-          .querySelectorAll('li#EditTask')[0]
-          .setAttribute('style', 'display: none;');
-        document
-          .querySelectorAll('li#DeleteTask')[0]
-          .setAttribute('style', 'display: none;');
+        // document
+        //   .querySelectorAll('li#Add-Sub-Task')[0]
+        //   .setAttribute('style', 'display: none;');
+        // document
+        //   .querySelectorAll('li#EditTask')[0]
+        //   .setAttribute('style', 'display: none;');
+        // document
+        //   .querySelectorAll('li#DeleteTask')[0]
+        //   .setAttribute('style', 'display: none;');
       } else {
         this.alertify.warning('You are not assign this task!', true);
       }

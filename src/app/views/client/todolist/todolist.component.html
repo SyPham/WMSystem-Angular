@@ -81,8 +81,13 @@
                   <e-column field="PIC" headerText="PIC" width="180" textAlign="Center"></e-column>
                  
                   <e-column field="DueDate" headerText="Due Date" width="200" textAlign="Center"></e-column>
-                  <e-column field="ModifyDateTime" headerText="Finished DateTime" width="160" textAlign="Center"></e-column>
-                  <e-column field="CreatedDate" headerText="Created Date" width="00" textAlign="Center"></e-column>
+                  <e-column field="periodType" headerText="Period Type" width="200" textAlign="Center">
+                    <ng-template #template let-data>
+                      {{periodText(data.periodType)}}
+                    </ng-template>
+                  </e-column>
+                  <e-column field="ModifyDateTime" headerText="Finished DateTime" width="200" textAlign="Center"></e-column>
+                  <e-column field="CreatedDate" headerText="Created Date Time" width="200" textAlign="Center"></e-column>
                   <e-column field="WatchVideo" [disableHtmlEncode]="false" headerText="Watch Video" width="200"
                     textAlign="Center">
                     <ng-template #template let-data>

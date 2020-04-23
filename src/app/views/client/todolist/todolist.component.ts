@@ -17,7 +17,7 @@ import { Task } from 'src/app/_core/_model/Task';
 import { AddSubTaskComponent } from '../project-detail/list-task-project/add-sub-task/add-sub-task.component';
 import { TodolistService } from 'src/app/_core/_service/todolist.service';
 import { WatchTutorialVideoComponent } from '../routine/watch-tutorial-video/watch-tutorial-video.component';
-import { JobType } from 'src/app/_core/enum/task.enum';
+import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
 import { CommentComponent } from '../modals/comment/comment.component';
 import { HeaderService } from 'src/app/_core/_service/header.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
@@ -140,14 +140,14 @@ export class TodolistComponent implements OnInit {
     }
     showAllColumnsTreegrid() {
       const hide = ['Follow', 'Priority', 'From', 'Task Name',
-      'Project Name', 'Created Date', 'Finished DateTime',
-      'PIC', 'Status', 'Deputy', 'Watch Video'];
+      'Project Name', 'Created Date Time', 'Finished DateTime',
+      'PIC', 'Status', 'Deputy', 'Watch Video', 'Period Type'];
       for (const item of hide) {
         this.treeGridObj.showColumns([item, 'Ship Name']);
       }
     }
     defaultColumnsTreegrid() {
-      const hide = ['Follow', 'Priority', 'From', 'Watch Video'];
+      const hide = ['Follow', 'Priority', 'From', 'Watch Video', 'Period Type'];
       for (const item of hide) {
         this.treeGridObj.hideColumns([item, 'Ship Name']);
       }
@@ -329,7 +329,13 @@ export class TodolistComponent implements OnInit {
   moveTo(index) {
     this.ds.moveTo(index);
   }
-
+  getEnumKeyByEnumValue(myEnum, enumValue) {
+    let keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
+    return keys.length > 0 ? keys[0] : null;
+  }
+  periodText(enumVal) {
+   return this.getEnumKeyByEnumValue(PeriodType, Number(enumVal));
+  }
   // ngAfterViewInit() {
   //   // Starting ngx-drag-scroll from specified index(3)
   //   setTimeout(() => {

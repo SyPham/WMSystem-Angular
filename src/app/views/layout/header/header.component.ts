@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , OnDestroy} from '@angular/core';
 import { AuthService } from '../../../_core/_service/auth.service';
 import { AlertifyService } from '../../../_core/_service/alertify.service';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ import { AvatarModalComponent } from './avatar-modal/avatar-modal.component';
 })
 export class HeaderComponent implements OnInit {
   public data: any;
+  private intervalID: any;
   public navAdmin: any;
   public navClient: any;
   public total: number;
@@ -39,7 +40,10 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
 
-  ) {}
+  ) {
+    this.currentTime = moment().format('LTS');
+    this.intervalID = setInterval(() => this.updateCurrentTime(), 1 * 1000);
+  }
 
   ngOnInit(): void {
     this.navAdmin = new Nav().getNavAdmin();
@@ -54,8 +58,11 @@ export class HeaderComponent implements OnInit {
     this.userid = JSON.parse(localStorage.getItem('user')).User.ID;
     this.getNotifications();
     this.onService();
-    this.currentTime = moment().format('LTS');
-    setInterval(() => this.updateCurrentTime(), 1 * 1000);
+  }
+  ngOnDestroy() {
+    if (this.intervalID) {
+      clearInterval(this.intervalID);
+    }
   }
   onService() {
     this.headerService.currentImage

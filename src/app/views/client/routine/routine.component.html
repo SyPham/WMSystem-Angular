@@ -71,7 +71,8 @@
             <e-column field="JobName" headerText="Task Name" clipMode='EllipsisWithTooltip' textAlign="Center"
               width="240"></e-column>
             <e-column field="From" headerText="From" width="120"></e-column>
-            <e-column field="PIC" headerText="PIC" width="180" format="yMd" textAlign="Center"></e-column>
+            <e-column field="PIC" headerText="PIC" width="180" textAlign="Center"></e-column>
+            <e-column field="DeputyName" headerText="Deputy" width="180" textAlign="Center"></e-column>
             <e-column field="state" headerText="Status" width="120" textAlign="Center">
               <ng-template #template let-data>
                 <span id="priority" [class]="data.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
@@ -79,6 +80,11 @@
               </ng-template>
             </e-column>
             <e-column field="DueDate" headerText="Due Date" width="200" textAlign="Center">
+            </e-column>
+            <e-column field="periodType" headerText="Period Type" width="200" textAlign="Center">
+              <ng-template #template let-data>
+                {{periodText(data.periodType)}}
+              </ng-template>
             </e-column>
             <e-column field="ModifyDateTime" headerText="Finished DateTime" width="200" textAlign="Center">
             </e-column>

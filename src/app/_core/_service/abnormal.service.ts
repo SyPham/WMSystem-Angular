@@ -21,7 +21,7 @@ export class AbnormalService {
   getOCs(): Observable<Array<Oc>> {
     return this.http.get<Oc[]>(this.baseUrl + 'Ocs/GetListTree').pipe(
       map(response => {
-        console.log("getOcs: ", response);
+        console.log('getOcs: ', response);
         return response;
       })
     );
@@ -29,7 +29,7 @@ export class AbnormalService {
   follow(ID) {
     return this.http.get(`${this.baseUrl}Tasks/Follow/${ID}`).pipe(
       map(response => {
-        console.log("Follow: ", response);
+        console.log('Follow: ', response);
         return response;
       })
     );
@@ -37,7 +37,7 @@ export class AbnormalService {
   getTasks(ocid) {
     return this.http.get(`${this.baseUrl}Tasks/GetListTreeAbnormal/${ocid}`).pipe(
       map(response => {
-        console.log("GetListTreeAbnormal: ", response);
+        console.log('GetListTreeAbnormal: ', response);
         return response;
       })
     );
@@ -46,7 +46,7 @@ export class AbnormalService {
   getBeAssigned() {
     return this.http.get(`${this.baseUrl}Tasks/GetListUser/0`).pipe(
       map(response => {
-        console.log("getBeAssigned: ", response);
+        console.log('getBeAssigned: ', response);
         return response;
       })
     );
@@ -55,7 +55,7 @@ export class AbnormalService {
   getWho() {
     return this.http.get(`${this.baseUrl}Tasks/GetListUser/0`).pipe(
       map(response => {
-        console.log("getWho: ", response);
+        console.log('getWho: ', response);
         return response;
       })
     );
