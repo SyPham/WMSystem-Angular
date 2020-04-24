@@ -45,18 +45,12 @@
                 <e-column field="PIC" headerText="PIC" width="180" format="yMd" textAlign="Center"></e-column>
                 <e-column field="state" headerText="Status" width="120" textAlign="Center">
                   <ng-template #template let-data>
-                    <span id="priority" [class]="data.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
+                    <span id="priority" [class]="data.state == 'Late' ? 'badge bg-danger' : 'badge bg-success'"
                       style="padding:4px;color:white">{{data.state}}</span>
                   </ng-template>
                 </e-column>
-                <e-column field="SpecificDate" headerText="Due Date" width="200" textAlign="Center"></e-column>
-                <e-column field="CreatedDateForEachTask" headerText="Created Date" width="200" textAlign="Center"></e-column>
-                <e-column field="DueDateDaily" headerText="Daily" width="160" textAlign="Center"></e-column>
-                <e-column field="DueDateWeekly" headerText="Weekly" width="160" textAlign="Center"></e-column>
-                <e-column field="DueDateMonthly" headerText="Monthly" width="160" textAlign="Center"></e-column>
-                <e-column field="DueDateQuarterly" headerText="Quarterly" width="160" textAlign="Center"></e-column>
-                <e-column field="DueDateYearly" headerText="Yearly" width="160" textAlign="Center"></e-column>
-                <e-column field="CreatedDateForEachTask" headerText="Created Date" width="160" textAlign="Center"></e-column>
+                <e-column field="DueDate" headerText="Due Date" width="160" textAlign="Center"></e-column>
+                <e-column field="CreatedDate" headerText="Created Date" width="160" textAlign="Center"></e-column>
                 <e-column field="WatchVideo" [disableHtmlEncode]="false" headerText="Watch Video" width="200" textAlign="Center">
                   <ng-template #template let-data>
                     <button [class]="data.VideoStatus? 'btn btn-sm btn-success' : 'd-none'" (click)="openWatchTutorialWatchModalByButton(data)">Watch</button>

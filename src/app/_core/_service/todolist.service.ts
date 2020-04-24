@@ -17,7 +17,7 @@ export class TodolistService {
   baseUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
   getTasks() {
-    return this.http.get(`${this.baseUrl}Tasks/GetListTreeTask/%20/%20/%20/%20/%20/%20/%20`).pipe(
+    return this.http.get(`${this.baseUrl}Tasks/Todolist/%20/%20/%20/%20/%20/%20/%20`).pipe(
       map(response => {
         console.log('get tasks todolist: ', response);
         return response;

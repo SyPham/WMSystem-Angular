@@ -48,6 +48,7 @@ import { HistoryResolver } from 'src/app/_core/_resolvers/history.resolvers';
 import { MentionModule } from 'angular-mentions';
 import { ContentEditableFormDirective } from 'src/app/content-editable-form.directive';
 import { DragScrollModule } from 'ngx-drag-scroll';
+import { TooltipModule } from '@syncfusion/ej2-angular-popups';
 
 @NgModule({
   imports: [
@@ -76,6 +77,7 @@ import { DragScrollModule } from 'ngx-drag-scroll';
     NgbModule,
     NgbPaginationModule,
     MentionModule,
+    TooltipModule
     ],
   declarations: [
     TodolistComponent,

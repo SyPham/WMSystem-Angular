@@ -32,6 +32,7 @@
     "@syncfusion/ej2-angular-dropdowns": "^17.4.51",
     "@syncfusion/ej2-angular-inputs": "^17.4.55",
     "@syncfusion/ej2-angular-navigations": "^17.4.55",
+    "@syncfusion/ej2-angular-popups": "^18.1.45",
     "@syncfusion/ej2-angular-treegrid": "^17.4.51",
     "admin-lte": "^3.0.2",
     "alertifyjs": "^1.13.1",

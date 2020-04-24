@@ -137,13 +137,13 @@ export class RoutineComponent implements OnInit {
   }
   done() {
     if (this.taskId > 0) {
-      this.projectDetailService.done(this.taskId).subscribe(res => {
+      this.projectDetailService.done(this.taskId).subscribe((res: any) => {
         console.log('DOne: ', res);
-        if (res) {
-          this.alertify.success('You have already finished this one!');
+        if (res.status) {
+          this.alertify.success(res.message);
           this.getTasks();
         } else {
-          this.alertify.error('Please finish all sub-tasks!');
+          this.alertify.error(res.message, true);
         }
       });
     }
@@ -305,7 +305,7 @@ export class RoutineComponent implements OnInit {
   }
   contextMenuOpen(arg?: any): void {
     console.log('contextMenuOpen: ', arg);
-    let data = arg.rowInfo.rowData;
+    let data = arg.rowInfo.rowData.Entity;
     let users = [...data.Deputies, ...data.PICs].concat(data.FromWho.ID);
     console.log(users);
     if (data.VideoStatus) {
@@ -341,7 +341,7 @@ export class RoutineComponent implements OnInit {
   }
   contextMenuClick(args?: any): void {
     console.log('contextMenuClick', args);
-    const data = args.rowInfo.rowData;
+    const data = args.rowInfo.rowData.Entity;
     console.log('contextMenuClickdata', data);
 
     this.taskId = data.ID;
@@ -408,7 +408,7 @@ export class RoutineComponent implements OnInit {
     const modalRef = this.modalService.open(TutorialModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Add Tutorial Routine Task';
     modalRef.componentInstance.taskId = this.taskId;
-    modalRef.componentInstance.jobname = args.rowInfo.rowData.JobName;
+    modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
       console.log('openTutorialModal', result);
     }, (reason) => {
@@ -419,8 +419,8 @@ export class RoutineComponent implements OnInit {
     const modalRef = this.modalService.open(TutorialModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Edit Tutorial Routine Task';
     modalRef.componentInstance.taskId = this.taskId;
-    modalRef.componentInstance.tutorialID = args.rowInfo.rowData.ID;
-    modalRef.componentInstance.jobname = args.rowInfo.rowData.JobName;
+    modalRef.componentInstance.tutorialID = args.rowInfo.rowData.Entity.ID;
+    modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
       console.log('openEditTutorialModal', result);
     }, (reason) => {
@@ -452,8 +452,8 @@ export class RoutineComponent implements OnInit {
   }
   openCommentModal(args) {
     const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
-    modalRef.componentInstance.title = args.rowData.JobName;
-    modalRef.componentInstance.taskID = args.rowData.ID;
+    modalRef.componentInstance.title = args.rowData.Entity.JobName;
+    modalRef.componentInstance.taskID = args.rowData.Entity.ID;
     modalRef.result.then((result) => {
       console.log('openCommentModal From Todolist', result);
     }, (reason) => {
@@ -473,7 +473,7 @@ export class RoutineComponent implements OnInit {
     if ((args || null) === null) {
       return null;
     }
-    const data = args.rowInfo.rowData;
+    const data = args.rowInfo.rowData.Entity;
     return new Task()
       .create(
         data.ID,
