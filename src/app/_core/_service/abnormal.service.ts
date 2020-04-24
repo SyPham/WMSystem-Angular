@@ -35,7 +35,7 @@ export class AbnormalService {
     );
   }
   getTasks(ocid) {
-    return this.http.get(`${this.baseUrl}Tasks/GetListTreeAbnormal/${ocid}`).pipe(
+    return this.http.get(`${this.baseUrl}Tasks/Abnormal/${ocid}`).pipe(
       map(response => {
         console.log('GetListTreeAbnormal: ', response);
         return response;

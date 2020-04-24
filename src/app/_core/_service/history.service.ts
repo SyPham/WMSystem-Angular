@@ -19,7 +19,7 @@ export class HistoryService {
   baseUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
   getTasks() {
-    return this.http.get(`${this.baseUrl}Tasks/GetListTreeHistory`).pipe(
+    return this.http.get(`${this.baseUrl}Tasks/History`).pipe(
       map(response => {
         console.log('get tasks todolist: ', response);
         return response;
@@ -28,7 +28,9 @@ export class HistoryService {
   }
 
   sortDateRange(start, end) {
-    return this.http.get(`${this.baseUrl}Tasks/GetListTreeHistory/${start}/${end}`).pipe(
+    start = new Date(start).toISOString();
+    end = new Date(end).toISOString();
+    return this.http.get(`${this.baseUrl}Tasks/History/${start}/${end}`).pipe(
       map(response => {
         console.log('sortDateRange: ', response);
         return response;

@@ -10,6 +10,7 @@ import { CalendarComponent, DateRangePickerComponent } from '@syncfusion/ej2-ang
 import { HeaderService } from 'src/app/_core/_service/header.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
 import { CommentComponent } from '../modals/comment/comment.component';
+import { PeriodType } from 'src/app/_core/enum/task.enum';
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
@@ -46,7 +47,7 @@ export class HistoryComponent implements OnInit {
     projectID: number;
     public pageSetting: object;
     public searchSettings: object;
-    @ViewChild('treegridtask')
+    @ViewChild('treegrid')
     public treeGridObj: TreeGridComponent;
     ngOnInit(): void {
       this.optionGridTree();
@@ -63,13 +64,19 @@ export class HistoryComponent implements OnInit {
       });
     }
     recordDoubleClick(agrs) {
-      alert(JSON.stringify(agrs));
       this.openCommentModal(agrs);
+    }
+    getEnumKeyByEnumValue(myEnum, enumValue) {
+      let keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
+      return keys.length > 0 ? keys[0] : null;
+    }
+    periodText(enumVal) {
+     return this.getEnumKeyByEnumValue(PeriodType, Number(enumVal));
     }
     openCommentModal(args) {
       const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
-      modalRef.componentInstance.title = args.rowData.JobName;
-      modalRef.componentInstance.taskID = args.rowData.ID;
+      modalRef.componentInstance.title = args.rowData.Entity.JobName;
+      modalRef.componentInstance.taskID = args.rowData.Entity.ID;
       modalRef.result.then((result) => {
         console.log('openCommentModal From Todolist', result );
       }, (reason) => {
@@ -85,17 +92,27 @@ export class HistoryComponent implements OnInit {
     setCurrentDate() {
       this.currentDate = new Date();
       this.subtractDate = new Date();
-      this.subtractDate.setDate(this.subtractDate.getDate() - 5);
+      this.subtractDate.setDate(this.subtractDate.getDate() - 7);
       this.daterange = [this.subtractDate, this.currentDate];
     }
+
     optionGridTree() {
+      this.searchSettings = {
+        hierarchyMode: 'Parent',
+        fields: ['JobName'],
+        operator: 'contains',
+        key: '',
+        ignoreCase: true
+      };
       this.filterSettings = { type: 'CheckBox' };
       this.toolbarOptions = [
         'Search',
         'ExpandAll',
         'CollapseAll',
         'ExcelExport',
-        'Print'
+        'Print',
+        { text: 'All columns', tooltipText: 'Show all columns', prefixIcon: 'e-add', id: 'AllColumns' },
+        { text: 'Default columns', tooltipText: 'Show default columns', prefixIcon: 'e-add', id: 'DefaultColumns' }
       ];
       this.pageSetting = { pageCount: 2, pageSizes: true } ;
       this.contextMenuItems = [
@@ -116,11 +133,18 @@ export class HistoryComponent implements OnInit {
         case 'Excel Export':
           this.treeGridObj.excelExport({hierarchyExportMode: 'All'});
           break;
+          case 'All columns':
+          this.showAllColumnsTreegrid();
+          break;
+          case 'Default columns':
+            this.defaultColumnsTreegrid();
+            break;
       }
     }
     sortDateRange() {
       let start = this.calendarsService.toFormatDate(this.daterange[0]);
       let end = this.calendarsService.toFormatDate(this.daterange[1]);
+
       this.historyService.sortDateRange(start, end).subscribe((res) => {
         console.log('sortDateRange: ', res);
         this.data = res;
@@ -160,6 +184,23 @@ export class HistoryComponent implements OnInit {
       console.log('onFocus: ', args);
       this.ejDateRangePicker.show();
     }
+    showAllColumnsTreegrid() {
+      const hide = ['Undo', 'Priority', 'From', 'Task Name',
+      'Project Name', 'Created Date Time', 'Finished DateTime',
+      'PIC', 'Status', 'Deputy', 'Watch Video', 'Period Type'];
+      for (const item of hide) {
+        this.treeGridObj.showColumns([item, 'Ship Name']);
+      }
+    }
+    defaultColumnsTreegrid() {
+      const hide = ['Undo', 'Priority', 'From', 'Watch Video', 'Period Type'];
+      for (const item of hide) {
+        this.treeGridObj.hideColumns([item, 'Ship Name']);
+      }
+    }
+    dataBound($event) {
+      this.defaultColumnsTreegrid();
+    }
     onChangeDateRangepPicker(event) {
       console.log('onChangeDateRangepPicker: ', event);
       if (event.value == null) {
@@ -191,7 +232,7 @@ export class HistoryComponent implements OnInit {
     }
     contextMenuOpen(arg?: any): void {
       console.log('contextMenuOpen: ', arg);
-      let data = arg.rowInfo.rowData;
+      let data = arg.rowInfo.rowData.Entity;
       if (data.VideoStatus) {
         document
         .querySelectorAll('li#WatchVideo')[0]
@@ -204,7 +245,7 @@ export class HistoryComponent implements OnInit {
     }
     contextMenuClick(args?: any): void {
       console.log('contextMenuClick', args);
-      const data = args.rowInfo.rowData;
+      const data = args.rowInfo.rowData.Entity;
       console.log('contextMenuClickdata', data);
 
       this.taskId = data.ID;

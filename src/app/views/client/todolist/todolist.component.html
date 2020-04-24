@@ -79,7 +79,13 @@
                   </e-column>
                   <e-column field="Entity.From" headerText="From" width="120"></e-column>
                   <e-column field="Entity.PIC" headerText="PIC" width="180" textAlign="Center"></e-column>
-                 
+                  <e-column field="Entity.DeputyName" headerText="Deputy" width="180" textAlign="Center"></e-column>
+                  <e-column field="Entity.state" headerText="Status" width="120" textAlign="Center">
+                    <ng-template #template let-data>
+                      <span id="priority" [class]="data.Entity.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
+                        style="padding:4px;color:white">{{data.Entity.state}}</span>
+                    </ng-template>
+                  </e-column>
                   <e-column field="Entity.DueDate" clipMode='EllipsisWithTooltip' headerText="Due Date" width="200" textAlign="Center">
                     <ng-template #template let-data>
                       <ejs-tooltip id='tooltip' content='{{periodText(data.Entity.periodType)}}'>

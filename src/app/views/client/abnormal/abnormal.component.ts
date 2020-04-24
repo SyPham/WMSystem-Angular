@@ -18,7 +18,7 @@ import { BeforeOpenCloseEventArgs } from '@syncfusion/ej2-angular-inputs';
 import { AddTaskModalComponent } from '../routine/add-task-modal/add-task-modal.component';
 import { TutorialModalComponent } from '../routine/tutorial-modal/tutorial-modal.component';
 import { WatchTutorialVideoComponent } from '../routine/watch-tutorial-video/watch-tutorial-video.component';
-import { JobType } from 'src/app/_core/enum/task.enum';
+import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
 import { JobTypeService } from 'src/app/_core/_service/jobType.service';
 import { SignalrService } from 'src/app/_core/_service/signalr.service';
 import { CommentComponent } from '../modals/comment/comment.component';
@@ -50,6 +50,7 @@ export class AbnormalComponent implements OnInit {
   public contextMenuItems: object;
   public filterSettings: FilterSettingsModel;
   private tutorialName: string;
+  searchSettings: object;
   constructor(
     config: NgbModalConfig,
     private modalService: NgbModal,
@@ -72,6 +73,13 @@ export class AbnormalComponent implements OnInit {
       'ExpandAll',
       'CollapseAll'
     ];
+    this.searchSettings = {
+      hierarchyMode: 'Parent',
+      fields: ['JobName'],
+      operator: 'contains',
+      key: '',
+      ignoreCase: true
+    };
     this.checkRole();
   }
   resolver() {
@@ -86,6 +94,13 @@ export class AbnormalComponent implements OnInit {
       });
     });
   }
+  getEnumKeyByEnumValue(myEnum, enumValue) {
+    let keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
+    return keys.length > 0 ? keys[0] : null;
+  }
+  periodText(enumVal) {
+    return this.getEnumKeyByEnumValue(PeriodType, Number(enumVal));
+   }
   getOCs() {
     this.abnormalService.getOCs().subscribe(res => this.ocs = res);
   }
@@ -118,13 +133,13 @@ export class AbnormalComponent implements OnInit {
   }
   done() {
     if (this.taskId > 0) {
-      this.projectDetailService.done(this.taskId).subscribe(res => {
+      this.projectDetailService.done(this.taskId).subscribe( (res: any) => {
         console.log('DOne: ', res);
-        if (res) {
-          this.alertify.success('You have already finished this one!');
+        if (res.status) {
+          this.alertify.success(res.message);
           this.getTasks();
         } else {
-          this.alertify.error('Please finish all sub-tasks!');
+          this.alertify.error(res.message, true);
         }
       });
     }
@@ -174,7 +189,13 @@ export class AbnormalComponent implements OnInit {
           iconCss: ' fa fa-bell',
           target: '.e-content',
           id: 'Follow'
-        }
+        },
+        {
+          text: 'Follow',
+          iconCss: ' fa fa-bell',
+          target: '.e-content',
+          id: 'Follow'
+        },
       ];
     } else {
       this.toolbarOptionsTasks = [
@@ -183,7 +204,9 @@ export class AbnormalComponent implements OnInit {
         'ExpandAll',
         'CollapseAll',
         'ExcelExport',
-        'Print'
+        'Print',
+        { text: 'All columns', tooltipText: 'Show all columns', prefixIcon: 'e-add', id: 'AllColumns' },
+        { text: 'Default columns', tooltipText: 'Show default columns', prefixIcon: 'e-add', id: 'DefaultColumns' },
       ];
       this.contextMenuItems = [
         {
@@ -248,11 +271,34 @@ export class AbnormalComponent implements OnInit {
       case 'Add New':
         this.openAddMainTaskModal();
         break;
+        case 'All columns':
+          this.showAllColumnsTreegrid();
+          break;
+        case 'Default columns':
+          this.defaultColumnsTreegrid();
+          break;
     }
+  }
+  showAllColumnsTreegrid() {
+    const hide = ['Follow', 'Priority', 'From', 'Task Name',
+     'Created Date', 'Finished DateTime',
+      'PIC', 'Status', 'Deputy', 'Watch Video', 'Period Type'];
+    for (const item of hide) {
+      this.treeGridObj.showColumns([item, 'Ship Name']);
+    }
+  }
+  defaultColumnsTreegrid() {
+    const hide = ['Follow', 'Priority', 'From', 'Status', 'Watch Video', 'Deputy', 'Period Type'];
+    for (const item of hide) {
+      this.treeGridObj.hideColumns([item, 'Ship Name']);
+    }
+  }
+  dataBound($event) {
+    this.defaultColumnsTreegrid();
   }
   contextMenuOpen(arg?: any): void {
     console.log('contextMenuOpen: ', arg);
-    let data = arg.rowInfo.rowData;
+    let data = arg.rowInfo.rowData.Entity;
     let users = [...data.Deputies, ...data.PICs].concat(data.FromWho.ID);
     if (data.VideoStatus) {
           document
@@ -288,7 +334,7 @@ export class AbnormalComponent implements OnInit {
 }
   contextMenuClick(args?: any): void {
     console.log('contextMenuClick', args);
-    const data = args.rowInfo.rowData;
+    const data = args.rowInfo.rowData.Entity;
     console.log('contextMenuClickdata', data);
 
     this.taskId = data.ID;
@@ -355,7 +401,7 @@ export class AbnormalComponent implements OnInit {
     const modalRef = this.modalService.open(TutorialModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Add Tutorial Abnormal Task';
     modalRef.componentInstance.taskId = this.taskId;
-    modalRef.componentInstance.jobname =  args.rowInfo.rowData.JobName;
+    modalRef.componentInstance.jobname =  args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
       console.log('openTutorialModal', result );
     }, (reason) => {
@@ -366,8 +412,8 @@ export class AbnormalComponent implements OnInit {
     const modalRef = this.modalService.open(TutorialModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Edit Tutorial Abnormal Task';
     modalRef.componentInstance.taskId = this.taskId;
-    modalRef.componentInstance.tutorialID = args.rowInfo.rowData.ID;
-    modalRef.componentInstance.jobname =  args.rowInfo.rowData.JobName;
+    modalRef.componentInstance.tutorialID = args.rowInfo.rowData.Entity.ID;
+    modalRef.componentInstance.jobname =  args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
       console.log('openEditTutorialModal', result );
     }, (reason) => {
@@ -420,7 +466,7 @@ export class AbnormalComponent implements OnInit {
     if ((args || null) === null) {
       return null;
     }
-    const data = args.rowInfo.rowData;
+    const data = args.rowInfo.rowData.Entity;
     return new Task()
     .createNewTask(
       data.ID,

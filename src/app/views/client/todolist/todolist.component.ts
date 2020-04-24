@@ -237,13 +237,13 @@ export class TodolistComponent implements OnInit {
     }
     done() {
       if (this.taskId > 0) {
-        this.projectDetailService.done(this.taskId).subscribe(res => {
-          console.log('Done: ', res);
-          if (res) {
-            this.alertify.success('You have already finished this one!')
+        this.projectDetailService.done(this.taskId).subscribe( (res: any) => {
+          console.log('DOne: ', res);
+          if (res.status) {
+            this.alertify.success(res.message);
             this.getListTree();
           } else {
-            this.alertify.error('Please finish all sub-tasks!');
+            this.alertify.error(res.message, true);
           }
         });
       }
