@@ -22,7 +22,8 @@ const routes: Routes = [
   {
     path: '', canActivate: [AuthGuard],
     data: {
-      title: 'Client'
+      title: 'Client',
+      preload: true
     },
     children: [
       {

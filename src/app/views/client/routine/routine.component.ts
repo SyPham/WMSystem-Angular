@@ -82,14 +82,14 @@ export class RoutineComponent implements OnInit {
     };
   }
   resolver() {
-    $('#overlay').fadeIn();
+    // $('#overlay').fadeIn();
     this.route.data.subscribe(data => {
       this.ocs = data.ocs;
-      $('#overlay').fadeOut();
+      // $('#overlay').fadeOut();
       this.addTaskService.currentMessage.subscribe(res => {
         if (res === JobType.Routine) {
           this.getTasks();
-       }
+        }
       });
       this.onRouteChange();
     });
@@ -110,11 +110,15 @@ export class RoutineComponent implements OnInit {
     this.routineService.getOCs().subscribe(res => this.ocs = res);
   }
   getTasks() {
-    $('#overlay').fadeIn();
-    this.routineService.getTasks(this.ocId).subscribe(res => {
-        $('#overlay').fadeOut();
+    if (this.ocId) {
+      // $('#overlay').fadeIn();
+      this.routineService.getTasks(this.ocId).subscribe(res => {
+        // $('#overlay').fadeOut();
         this.tasks = res;
-    });
+      });
+    } else {
+      this.alertify.message('Please select on OC!!!', true);
+    }
   }
   delete() {
     if (this.taskId > 0) {
@@ -205,8 +209,8 @@ export class RoutineComponent implements OnInit {
         'CollapseAll',
         'ExcelExport',
         'Print',
-        { text: 'All columns', tooltipText: 'Show all columns', prefixIcon: 'e-add', id: 'AllColumns' },
-        { text: 'Default columns', tooltipText: 'Show default columns', prefixIcon: 'e-add', id: 'DefaultColumns' },
+        // { text: 'All columns', tooltipText: 'Show all columns', prefixIcon: 'e-add', id: 'AllColumns' },
+        // { text: 'Default columns', tooltipText: 'Show default columns', prefixIcon: 'e-add', id: 'DefaultColumns' },
       ];
       this.contextMenuItems = [
         {
@@ -256,6 +260,12 @@ export class RoutineComponent implements OnInit {
           iconCss: ' fa fa-bell',
           target: '.e-content',
           id: 'Follow'
+        },
+        {
+          text: 'Unfollow',
+          iconCss: ' fa fa-bell-slash',
+          target: '.e-content',
+          id: 'Unfollow'
         }
       ];
     }
@@ -279,22 +289,22 @@ export class RoutineComponent implements OnInit {
         break;
     }
   }
-   getEnumKeyByEnumValue(myEnum, enumValue) {
+  getEnumKeyByEnumValue(myEnum, enumValue) {
     let keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
     return keys.length > 0 ? keys[0] : null;
   }
   periodText(enumVal) {
-   return this.getEnumKeyByEnumValue(PeriodType, Number(enumVal));
+    return this.getEnumKeyByEnumValue(PeriodType, Number(enumVal));
   }
-  showAllColumnsTreegrid() {
-    const hide = ['Follow', 'Priority', 'From', 'Task Name',
-     'Created Date', 'Finished DateTime',
+  defaultColumnsTreegrid() {
+    const show = ['Follow', 'Priority', 'From', 'Task Name',
+      'Created Date', 'Finished DateTime',
       'PIC', 'Status', 'Deputy', 'Watch Video', 'Period Type'];
-    for (const item of hide) {
+    for (const item of show) {
       this.treeGridObj.showColumns([item, 'Ship Name']);
     }
   }
-  defaultColumnsTreegrid() {
+  showAllColumnsTreegrid() {
     const hide = ['Follow', 'Priority', 'From', 'Status', 'Watch Video', 'Deputy', 'Period Type'];
     for (const item of hide) {
       this.treeGridObj.hideColumns([item, 'Ship Name']);
@@ -321,6 +331,21 @@ export class RoutineComponent implements OnInit {
         .setAttribute('style', 'display: none;');
       document
         .querySelectorAll('li#EditTutorial')[0]
+        .setAttribute('style', 'display: none;');
+    }
+    if (data.Follow === 'Yes') {
+      document
+        .querySelectorAll('li#Unfollow')[0]
+        .setAttribute('style', 'display: block;');
+      document
+        .querySelectorAll('li#Follow')[0]
+        .setAttribute('style', 'display: none;');
+    } else {
+      document
+        .querySelectorAll('li#Follow')[0]
+        .setAttribute('style', 'display: block;');
+      document
+        .querySelectorAll('li#Unfollow')[0]
         .setAttribute('style', 'display: none;');
     }
     if (this.ocLevel >= 3 && !this.isLeader) {

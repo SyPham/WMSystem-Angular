@@ -49,6 +49,7 @@ import { MentionModule } from 'angular-mentions';
 import { ContentEditableFormDirective } from 'src/app/content-editable-form.directive';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { TooltipModule } from '@syncfusion/ej2-angular-popups';
+import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 
 @NgModule({
   imports: [
@@ -77,7 +78,8 @@ import { TooltipModule } from '@syncfusion/ej2-angular-popups';
     NgbModule,
     NgbPaginationModule,
     MentionModule,
-    TooltipModule
+    TooltipModule,
+    RichTextEditorModule
     ],
   declarations: [
     TodolistComponent,

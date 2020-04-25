@@ -25,16 +25,15 @@ export class ListTaskProjectService {
     this.messageSource.next(message);
   }
   getListTree(id) {
-    return this.http.get(`${this.baseUrl}Projects/GetListTreeProjectDetail/${id}`);
+    return this.http.get(`${this.baseUrl}Tasks/ProjectDetail/${id}`);
   }
   sortHigh(id) {
-    
-    return this.http.get(`${this.baseUrl}Projects/GetListTreeProjectDetail/${id}/H/%20`);
+    return this.http.get(`${this.baseUrl}Tasks/ProjectDetail/${id}/H/%20`);
   }
   sortMedium(id) {
-    return this.http.get(`${this.baseUrl}Projects/GetListTreeProjectDetail/${id}/M/%20`);
+    return this.http.get(`${this.baseUrl}Tasks/ProjectDetail/${id}/M/%20`);
   }
   sortLow(id) {
-    return this.http.get(`${this.baseUrl}Projects/GetListTreeProjectDetail/${id}/L/%20`);
+    return this.http.get(`${this.baseUrl}Tasks/ProjectDetail/${id}/L/%20`);
   }
 }

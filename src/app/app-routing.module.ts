@@ -72,6 +72,7 @@ const routes: Routes = [
       // enableTracing: false, // <-- debugging purposes only
       preloadingStrategy: SelectivePreloadingStrategyService,
   })],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [SelectivePreloadingStrategyService]
 })
 export class AppRoutingModule {}

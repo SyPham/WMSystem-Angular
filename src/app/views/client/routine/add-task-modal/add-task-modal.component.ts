@@ -238,6 +238,13 @@ export class AddTaskModalComponent implements OnInit {
       } else {
         beAsigned = this.pic;
       }
+      let deputy: any;
+      this.deputies = this.deputies || 0;
+      if (this.deputies === 0) {
+        deputy = [];
+      } else {
+        deputy = this.deputies;
+      }
       const task = new Task().create(this.Id,
         this.jobname,
         beAsigned,
@@ -249,7 +256,7 @@ export class AddTaskModalComponent implements OnInit {
         this.periodtype,
         0,
         this.jobtype,
-        this.deputies,
+        deputy,
         this.ocid,
         this.mapDueDateWithPeriod(this.periodtype));
       console.log(task);

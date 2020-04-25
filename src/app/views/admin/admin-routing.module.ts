@@ -14,7 +14,8 @@ const routes: Routes = [
   {
     path: '', canActivate: [AuthGuard],
     data: {
-      title: 'Admin'
+      title: 'Admin',
+      preload: true
     },
     children: [
       {

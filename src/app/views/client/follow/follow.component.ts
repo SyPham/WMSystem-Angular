@@ -8,6 +8,8 @@ import { AlertifyService } from 'src/app/_core/_service/alertify.service';
 import { FollowService } from 'src/app/_core/_service/follow.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
 import { HeaderService } from 'src/app/_core/_service/header.service';
+import { PeriodType } from 'src/app/_core/enum/task.enum';
+import { CommentComponent } from '../modals/comment/comment.component';
 declare let $: any;
 @Component({
   selector: 'app-follow',
@@ -139,7 +141,7 @@ export class FollowComponent implements OnInit {
   }
   contextMenuOpen(arg?: any): void {
     console.log('contextMenuOpen: ', arg);
-    let data = arg.rowInfo.rowData;
+    let data = arg.rowInfo.rowData.Entity;
     if (data.VideoStatus) {
       document
         .querySelectorAll('li#WatchVideo')[0]
@@ -152,7 +154,7 @@ export class FollowComponent implements OnInit {
   }
   contextMenuClick(args?: any): void {
     console.log('contextMenuClick', args);
-    const data = args.rowInfo.rowData;
+    const data = args.rowInfo.rowData.Entity;
     console.log('contextMenuClickdata', data);
 
     this.taskId = data.ID;
@@ -161,5 +163,24 @@ export class FollowComponent implements OnInit {
         this.openWatchTutorialWatchModal();
         break;
     }
+  }
+  getEnumKeyByEnumValue(myEnum, enumValue) {
+    let keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
+    return keys.length > 0 ? keys[0] : null;
+  }
+  periodText(enumVal) {
+    return this.getEnumKeyByEnumValue(PeriodType, Number(enumVal));
+   }
+   recordDoubleClick(agrs) {
+    this.openCommentModal(agrs);
+  }
+  openCommentModal(args) {
+    const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
+    modalRef.componentInstance.title = args.rowData.Entity.JobName;
+    modalRef.componentInstance.taskID = args.rowData.Entity.ID;
+    modalRef.result.then((result) => {
+      console.log('openCommentModal From Todolist', result );
+    }, (reason) => {
+    });
   }
 }

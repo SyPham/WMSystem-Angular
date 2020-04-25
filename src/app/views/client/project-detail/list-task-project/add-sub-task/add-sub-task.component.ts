@@ -33,7 +33,7 @@ export class AddSubTaskComponent implements OnInit {
   allowEdit = false;
   Areas: any;
   public months = Months;
-  public format = 'MMM dd, yyyy';
+  public format = 'dd MMM, yyyy hh:mm:ss a';
   weekday: any;
   monthSelected: any;
   userSelected: number;
@@ -44,6 +44,7 @@ export class AddSubTaskComponent implements OnInit {
   public task: Task;
   daily = true;
   weekly = true;
+  monthly = true;
   yearly = true;
   duedate = true;
   jobname: string;
@@ -51,20 +52,21 @@ export class AddSubTaskComponent implements OnInit {
   where: number;
   pic: number;
   deadline: string;
-  duedatedaily: string;
+  duedatedaily: any;
   duedateweekly: string;
   duedatemonthly: string;
   duedatequarterly: string;
   duedateyearly: string;
   priority = 'M';
   jobtype: JobType;
-  selectedPeriodMain: string = 'DueDate';
-  periodtype: PeriodType;
+  selectedPeriodMain = 'DueDate';
+  periodtype: PeriodType = PeriodType.SpecificDate;
   Id: number;
   // end ngModel
   // getlist
   Users: any;
   Who: any;
+  public period: string[] ;
   // end getlist
 
   // event datetimepciker
@@ -103,82 +105,70 @@ export class AddSubTaskComponent implements OnInit {
     } else {
       this.changeStatus(true, true, true, false);
     }
-    let ls = JSON.parse(localStorage.getItem('user'));
-    this.who = ls['User']['ID'] as number;
+    const ls = JSON.parse(localStorage.getItem('user'));
+    this.who = ls.User.ID as number;
+    this.period = [
+      'Daily',
+      'Weekly',
+      'Monthly',
+      'DueDate'
+    ];
   }
   private loadEdit(edit: Task) {
     if (edit !== null) {
       this.Id = edit._ID;
       this.jobname = edit._JobName;
       this.who = edit._FromWhoID;
-      this.where = edit._DepartmentID;
-      this.duedateweekly = edit._DueDateWeekly;
-      this.duedatemonthly = edit._DueDateMonthly;
-      this.duedatequarterly = edit._DueDateQuarterly;
-      this.duedateyearly = edit._DueDateYearly;
       this.priority = edit._Priority;
       this.pic = edit._PIC;
-      this.duedatedaily = edit._DueDateDaily;
-      this.deadline = edit._SpecificDate;
-      switch (edit._periodtype) {
-        case 1:
-          this.selectedPeriodMain = 'Daily';
-          this.changeStatus(true, true, true, true);
-          break;
-        case 2:
-          this.selectedPeriodMain = 'Weekly';
-          this.weekday = edit._DueDateWeekly;
-          this.monthSelected =  new Date(edit._DateOfWeekly).getMonth() + 1;
-          this.duedateweekly = edit._DateOfWeekly;
-          this.changeStatus(true, false, true);
-          break;
-        case 3:
-          this.selectedPeriodMain = 'Monthly';
-          break;
-        case 4:
-          this.selectedPeriodMain = 'Quarterly';
-          break;
-        case 5:
-          this.selectedPeriodMain = 'Yearly';
-          this.changeStatus(true, true, false);
-          break;
-        case 6:
-          this.selectedPeriodMain = 'DueDate';
-          this.changeStatus(true, true, true, false);
-          console.log('Project Edit: .....................', this.deadline)
-
-          break;
-      }
+      this.mapPeriodWithDueDate(edit._periodtype, edit);
+    }
+  }
+  mapPeriodWithDueDate(periodType, item: Task) {
+    switch (periodType) {
+      case PeriodType.Daily:
+        this.periodtype = PeriodType.Daily;
+        this.selectedPeriodMain = 'Daily';
+        this.changeStatus(true, true, true, true);
+        this.duedatedaily = item._DueDate;
+        break;
+      case PeriodType.Weekly:
+        this.periodtype = PeriodType.Weekly;
+        this.selectedPeriodMain = 'Weekly';
+        this.duedateweekly = item._DueDate;
+        this.changeStatus(false, true, true);
+        break;
+        case PeriodType.Monthly:
+        this.periodtype = PeriodType.Monthly;
+        this.selectedPeriodMain = 'Monthly';
+        this.duedatemonthly = item._DueDate;
+        this.changeStatus(true, true, false, true);
+        break;
+      case PeriodType.SpecificDate:
+        this.periodtype = PeriodType.SpecificDate;
+        this.selectedPeriodMain = 'DueDate';
+        this.deadline = item._DueDate;
+        this.changeStatus(true, true, true, false);
+        break;
+      default:
+        break;
     }
   }
   onFocus(args: FocusEventArgs): void {
   }
-  changeStatus(daily = true, weekly = true, yearly = true, duedate = true) {
+  changeStatus(daily = true, weekly = true, monthly = true, duedate = true) {
     this.daily = daily;
     this.weekly = weekly;
-    this.yearly = yearly;
+    this.monthly = monthly;
     this.duedate = duedate;
   }
-  onChangeWeekday(args) {
-    this.weekday = args.value;
-    this.getWeekdaysOfMonth();
-  }
-  onChangeMonth(args) {
-    this.getWeekdaysOfMonth();
-  }
-  clearPeriod(daily = false, weekly = false, monthly, quarterly= false, yearly= false, deadline= false) {
+  clearPeriod(daily = false, weekly = false, monthly = false, deadline= false) {
    if (!weekly) {
     this.duedateweekly = '';
    }
    if (!monthly) {
       this.duedatemonthly = '';
     }
-   if (!quarterly) {
-      this.duedatequarterly = '';
-    }
-   if (!yearly) {
-    this.duedateyearly = '';
-   }
    if (!daily) {
     this.duedatedaily = '';
     }
@@ -193,12 +183,34 @@ export class AddSubTaskComponent implements OnInit {
     this.where = 0;
     this.duedateweekly = '';
     this.duedatemonthly = '';
-    this.duedatequarterly = '';
-    this.duedateyearly = '';
     this.priority = 'M';
     this.pic = 0;
     this.duedatedaily = '';
     this.deadline = '';
+  }
+  mapDueDateWithPeriod(periodType: PeriodType): string {
+    let result: string;
+    switch (periodType) {
+      case PeriodType.Daily:
+        this.periodtype = PeriodType.Daily;
+        result = this.duedatedaily;
+        break;
+      case PeriodType.Weekly:
+        this.periodtype = PeriodType.Weekly;
+        result = this.duedateweekly;
+        break;
+      case PeriodType.Monthly:
+        this.periodtype = PeriodType.Monthly;
+        result = this.duedatemonthly;
+        break;
+      case PeriodType.SpecificDate:
+        this.periodtype = PeriodType.SpecificDate;
+        result = this.deadline;
+        break;
+      default:
+        break;
+    }
+    return result;
   }
   createTask() {
     let beAsigned: any;
@@ -209,63 +221,35 @@ export class AddSubTaskComponent implements OnInit {
       beAsigned = this.pic;
     }
 
-    const task = new Task().createNewTask(0,
+    const task = new Task().create(this.Id,
       this.jobname,
       beAsigned,
       this.who,
-      this.where,
-      this.deadline,
-      this.duedatedaily,
-      this.duedateweekly,
-      this.duedatemonthly,
-      this.duedatequarterly,
-      this.calendarService.toFormatDate(this.duedateyearly, true),
+      0,
       false,
       this.priority,
       this.parentId,
       this.periodtype,
       this.projectID,
-      JobType.Project);
+      this.jobtype,
+      [],
+      0,
+      this.mapDueDateWithPeriod(this.periodtype));
     console.log(task);
     if (this.parentId > 0) {
       this.projectDetailService.createSubTask(task).subscribe(res => {
         console.log('createSubTask: ', res);
         this.clearForm();
-        this.addTaskService.changeMessage(101);
+        this.addTaskService.changeMessage(JobType.Project);
         this.activeModal.close('createSubTask');
       });
     } else {
       this.projectDetailService.createMainTask(task).subscribe(res => {
         console.log('createMainTask: ', res);
         this.clearForm();
-        this.addTaskService.changeMessage(101);
+        this.addTaskService.changeMessage(JobType.Project);
         this.activeModal.close('createMainTask');
       });
-    }
-  }
-  getWeekdaysOfMonth() {
-    let newVal = this.monthSelected;
-    let w  = this.weekday;
-    let indexof = this.weekdays.indexOf(w);
-    switch (indexof) {
-      case 0:
-        this.weekdaysOfMonth = this.calendarService.getMondaysInMonth(newVal);
-        break;
-      case 1:
-        this.weekdaysOfMonth = this.calendarService.getWednesdaysInMonth(newVal);
-        break;
-      case 2:
-        this.weekdaysOfMonth = this.calendarService.getTuesdaysInMonth(newVal);
-        break;
-      case 3:
-        this.weekdaysOfMonth = this.calendarService.getThursdaysInMonth(newVal);
-        break;
-      case 4:
-        this.weekdaysOfMonth = this.calendarService.getFridaysInMonth(newVal);
-        break;
-      case 5:
-        this.weekdaysOfMonth = this.calendarService.getSaturdaysInMonth(newVal);
-        break;
     }
   }
   change(arg?){
@@ -274,23 +258,23 @@ export class AddSubTaskComponent implements OnInit {
       case 'reset': this.changeStatus(); break;
       case 'Daily':
       this.changeStatus();
-      this.clearPeriod(true, false, false, false, false, false);
-      this.duedatedaily = new Date().toISOString();
+      this.clearPeriod(true, false, false, false);
+      this.duedatedaily = new Date();
       this.periodtype = PeriodType.Daily;
       break;
       case 'Weekly':
       this.changeStatus(true, false);
-      this.clearPeriod(false, true, false, false, false, false);
+      this.clearPeriod(false, true, false, false);
       this.periodtype = PeriodType.Weekly;
       break;
-      case 'Yearly':
-      this.changeStatus(true, true, false);
-      this.clearPeriod(false, false, false, false, true, false);
-      this.periodtype = PeriodType.Yearly;
-      break;
+      case 'Monthly':
+        this.changeStatus(true, true, false);
+        this.clearPeriod(false, false, true, false);
+        this.periodtype = PeriodType.Monthly;
+        break;
       case 'DueDate':
       this.changeStatus(true, true, true, false);
-      this.clearPeriod(false, false, false, false, false, true);
+      this.clearPeriod(false, false, false, true);
       this.periodtype = PeriodType.SpecificDate;
       break;
     }
@@ -301,10 +285,10 @@ export class AddSubTaskComponent implements OnInit {
   }
   getAreas() {
     this.projectDetailService.getAreas()
-      .subscribe((arg: object) => {
-        this.Areas = arg['ocs'];
-        this.Who = arg['users'];
-        console.log('getAreas:', arg)
+      .subscribe((arg: any) => {
+        this.Areas = arg.ocs;
+        this.Who = arg.users;
+        console.log('getAreas:', arg);
       });
   }
 }

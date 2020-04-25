@@ -51,9 +51,9 @@
         </div>
         <div [class]="duedate?'col-md-6 d-none':'col-md-6'">
           <div class="form-group">
-            <label for="JobType">Datetime</label>
+            <label for="JobType">1st Due Date</label>
             <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [(ngModel)]="deadline" placeholder='Please select date and time'></ejs-datetimepicker>
+            <ejs-datetimepicker [(ngModel)]="deadline" placeholder='Select duedate'></ejs-datetimepicker>
           </div>
         </div>
        
@@ -62,7 +62,7 @@
           <div class="form-group">
             <label for="JobType">Daily</label>
             <small class="text-danger">(*) Require</small>
-            <ejs-datepicker [format]="format" [(ngModel)]="duedatedaily"  placeholder='Enter date or select date'></ejs-datepicker>
+            <ejs-datepicker [format]="format" [(ngModel)]="duedatedaily"  placeholder='Select duedate'></ejs-datepicker>
           </div>
         </div>
         <!-- ----Daily -->
@@ -70,14 +70,14 @@
         <div [class]="weekly?'col-md-6 d-none':'col-md-6'">
           <div class="form-group">
             <label for="JobType">1st Due Date</label>  <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [format]="format" [(ngModel)]="duedateweekly"></ejs-datetimepicker>
+            <ejs-datetimepicker [format]="format" placeholder='Select duedate' [(ngModel)]="duedateweekly"></ejs-datetimepicker>
           </div>
         </div>
         <!-- Monthly -->
         <div [class]="monthly?'col-md-6 d-none':'col-md-6'">
           <div class="form-group">
             <label for="JobType">1st Due Date</label>  <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [format]="format"  [(ngModel)]="duedatemonthly"></ejs-datetimepicker>
+            <ejs-datetimepicker [format]="format" placeholder='Select duedate' [(ngModel)]="duedatemonthly"></ejs-datetimepicker>
           </div>
         </div>
         <!-- End monthly -->

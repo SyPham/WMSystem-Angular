@@ -25,22 +25,22 @@ export class TodolistService {
     );
   }
   sortProject() {
-    return this.http.get(`${this.baseUrl}Tasks/GetListTreeTask/project`);
+    return this.http.get(`${this.baseUrl}Tasks/Todolist/project`);
   }
   sortRoutine() {
-    return this.http.get(`${this.baseUrl}Tasks/GetListTreeTask/routine`);
+    return this.http.get(`${this.baseUrl}Tasks/Todolist/routine`);
   }
   sortAbnormal() {
-    return this.http.get(`${this.baseUrl}Tasks/GetListTreeTask/abnormal`);
+    return this.http.get(`${this.baseUrl}Tasks/Todolist/abnormal`);
   }
   sortHigh() {
-    return this.http.get(`${this.baseUrl}Tasks/GetListTreeTask/H/%20`);
+    return this.http.get(`${this.baseUrl}Tasks/Todolist/H/%20`);
   }
   sortMedium() {
-    return this.http.get(`${this.baseUrl}Tasks/GetListTreeTask/M/%20`);
+    return this.http.get(`${this.baseUrl}Tasks/Todolist/M/%20`);
   }
   sortLow() {
-    return this.http.get(`${this.baseUrl}Tasks/GetListTreeTask/L/%20`);
+    return this.http.get(`${this.baseUrl}Tasks/Todolist/L/%20`);
   }
   sortByAssignedJob() {
     return this.http.get(`${this.baseUrl}Tasks/SortBy/assigned/Assigned`);

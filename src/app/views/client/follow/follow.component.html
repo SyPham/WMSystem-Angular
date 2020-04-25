@@ -35,45 +35,65 @@
     <div class="row">
       <div class="col-md-12">
         <div class="control-section">
-          <ejs-treegrid #treegrid [dataSource]='data' childMapping='children' [treeColumnIndex]='2'
+          <ejs-treegrid #treegrid [dataSource]='data' childMapping='ChildNodes' [treeColumnIndex]='1'
             [pageSettings]='pageSetting' [filterSettings]='filterSettings' [contextMenuItems]='contextMenuItems'
             [toolbar]='toolbarOptions' allowPaging='true' [allowExcelExport]='true' [allowPdfExport]='true' gridLines='Both'
             [allowResizing]='true' showColumnMenu='true' allowSorting='true' allowFiltering='true'
             [editSettings]='editSettings' (toolbarClick)='toolbarClick($event)' (created)='create()'
+            (recordDoubleClick)="recordDoubleClick($event)"
             (contextMenuClick)="contextMenuClick($event)">
             <e-columns>
               <e-column field="Unfollow" [disableHtmlEncode]="false" headerText="Unfollow" width="150" textAlign="Center">
                 <ng-template #template let-data>
-                  <button class="btn btn-xs btn-success" (click)="unfollow(data.ID)" > <i class="fa fa-bell-slash"></i> Unfollow</button>
+                  <button class="btn btn-xs btn-success" (click)="unfollow(data.Entity.ID)" > <i class="fa fa-bell-slash"></i> Unfollow</button>
                 </ng-template>
               </e-column>
-              <e-column field="Priority" headerText="Priority" width="110" textAlign="Center">
+              <!-- <e-column field="Entity.Priority" headerText="Priority" width="110" textAlign="Center">
                 <ng-template #template let-data>
                   <span id="priority"
-                    [class]="data.Priority == 'High' ? 'badge bg-danger' : data.Priority =='Medium' ? 'badge bg-warning' : 'badge bg-info'"
-                    style="padding:4px;color:white">{{data.Priority}}</span>
+                    [class]="data.Entity.Priority == 'High' ? 'badge bg-danger' : data.Entity.Priority =='Medium' ? 'badge bg-warning' : 'badge bg-info'"
+                    style="padding:4px;color:white">{{data.Entity.Priority}}</span>
+                </ng-template>
+              </e-column> -->
+              <e-column field="Entity.ProjectName" headerText="Project Name" clipMode='EllipsisWithTooltip' textAlign="Center"
+                width="240">
+              </e-column>
+              <e-column field="Entity.JobName" headerText="Task Name" clipMode='EllipsisWithTooltip' textAlign="Left"
+                width="240">
+                <ng-template #template let-data>
+                  <span id="priority"
+                    [class]="data.Entity.Priority == 'High' ? 'badge bg-danger' : data.Entity.Priority =='Medium' ? 'badge bg-warning text-white' : 'badge bg-info'"
+                    style="padding:4px;color:white; font-size: 10px!important;"> {{data.Entity.Priority}}</span> {{data.Entity.JobName}}
                 </ng-template>
               </e-column>
-              <e-column field="JobName" headerText="Task Name" clipMode='EllipsisWithTooltip' textAlign="Center" width="240">
-              </e-column>
-              <e-column field="From" headerText="From" width="120"></e-column>
-              <e-column field="PIC" headerText="PIC" width="180" format="yMd" textAlign="Center"></e-column>
-              <e-column field="state" headerText="Status" width="120" textAlign="Center">
+              <e-column field="Entity.From" headerText="From" width="120"></e-column>
+              <e-column field="Entity.PIC" headerText="PIC" width="180" textAlign="Center"></e-column>
+              <e-column field="Entity.DeputyName" headerText="Deputy" width="180" textAlign="Center"></e-column>
+              <e-column field="Entity.state" headerText="Status" width="120" textAlign="Center">
                 <ng-template #template let-data>
-                  <span id="priority" [class]="data.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
-                    style="padding:4px;color:white">{{data.state}}</span>
+                  <span id="priority" [class]="data.Entity.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
+                    style="padding:4px;color:white">{{data.Entity.state}}</span>
                 </ng-template>
               </e-column>
-              <e-column field="SpecificDate" headerText="Due Date" width="200" textAlign="Center"></e-column>
-              <e-column field="CreatedDateForEachTask" headerText="Created Date" width="200" textAlign="Center"></e-column>
-              <e-column field="DueDateDaily" headerText="Daily" width="160" textAlign="Center"></e-column>
-              <e-column field="DueDateWeekly" headerText="Weekly" width="160" textAlign="Center"></e-column>
-              <e-column field="DueDateMonthly" headerText="Monthly" width="160" textAlign="Center"></e-column>
-              <e-column field="DueDateQuarterly" headerText="Quarterly" width="160" textAlign="Center"></e-column>
-              <e-column field="DueDateYearly" headerText="Yearly" width="160" textAlign="Center"></e-column>
-              <e-column field="WatchVideo" [disableHtmlEncode]="false" headerText="Watch Video" width="200" textAlign="Center">
+              <e-column field="Entity.DueDate" clipMode='EllipsisWithTooltip' headerText="Due Date" width="200" textAlign="Center">
                 <ng-template #template let-data>
-                  <button [class]="data.VideoStatus? 'btn btn-sm btn-success' : 'd-none'" (click)="openWatchTutorialWatchModalByButton(data)">Watch</button>
+                  <ejs-tooltip id='tooltip' content='{{periodText(data.Entity.periodType)}}'>
+                    {{data.Entity.DueDate}}
+                 </ejs-tooltip>
+                </ng-template>
+              </e-column>
+              <e-column field="Entity.periodType" headerText="Period Type" width="200" textAlign="Center">
+                <ng-template #template let-data>
+                  {{periodText(data.Entity.periodType)}}
+                </ng-template>
+              </e-column>
+              <e-column field="Entity.ModifyDateTime" headerText="Finished DateTime" width="200" textAlign="Center"></e-column>
+              <e-column field="Entity.CreatedDate" headerText="Created Date Time" width="200" textAlign="Center"></e-column>
+              <e-column field="Entity.WatchVideo" [disableHtmlEncode]="false" headerText="Watch Video" width="200"
+                textAlign="Center">
+                <ng-template #template let-data>
+                  <button [class]="data.Entity.VideoStatus? 'btn btn-sm btn-success' : 'd-none'"
+                    (click)="openWatchTutorialWatchModalByButton(data)">Watch</button>
                 </ng-template>
               </e-column>
             </e-columns>

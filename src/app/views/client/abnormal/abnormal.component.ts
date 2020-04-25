@@ -27,7 +27,7 @@ declare let $: any;
   selector: 'app-abnormal',
   templateUrl: './abnormal.component.html',
   styleUrls: ['./abnormal.component.css'],
-  providers: [ PageService , NgbModal]
+  providers: [PageService, NgbModal]
 })
 export class AbnormalComponent implements OnInit {
 
@@ -67,7 +67,7 @@ export class AbnormalComponent implements OnInit {
     this.signalr.startConnection();
     this.resolver();
     this.filterSettings = { type: 'CheckBox' };
-    this.pageSetting = { pageCount: 2, pageSizes: true } ;
+    this.pageSetting = { pageCount: 2, pageSizes: true };
     this.toolbarOptions = [
       'Search',
       'ExpandAll',
@@ -83,13 +83,11 @@ export class AbnormalComponent implements OnInit {
     this.checkRole();
   }
   resolver() {
-    $('#overlay').fadeIn();
     this.route.data.subscribe(data => {
-      $('#overlay').fadeOut();
       this.ocs = data.ocs;
       this.addTaskService.currentMessage.subscribe(res => {
         if (res === JobType.Abnormal) {
-           this.getTasks();
+          this.getTasks();
         }
       });
     });
@@ -100,17 +98,18 @@ export class AbnormalComponent implements OnInit {
   }
   periodText(enumVal) {
     return this.getEnumKeyByEnumValue(PeriodType, Number(enumVal));
-   }
+  }
   getOCs() {
     this.abnormalService.getOCs().subscribe(res => this.ocs = res);
   }
   getTasks() {
-    $('#overlay').fadeIn();
-    this.abnormalService.getTasks(this.ocId).subscribe(res => {
-      this.tasks = res;
-      $('#overlay').fadeOut();
-
-    });
+    if (this.ocId) {
+      this.abnormalService.getTasks(this.ocId).subscribe(res => {
+        this.tasks = res;
+      });
+    } else {
+      this.alertify.message('Please select on OC!!!', true);
+    }
   }
   delete() {
     if (this.taskId > 0) {
@@ -133,7 +132,7 @@ export class AbnormalComponent implements OnInit {
   }
   done() {
     if (this.taskId > 0) {
-      this.projectDetailService.done(this.taskId).subscribe( (res: any) => {
+      this.projectDetailService.done(this.taskId).subscribe((res: any) => {
         console.log('DOne: ', res);
         if (res.status) {
           this.alertify.success(res.message);
@@ -148,7 +147,7 @@ export class AbnormalComponent implements OnInit {
     this.abnormalService.follow(id).subscribe(res => {
       this.alertify.success('You have already followd this one!');
       this.getTasks();
-    } );
+    });
   }
   checkRole() {
     if (this.ocLevel >= 3 && !this.isLeader) {
@@ -196,6 +195,12 @@ export class AbnormalComponent implements OnInit {
           target: '.e-content',
           id: 'Follow'
         },
+        {
+          text: 'Unfollow',
+          iconCss: ' fa fa-bell-slash',
+          target: '.e-content',
+          id: 'Unfollow'
+        }
       ];
     } else {
       this.toolbarOptionsTasks = [
@@ -205,8 +210,8 @@ export class AbnormalComponent implements OnInit {
         'CollapseAll',
         'ExcelExport',
         'Print',
-        { text: 'All columns', tooltipText: 'Show all columns', prefixIcon: 'e-add', id: 'AllColumns' },
-        { text: 'Default columns', tooltipText: 'Show default columns', prefixIcon: 'e-add', id: 'DefaultColumns' },
+        // { text: 'All columns', tooltipText: 'Show all columns', prefixIcon: 'e-add', id: 'AllColumns' },
+        // { text: 'Default columns', tooltipText: 'Show default columns', prefixIcon: 'e-add', id: 'DefaultColumns' },
       ];
       this.contextMenuItems = [
         {
@@ -263,31 +268,31 @@ export class AbnormalComponent implements OnInit {
   toolbarClick(args: any): void {
     switch (args.item.text) {
       case 'PDF Export':
-        this.treeGridObj.pdfExport({hierarchyExportMode: 'All'});
+        this.treeGridObj.pdfExport({ hierarchyExportMode: 'All' });
         break;
       case 'Excel Export':
-        this.treeGridObj.excelExport({hierarchyExportMode: 'All'});
+        this.treeGridObj.excelExport({ hierarchyExportMode: 'All' });
         break;
       case 'Add New':
         this.openAddMainTaskModal();
         break;
-        case 'All columns':
-          this.showAllColumnsTreegrid();
-          break;
-        case 'Default columns':
-          this.defaultColumnsTreegrid();
-          break;
+      case 'All columns':
+        this.showAllColumnsTreegrid();
+        break;
+      case 'Default columns':
+        this.defaultColumnsTreegrid();
+        break;
     }
   }
-  showAllColumnsTreegrid() {
-    const hide = ['Follow', 'Priority', 'From', 'Task Name',
-     'Created Date', 'Finished DateTime',
+   defaultColumnsTreegrid() {
+    const show = ['Follow', 'Priority', 'From', 'Task Name',
+      'Created Date', 'Finished DateTime',
       'PIC', 'Status', 'Deputy', 'Watch Video', 'Period Type'];
-    for (const item of hide) {
+    for (const item of show) {
       this.treeGridObj.showColumns([item, 'Ship Name']);
     }
   }
-  defaultColumnsTreegrid() {
+  showAllColumnsTreegrid() {
     const hide = ['Follow', 'Priority', 'From', 'Status', 'Watch Video', 'Deputy', 'Period Type'];
     for (const item of hide) {
       this.treeGridObj.hideColumns([item, 'Ship Name']);
@@ -301,37 +306,52 @@ export class AbnormalComponent implements OnInit {
     let data = arg.rowInfo.rowData.Entity;
     let users = [...data.Deputies, ...data.PICs].concat(data.FromWho.ID);
     if (data.VideoStatus) {
-          document
-          .querySelectorAll('li#WatchVideo')[0]
-          .setAttribute('style', 'display: block;');
-          document
-          .querySelectorAll('li#EditTutorial')[0]
-          .setAttribute('style', 'display: block;');
-      } else {
-          document
-            .querySelectorAll('li#WatchVideo')[0]
-            .setAttribute('style', 'display: none;');
-          document
-            .querySelectorAll('li#EditTutorial')[0]
-            .setAttribute('style', 'display: none;');
-      }
+      document
+        .querySelectorAll('li#WatchVideo')[0]
+        .setAttribute('style', 'display: block;');
+      document
+        .querySelectorAll('li#EditTutorial')[0]
+        .setAttribute('style', 'display: block;');
+    } else {
+      document
+        .querySelectorAll('li#WatchVideo')[0]
+        .setAttribute('style', 'display: none;');
+      document
+        .querySelectorAll('li#EditTutorial')[0]
+        .setAttribute('style', 'display: none;');
+    }
+    if (data.Follow === 'Yes') {
+      document
+        .querySelectorAll('li#Unfollow')[0]
+        .setAttribute('style', 'display: block;');
+      document
+        .querySelectorAll('li#Follow')[0]
+        .setAttribute('style', 'display: none;');
+    } else {
+      document
+        .querySelectorAll('li#Follow')[0]
+        .setAttribute('style', 'display: block;');
+      document
+        .querySelectorAll('li#Unfollow')[0]
+        .setAttribute('style', 'display: none;');
+    }
     if (this.ocLevel >= 3 && !this.isLeader) {
       if (users.includes(this.currentUser)) {
         document
-        .querySelectorAll('li#Add-Sub-Task')[0]
-        .setAttribute('style', 'display: none;');
+          .querySelectorAll('li#Add-Sub-Task')[0]
+          .setAttribute('style', 'display: none;');
         document
-        .querySelectorAll('li#EditTask')[0]
-        .setAttribute('style', 'display: none;');
+          .querySelectorAll('li#EditTask')[0]
+          .setAttribute('style', 'display: none;');
         document
-        .querySelectorAll('li#DeleteTask')[0]
-        .setAttribute('style', 'display: none;');
+          .querySelectorAll('li#DeleteTask')[0]
+          .setAttribute('style', 'display: none;');
       } else {
         this.alertify.warning('You are not assign this task!', true);
       }
     } else {
-      }
-}
+    }
+  }
   contextMenuClick(args?: any): void {
     console.log('contextMenuClick', args);
     const data = args.rowInfo.rowData.Entity;
@@ -345,13 +365,13 @@ export class AbnormalComponent implements OnInit {
         this.parentId = data.ID;
         this.openAddSubTaskModal();
         break;
-       case 'Tutorial':
+      case 'Tutorial':
         this.openTutorialModal(args);
         break;
-        case 'EditTutorial':
-          this.openEditTutorialModal(args);
-          break;
-       case 'WatchVideo':
+      case 'EditTutorial':
+        this.openEditTutorialModal(args);
+        break;
+      case 'WatchVideo':
         this.openWatchTutorialWatchModal();
         break;
       case 'Done':
@@ -391,7 +411,7 @@ export class AbnormalComponent implements OnInit {
     modalRef.componentInstance.title = 'Edit Abnormal Task';
     modalRef.componentInstance.edit = this.editTask(args);
     modalRef.result.then((result) => {
-      console.log('openEditTaskModal', result );
+      console.log('openEditTaskModal', result);
     }, (reason) => {
       this.parentId = 0;
     });
@@ -401,9 +421,9 @@ export class AbnormalComponent implements OnInit {
     const modalRef = this.modalService.open(TutorialModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Add Tutorial Abnormal Task';
     modalRef.componentInstance.taskId = this.taskId;
-    modalRef.componentInstance.jobname =  args.rowInfo.rowData.Entity.JobName;
+    modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
-      console.log('openTutorialModal', result );
+      console.log('openTutorialModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Abnormal);
@@ -413,9 +433,9 @@ export class AbnormalComponent implements OnInit {
     modalRef.componentInstance.title = 'Edit Tutorial Abnormal Task';
     modalRef.componentInstance.taskId = this.taskId;
     modalRef.componentInstance.tutorialID = args.rowInfo.rowData.Entity.ID;
-    modalRef.componentInstance.jobname =  args.rowInfo.rowData.Entity.JobName;
+    modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
-      console.log('openEditTutorialModal', result );
+      console.log('openEditTutorialModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Abnormal);
@@ -425,7 +445,7 @@ export class AbnormalComponent implements OnInit {
     modalRef.componentInstance.src = this.srcTutorial;
     modalRef.componentInstance.name = this.tutorialName;
     modalRef.result.then((result) => {
-      console.log('openWatchTutorialWatchModal', result );
+      console.log('openWatchTutorialWatchModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Abnormal);
@@ -435,7 +455,7 @@ export class AbnormalComponent implements OnInit {
     modalRef.componentInstance.src = data.VideoLink;
     modalRef.componentInstance.name = data.JobName;
     modalRef.result.then((result) => {
-      console.log('openWatchTutorialWatchModal', result );
+      console.log('openWatchTutorialWatchModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Abnormal);
@@ -448,7 +468,7 @@ export class AbnormalComponent implements OnInit {
     modalRef.componentInstance.title = args.rowData.JobName;
     modalRef.componentInstance.taskID = args.rowData.ID;
     modalRef.result.then((result) => {
-      console.log('openCommentModal From Todolist', result );
+      console.log('openCommentModal From Todolist', result);
     }, (reason) => {
     });
   }
@@ -468,27 +488,27 @@ export class AbnormalComponent implements OnInit {
     }
     const data = args.rowInfo.rowData.Entity;
     return new Task()
-    .createNewTask(
-      data.ID,
-      data.JobName,
-      data.PICs,
-      data.FromWho.ID,
-      data.ProjectID,
-      data.SpecificDate,
-      data.DueDateDaily,
-      data.DueDateWeekly,
-      data.DueDateMonthly,
-      data.DueDateQuarterly,
-      data.DueDateYearly,
-      false,
-      data.PriorityID,
-      data.ParentID,
-      data.periodType,
-      data.ProjectID,
-      data.JobTypeID,
-      data.DateOfWeekly,
-      data.Deputies,
-      data.OCID
+      .createNewTask(
+        data.ID,
+        data.JobName,
+        data.PICs,
+        data.FromWho.ID,
+        data.ProjectID,
+        data.SpecificDate,
+        data.DueDateDaily,
+        data.DueDateWeekly,
+        data.DueDateMonthly,
+        data.DueDateQuarterly,
+        data.DueDateYearly,
+        false,
+        data.PriorityID,
+        data.ParentID,
+        data.periodType,
+        data.ProjectID,
+        data.JobTypeID,
+        data.DateOfWeekly,
+        data.Deputies,
+        data.OCID
       );
   }
 

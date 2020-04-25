@@ -233,7 +233,7 @@ export class Task {
     create(
         ID: number = 0,
         taskname: string = 'Task Demo',
-        PIC: any = 0,
+        PIC: any = [],
         who: number = 0,
         where: number = 0,
         Status: boolean = true,

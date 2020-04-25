@@ -16,6 +16,7 @@ import { AddTaskService } from 'src/app/_core/_service/addTask.service';
 import { ProjectDetailService } from 'src/app/_core/_service/projectDetail.service';
 import { Task } from 'src/app/_core/_model/Task';
 import { CommentComponent } from '../../modals/comment/comment.component';
+import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
 // tslint:disable-next-line:no-conflicting-lifecycle
 declare let $: any;
 @Component({
@@ -49,6 +50,9 @@ export class ListTaskProjectComponent implements OnInit {
   public pageSetting: object;
   @ViewChild('treegrid')
   public treeGridObj: TreeGridComponent;
+  public dueDateAccessor = (field: Date, data: { Entity: {DueDate: Date} }, column: object): Date => {
+    return new Date(data.Entity.DueDate);
+  }
   ngOnInit(): void {
     this.optionGridTree();
     this.onService();
@@ -56,7 +60,7 @@ export class ListTaskProjectComponent implements OnInit {
   }
   onService() {
     this.addTaskService.currentMessage.subscribe(res => {
-      if (res === 101) {
+      if (res === JobType.Project) {
         this.getListTree(this.Id);
       }
     });
@@ -221,27 +225,24 @@ export class ListTaskProjectComponent implements OnInit {
     if ((args || null) === null) {
       return null;
     }
-    const data = args.rowInfo.rowData;
+    const data = args.rowInfo.rowData.Entity;
     return new Task()
-      .createNewTask(
+      .create(
         data.ID,
         data.JobName,
         data.PICs,
         data.FromWho.ID,
         data.ProjectID,
-        data.SpecificDate,
-        data.DueDateDaily,
-        data.DueDateWeekly,
-        data.DueDateMonthly,
-        data.DueDateQuarterly,
-        data.DueDateYearly,
         false,
         data.PriorityID,
         data.ParentID,
         data.periodType,
         data.ProjectID,
         data.JobTypeID,
-        data.DateOfWeekly);
+        data.Deputies,
+        data.OCID,
+        data.DueDate
+      );
   }
   contextMenuOpen(arg?: BeforeOpenCloseEventArgs): void {
     // let elem: Element = arg.event.target as Element;
@@ -273,7 +274,7 @@ export class ListTaskProjectComponent implements OnInit {
   }
   contextMenuClick(args?: any): void {
     console.log('contextMenuClick', args);
-    const data = args.rowInfo.rowData;
+    const data = args.rowInfo.rowData.Entity;
     console.log('contextMenuClickdata', data);
 
     this.taskId = data.ID;
@@ -298,11 +299,18 @@ export class ListTaskProjectComponent implements OnInit {
   }
   openCommentModal(args) {
     const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
-    modalRef.componentInstance.title = args.rowData.JobName;
-    modalRef.componentInstance.taskID = args.rowData.ID;
+    modalRef.componentInstance.title = args.rowData.Entity.JobName;
+    modalRef.componentInstance.taskID = args.rowData.Entity.ID;
     modalRef.result.then((result) => {
       console.log('openCommentModal From Todolist', result);
     }, (reason) => {
     });
+  }
+  getEnumKeyByEnumValue(myEnum, enumValue) {
+    let keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
+    return keys.length > 0 ? keys[0] : null;
+  }
+  periodText(enumVal) {
+   return this.getEnumKeyByEnumValue(PeriodType, Number(enumVal));
   }
 }

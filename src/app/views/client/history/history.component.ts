@@ -45,10 +45,18 @@ export class HistoryComponent implements OnInit {
     search: string;
     public data: object;
     projectID: number;
+    public formatOption = { type: 'dateTime', format: 'dd MMM, yyyy hh:mm:ss a' };
     public pageSetting: object;
     public searchSettings: object;
+    public sortSettings: object;
     @ViewChild('treegrid')
     public treeGridObj: TreeGridComponent;
+    public modifyDateAccessor = (field: Date, data: { Entity: {ModifyDateTime: Date} }, column: object): Date => {
+      return new Date(data.Entity.ModifyDateTime) ;
+   }
+   public dueDateAccessor = (field: Date, data: { Entity: {DueDate: Date} }, column: object): Date => {
+    return new Date(data.Entity.DueDate);
+  }
     ngOnInit(): void {
       this.optionGridTree();
       this.setCurrentDate();
@@ -105,6 +113,7 @@ export class HistoryComponent implements OnInit {
         ignoreCase: true
       };
       this.filterSettings = { type: 'CheckBox' };
+      this.sortSettings = { columns: [{ field: 'Entity.ModifyDateTime', direction: 'Decending' }] };
       this.toolbarOptions = [
         'Search',
         'ExpandAll',
@@ -185,7 +194,7 @@ export class HistoryComponent implements OnInit {
       this.ejDateRangePicker.show();
     }
     showAllColumnsTreegrid() {
-      const hide = ['Undo', 'Priority', 'From', 'Task Name',
+      const hide = ['Undo', 'From', 'Task Name',
       'Project Name', 'Created Date Time', 'Finished DateTime',
       'PIC', 'Status', 'Deputy', 'Watch Video', 'Period Type'];
       for (const item of hide) {
@@ -193,7 +202,7 @@ export class HistoryComponent implements OnInit {
       }
     }
     defaultColumnsTreegrid() {
-      const hide = ['Undo', 'Priority', 'From', 'Watch Video', 'Period Type'];
+      const hide = ['Undo','From', 'Watch Video', 'Period Type'];
       for (const item of hide) {
         this.treeGridObj.hideColumns([item, 'Ship Name']);
       }

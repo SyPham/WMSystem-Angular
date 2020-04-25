@@ -1,16 +1,4 @@
 <div class="row">
-  <ngx-spinner type="la-ball-spin-clockwise" size="large">
-    <div style="color: #63c5ab" class="la-ball-spin-clockwise">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-  </ngx-spinner>
   <div class="col-md-3">
     <div class="card">
       <div class="card-header">
@@ -40,7 +28,7 @@
       </div>
       <!-- /.card-header -->
       <div [class]="showTasks?'card-body table-responsive p-0':'d-none'">
-        <ejs-treegrid #treegridTasks [dataSource]='tasks' childMapping='ChildNodes' [treeColumnIndex]='2'
+        <ejs-treegrid #treegridTasks [dataSource]='tasks' childMapping='ChildNodes' [treeColumnIndex]='1'
           [pageSettings]='pageSetting' [filterSettings]='filterSettings' [contextMenuItems]='contextMenuItems'
           [toolbar]='toolbarOptionsTasks' allowPaging='true' [allowExcelExport]='true' [allowPdfExport]='true'
           gridLines='Both' [allowResizing]='true' showColumnMenu='true' allowSorting='true' allowFiltering='true'
@@ -61,15 +49,21 @@
                 </div>
               </ng-template>
             </e-column>
-            <e-column field="Entity.Priority" headerText="Priority" width="110" textAlign="Center">
+            <!-- <e-column field="Entity.Priority" headerText="Priority" width="110" textAlign="Center">
               <ng-template #template let-data>
                 <span id="priority"
                   [class]="data.Entity.Priority == 'High' ? 'badge bg-danger' : data.Entity.Priority =='Medium' ? 'badge bg-warning' : 'badge bg-info'"
                   style="padding:4px;color:white">{{data.Entity.Priority}}</span>
               </ng-template>
+            </e-column> -->
+            <e-column field="Entity.JobName" headerText="Task Name" clipMode='EllipsisWithTooltip' textAlign="Left"
+              width="240">
+              <ng-template #template let-data>
+                <span id="priority"
+                  [class]="data.Entity.Priority == 'High' ? 'badge bg-danger' : data.Entity.Priority =='Medium' ? 'badge bg-warning text-white' : 'badge bg-info'"
+                  style="padding:4px;color:white; font-size: 10px!important;"> {{data.Entity.Priority}}</span> {{data.Entity.JobName}}
+              </ng-template>
             </e-column>
-            <e-column field="Entity.JobName" headerText="Task Name" clipMode='EllipsisWithTooltip' textAlign="Center"
-              width="240"></e-column>
             <e-column field="Entity.From" headerText="From" width="120"></e-column>
             <e-column field="Entity.PIC" headerText="PIC" width="180" textAlign="Center"></e-column>
             <e-column field="Entity.DeputyName" headerText="Deputy" width="180" textAlign="Center"></e-column>
