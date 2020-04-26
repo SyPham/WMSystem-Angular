@@ -229,6 +229,18 @@ export class TodolistComponent implements OnInit {
       this.data = res;
     });
   }
+  sortUncompleted() {
+    this.todolistSerivce.uncompleted().subscribe((res) => {
+      console.log('sortUncompleted: ', res);
+      this.data = res;
+    });
+  }
+  sortCompleted() {
+    this.todolistSerivce.completed().subscribe((res) => {
+      console.log('sortCompleted: ', res);
+      this.data = res;
+    });
+  }
   all() {
     this.getListTree();
     this.search = '';
@@ -274,6 +286,7 @@ export class TodolistComponent implements OnInit {
     const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
     modalRef.componentInstance.title = args.rowData.Entity.JobName;
     modalRef.componentInstance.taskID = args.rowData.Entity.ID;
+    modalRef.componentInstance.task = args.rowData.Entity;
     modalRef.result.then((result) => {
       console.log('openCommentModal From Todolist', result);
     }, (reason) => {

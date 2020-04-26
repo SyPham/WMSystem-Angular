@@ -31,7 +31,13 @@ export class Task {
     set _JobName(value: string) {
         this.JobName = value || '';
     }
-
+    private TaskCode: string;
+    get _TaskCode(): string {
+        return this.TaskCode;
+    }
+    set _TaskCode(value: string) {
+        this.TaskCode = value || '';
+    }
     private CreatedBy: number;
     get _CreatedBy(): number {
         return this.CreatedBy || 0;

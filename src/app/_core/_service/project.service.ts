@@ -38,11 +38,7 @@ export class ProjectService {
     return this.http
       .get<Project[]>(this.baseUrl + 'Projects/GetProjects', {
         observe: 'response',
-        params,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+        params
       })
       .pipe(
         map(response => {

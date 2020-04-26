@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-   apiUrl: 'http://10.4.4.224:106/api/',
-  // apiUrl: 'http://192.168.1.11:1000/api/',
-   hub: 'http://10.4.4.224:106/working-management-hub'
-  // hub: 'http://192.168.1.11:1000/working-management-hub'
+   // apiUrl: 'http://10.4.4.224:106/api/',
+  apiUrl: 'http://192.168.1.11:1000/api/',
+  // hub: 'http://10.4.4.224:106/working-management-hub'
+  hub: 'http://192.168.1.11:1000/working-management-hub'
 };
 
 /*

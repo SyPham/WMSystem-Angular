@@ -48,4 +48,10 @@ export class TodolistService {
   sortByBeAssignedJob() {
     return this.http.get(`${this.baseUrl}Tasks/SortBy/beAssigned/BeAssigned`);
   }
+  completed() {
+    return this.http.get(`${this.baseUrl}Tasks/SortBy/Done`);
+  }
+  uncompleted() {
+    return this.http.get(`${this.baseUrl}Tasks/SortBy/Undone`);
+  }
 }

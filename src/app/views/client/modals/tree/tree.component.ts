@@ -12,6 +12,7 @@ export class TreeComponent implements OnInit {
   totalShow = 3;
  @Input() treeData: object;
  @Input() taskID: number;
+ @Input() task: any;
  comment: IComment;
  userID = JSON.parse(localStorage.getItem('user')).User.ID;
   constructor(
@@ -21,8 +22,9 @@ export class TreeComponent implements OnInit {
   ngOnInit() {
     this.comment = {
       Content: '',
+      TaskCode: '',
       ParentID: 0,
-      TaskID: 0,
+      TaskID: this.taskID,
       UserID: this.userID
     };
   }

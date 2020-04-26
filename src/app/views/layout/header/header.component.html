@@ -26,12 +26,12 @@
       <!-- Left navbar links -->
       <ul class="navbar-nav" *ngIf="role === 2">
         <li class="nav-item" *ngFor="let item of navClient">
-          <a [routerLink]="item.path" routerLinkActive="bg-info rounded-pill" class="nav-link">{{item.title}}</a>
+          <a [routerLink]="[item.path]" routerLinkActive="bg-info rounded-pill" class="nav-link">{{item.title}}</a>
         </li>
       </ul>
       <ul class="navbar-nav" *ngIf="role === 1">
         <li class="nav-item" *ngFor="let item of navAdmin">
-          <a [routerLink]="item.path" routerLinkActive="bg-info rounded-pill" class="nav-link">{{item.title}}</a>
+          <a [routerLink]="[item.path]" routerLinkActive="bg-info rounded-pill" class="nav-link">{{item.title}}</a>
         </li>
       </ul>
     </div>

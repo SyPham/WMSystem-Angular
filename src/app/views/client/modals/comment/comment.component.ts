@@ -3,6 +3,7 @@ import { CommentService } from 'src/app/_core/_service/comment.service';
 import { IComment, ICommentTreeView } from 'src/app/_core/_model/comment.interface';
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Task } from 'src/app/_core/_model/Task';
 
 @Component({
   selector: 'app-comment',
@@ -13,11 +14,11 @@ export class CommentComponent implements OnInit {
   @Input() title: string;
   public content: string;
   @Input() taskID: number;
+  @Input() task: any;
   userid = JSON.parse(localStorage.getItem('user')).User.ID;
   comment: IComment;
   dataComment: ICommentTreeView[];
   totalShow = -1;
- 
   constructor(
     private commentService: CommentService,
     public activeModal: NgbActiveModal,
@@ -34,6 +35,7 @@ export class CommentComponent implements OnInit {
     this.comment = {
       Content: this.content,
       ParentID: 0,
+      TaskCode: this.task.TaskCode,
       TaskID: this.taskID,
       UserID: this.userid
     };
@@ -59,7 +61,7 @@ export class CommentComponent implements OnInit {
     });
   }
   addComment() {
-    console.log('addComment');
+    console.log('addComment', this.comment);
     this.comment.Content = this.content;
     this.commentService.addComment(this.comment).subscribe(res => {
       if (res) {

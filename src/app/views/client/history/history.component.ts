@@ -85,10 +85,11 @@ export class HistoryComponent implements OnInit {
       const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
       modalRef.componentInstance.title = args.rowData.Entity.JobName;
       modalRef.componentInstance.taskID = args.rowData.Entity.ID;
+      modalRef.componentInstance.task = args.rowData.Entity;
       modalRef.result.then((result) => {
-        console.log('openCommentModal From Todolist', result );
-      }, (reason) => {
-      });
+          console.log('openCommentModal From Todolist', result );
+        }, (reason) => {
+        });
     }
     resolver() {
       this.route.data.subscribe(res => {

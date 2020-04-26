@@ -467,6 +467,7 @@ export class AbnormalComponent implements OnInit {
     const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
     modalRef.componentInstance.title = args.rowData.JobName;
     modalRef.componentInstance.taskID = args.rowData.ID;
+    modalRef.componentInstance.task = args.rowData.Entity;
     modalRef.result.then((result) => {
       console.log('openCommentModal From Todolist', result);
     }, (reason) => {

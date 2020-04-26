@@ -14,6 +14,7 @@ import { CalendarsService } from 'src/app/_core/_service/calendars.service';
 export class NodeTreeComponent implements OnInit {
   @Input() node: any;
   @Input() taskID: number;
+  @Input() task: any;
   dataComment: object;
   isShow = false;
   totalShow: number;
@@ -81,6 +82,7 @@ export class NodeTreeComponent implements OnInit {
         Content: event.target.value,
         TaskID: this.taskID,
         ParentID: parentid,
+        TaskCode: this.task.TaskCode,
         UserID: this.userid
       };
       this.commentService.addSubComment(subComment).subscribe(res => {

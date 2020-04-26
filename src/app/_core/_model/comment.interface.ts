@@ -1,5 +1,6 @@
 export interface IComment {
     Content: string;
+    TaskCode: string;
     TaskID: number;
     ParentID: number;
     UserID: number;
