@@ -112,3 +112,22 @@
   .nested-comments {
     margin-left: 50px;
   }
+
+  .comment-post {
+    position: relative; 
+    margin: 0 auto ;
+  }
+
+  .comment-post .ejs-uploader {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  .comment-post .fa-camera {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+    font-size:16px;
+    transform: translate(-2px,85px);
+  }

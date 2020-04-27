@@ -75,7 +75,9 @@ export class TodolistComponent implements OnInit {
     this.optionGridTree();
     this.resolver();
   }
-
+ test() {
+  this.treeGridObj.search('Report');
+ }
   onRouteChange() {
     this.route.data.subscribe(data => {
       const taskname = this.route.snapshot.paramMap.get('taskname');
@@ -107,11 +109,7 @@ export class TodolistComponent implements OnInit {
   }
   optionGridTree() {
     this.searchSettings = {
-      hierarchyMode: 'Parent',
-      fields: ['Entity.JobName'],
-      operator: 'contains',
-      key: '',
-      ignoreCase: true
+      hierarchyMode: 'Parent'
     };
     this.filterSettings = { type: 'CheckBox' };
     this.sortSettings = { columns: [{ field: 'Entity.DueDate', direction: 'Ascending' }] };

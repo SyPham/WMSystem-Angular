@@ -51,6 +51,8 @@ import { DragScrollModule } from 'ngx-drag-scroll';
 import { TooltipModule } from '@syncfusion/ej2-angular-popups';
 import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { UploaderModule  } from '@syncfusion/ej2-angular-inputs';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -80,7 +82,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     MentionModule,
     TooltipModule,
     RichTextEditorModule,
-    PickerModule
+    PickerModule,
+    UploaderModule
     ],
   declarations: [
     TodolistComponent,
