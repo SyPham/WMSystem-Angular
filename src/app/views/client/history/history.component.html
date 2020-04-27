@@ -60,7 +60,7 @@
                   <e-column field="Entity.state" headerText="Status" width="120" textAlign="Center">
                     <ng-template #template let-data>
                       <span id="priority" [class]="data.Entity.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
-                        style="padding:4px;color:white">{{data.Entity.state}}</span>
+                        style="padding:4px;color:white">{{data.Entity.state === 'Undone' ? 'Late' : 'Ontime'}}</span>
                     </ng-template>
                   </e-column>
                   <e-column field="Entity.DueDate" type='date' [valueAccessor]='dueDateAccessor' clipMode='EllipsisWithTooltip' headerText="Due Date" width="200" textAlign="Center">

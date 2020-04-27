@@ -43,6 +43,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'todolist-comment/:id/:taskname',
+        resolve: { todolist: TodolistResolver },
+        component: TodolistComponent,
+        data: {
+          title: 'To Do List 3'
+        }
+      },
+      {
         path: 'project',
         data: {
           title: 'Project'

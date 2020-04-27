@@ -32,7 +32,7 @@
         </div>
       </div>
       <!-- /.card-header -->
-      <div class="card-body table-responsive p-0">
+      <div class="card-body p-0">
         <!-- <ngx-spinner
           bdOpacity="0.2"
           bdColor="rgba(51,51,51,0.8)"
@@ -41,13 +41,12 @@
           type="pacman"
         >
         </ngx-spinner> -->
-        <table class="table table-hover">
+        <table class="table table-hover table-striped projects">
           <thead>
             <tr>
               <th class="text-center" width="20">#</th>
               <th class="text-center">Project Name</th>
               <th class="text-center">Created By</th>
-              <th class="text-center">Created Date</th>
               <th class="text-center">ON/OFF</th>
               <th class="text-center">Option</th>
             </tr>
@@ -59,11 +58,14 @@
                   (pagination.currentPage - 1) * pagination.itemsPerPage + i + 1
                 }}
               </td>
-              <td class="text-center">{{ item.Name }}</td>
+              <td class="text-center">
+                {{ item.Name }}
+                <br>
+                <small>Created {{ item.CreatedDate }}</small>
+              </td>
               <td class="text-center">
                 {{ item.CreatedByName }}
               </td>
-              <td class="text-center">{{ item.CreatedDate }}</td>
               <td class="text-center">
                 <ng-container *ngIf="item.CreatedBy === createdBy">
                   <ejs-switch onLabel="ON" offLabel="OFF" (change)='onOff(item.ID)' [checked]="item.Status"></ejs-switch>

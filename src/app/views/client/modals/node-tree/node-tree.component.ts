@@ -17,6 +17,7 @@ export class NodeTreeComponent implements OnInit {
   @Input() task: any;
   dataComment: object;
   isShow = false;
+  isShowIcon = false;
   totalShow: number;
   content: string;
   id: number;
@@ -131,5 +132,12 @@ export class NodeTreeComponent implements OnInit {
     } else {
       return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64, ' + img);
     }
+  }
+
+  emojiSelect($event) {
+    this.content += $event.emoji.native;
+  }
+  onClickIcon() {
+    this.isShowIcon = !this.isShowIcon;
   }
 }

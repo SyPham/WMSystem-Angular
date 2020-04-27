@@ -43,8 +43,11 @@
       </small>
       </div>
     </div>
-    <div class="comment-box" *ngIf="isShow === true">
+    <div class="comment-box search" *ngIf="isShow === true">
+      <emoji-mart *ngIf="isShowIcon" title="Pick your emoji…" (emojiSelect)="emojiSelect($event)" totalFrequentLines='2' sheetSize='64' class="emoji" useButton='true' emoji="point_up"></emoji-mart>
       <img [src]="imageBase64CurrentUser()" class="commenter-image" alt="commenter_image" />
+      <i class="far fa-image"></i>
+      <i class="far fa-smile" (click)="onClickIcon()"></i>
       <input
         class="form-control ml-1 mt-1 form-control-sm"
         type="text"

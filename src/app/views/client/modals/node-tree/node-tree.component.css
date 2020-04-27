@@ -123,3 +123,33 @@
   .nested-comments {
     margin-left: 50px;
   }
+  .search { 
+    position: relative; 
+    margin: 0 auto ;
+    text-align: center;
+  }
+  .search input { 
+    text-indent: 30px;
+     font-family:  FontAwesome, sans-serif;
+  }
+  .search .fa-image { 
+    position: absolute;
+    top: 13px;
+    left: 98%;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .search .fa-smile { 
+    position: absolute;
+    top: 13px;
+    right: 93.5%;
+    font-size: 16px;
+    cursor: pointer;
+  }
+ 
+  .search .emoji { 
+    position: absolute;
+    bottom: 38px;
+    left: 4%;
+    font-size: 16px;
+  }

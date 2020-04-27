@@ -1,5 +1,11 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{title}}</h4>
+  <h4 class="modal-title">
+    {{title}}
+      <p style="font-size: small!important;">
+       #{{task.ID}} Create By {{task.User.Username}} on {{task.CreatedDate}}
+      </p>
+  </h4>
+  
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -25,7 +31,7 @@
             <ng-container *ngFor="let item of dataComment; let i = index">
               <div class="comment-box-wrapper">
                 <div class="comment-box-wrapper">
-                    <app-tree [treeData]="item" *ngIf="i < totalShow;" [taskID]="taskID"></app-tree>
+                    <app-tree [treeData]="item" *ngIf="i < totalShow;" [task]="task" [taskID]="taskID"></app-tree>
                 </div>
               </div>
             </ng-container>

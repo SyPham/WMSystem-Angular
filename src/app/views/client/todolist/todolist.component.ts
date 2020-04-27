@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, ViewChild, DoCheck, Input } from '@angular/core';
-import { PageService, ToolbarItems, TreeGridComponent, EditSettingsModel, FilterSettingsModel } from '@syncfusion/ej2-angular-treegrid';
+import { PageService, ToolbarItems,
+  TreeGridComponent, EditSettingsModel,
+  FilterSettingsModel, FilterService } from '@syncfusion/ej2-angular-treegrid';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -27,7 +29,8 @@ declare let $: any;
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
-  styleUrls: ['./todolist.component.css']
+  styleUrls: ['./todolist.component.css'],
+  providers: [ FilterService ],
 })
 export class TodolistComponent implements OnInit {
   @Input() Id: number;
@@ -105,7 +108,7 @@ export class TodolistComponent implements OnInit {
   optionGridTree() {
     this.searchSettings = {
       hierarchyMode: 'Parent',
-      fields: ['JobName'],
+      fields: ['Entity.JobName'],
       operator: 'contains',
       key: '',
       ignoreCase: true
@@ -257,8 +260,8 @@ export class TodolistComponent implements OnInit {
     });
   }
   create(): void {
-    this.getListTree();
-    console.log('create: ');
+    //this.getListTree();
+    //console.log('create: ');
   }
   done() {
     if (this.taskId > 0) {

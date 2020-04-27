@@ -50,7 +50,7 @@ import { ContentEditableFormDirective } from 'src/app/content-editable-form.dire
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { TooltipModule } from '@syncfusion/ej2-angular-popups';
 import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
-
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 @NgModule({
   imports: [
     CommonModule,
@@ -79,7 +79,8 @@ import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
     NgbPaginationModule,
     MentionModule,
     TooltipModule,
-    RichTextEditorModule
+    RichTextEditorModule,
+    PickerModule
     ],
   declarations: [
     TodolistComponent,
@@ -99,7 +100,7 @@ import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
     CommentComponent,
     NodeTreeComponent,
     ContentEditableFormDirective,
-    TreeComponent
+    TreeComponent,
   ],
   providers: [RoutineResolver],
   // schemas: [CUSTOM_ELEMENTS_SCHEMA]
