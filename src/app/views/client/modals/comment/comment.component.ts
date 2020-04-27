@@ -67,6 +67,7 @@ export class CommentComponent implements OnInit {
       if (res) {
         this.alertify.success('You have already added the comment successfully!');
         this.getAllComment();
+        this.content = '';
       } else {
         this.alertify.error('You have already added the comment failed!');
       }
