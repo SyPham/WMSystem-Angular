@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { User } from '../_model/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../../environments/environment';
+import { LoggedInUser } from '../_model/LoggedInUser';
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +47,20 @@ export class AuthService {
       }
     });
     return isMatch;
+  }
+  getLoggedInUser(): LoggedInUser {
+    let user: LoggedInUser;
+    if (this.loggedIn()) {
+      let userData = JSON.parse(localStorage.getItem('user'));
+      let accessToken = JSON.parse(localStorage.getItem('token'));
+      user = new LoggedInUser(accessToken, userData.Username, '', '',
+                              userData.image, userData.Role,
+                              userData.permissions, userData.oCLevel,
+                              userData.isLeader, userData.ocLevel  );
+    }
+    else {
+      user = null;
+    }
+    return user;
   }
 }

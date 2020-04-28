@@ -32,6 +32,12 @@ export class ChatGroupComponent implements OnInit {
     this.projectName = '';
     this.getProjects();
     this.hub.startConnection();
+    this.hub.currentreceiveMessageGroup.subscribe(res => {
+      if (res > 0) {
+        debugger
+        this.getChatMessage();
+      }
+    });
   }
   defaultImage() {
     return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJYAA
@@ -66,7 +72,7 @@ export class ChatGroupComponent implements OnInit {
     this.stillTyping();
     if (event.keyCode === 13) {
       this.sendToGroup();
-      //self.$refs.messageBox.scrollTop = self.$refs.messageBox.scrollHeight;
+      // self.$refs.messageBox.scrollTop = self.$refs.messageBox.scrollHeight;
     }
   }
   searchProjects() {
@@ -94,7 +100,11 @@ export class ChatGroupComponent implements OnInit {
     if (managers.concat(members).includes(this.currentUser)) {
       this.room = item.Room;
       this.projectName = item.Name;
-      this.hub.joiGroup(this.room, this.currentUser);
+      this.hub.hubConnection
+        .send('JoinGroup', this.room, this.currentUser)
+        .catch((err) => {
+          console.error(err.toString());
+        });
       this.getChatMessage();
     } else {
       this.room = '';
@@ -102,16 +112,24 @@ export class ChatGroupComponent implements OnInit {
     }
   }
   sendToGroup() {
-    this.hub.sendToGroup(this.room, this.message, this.currentUser);
+    this.hub.hubConnection
+      .send('SendMessageToGroup', this.room, this.message, this.currentUser)
+      .catch((err) => {
+        console.error(err.toString());
+      });
     this.message = '';
     this.getChatMessage();
   }
   stillTyping() {
     this.hub.typing(this.room, this.currentUser);
-    //this.typing = 'typing';
+    // this.typing = 'typing';
   }
   stopTyping() {
-    this.hub.typing(this.room, this.currentUser);
+    this.hub.hubConnection
+    .send('Typing', this.room, this.currentUser)
+    .catch((err) => {
+       console.error(err.toString());
+    });
     this.typing = '';
   }
   receiveTyping() {

@@ -1,13 +1,28 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { environment } from '../../../environments/environment';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class SignalrService {
   public hubConnection: signalR.HubConnection;
+
+  receivedMessageGroup = new BehaviorSubject<number>(0);
+  currentreceiveMessageGroup = this.receivedMessageGroup.asObservable();
+  // method này để change source message
+  receivedTyping = new BehaviorSubject<string>('');
+  currentReceiveTyping = this.receivedTyping.asObservable();
+  // method này để change source message
+  changeReceiveTyping(message) {
+    this.receivedMessageGroup.next(message);
+  }
+  changeReceiveMessage(message) {
+    this.receivedMessageGroup.next(message);
+  }
   constructor() {
     this.startConnection();
+    this.registerOnServerEvents();
   }
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -30,36 +45,35 @@ export class SignalrService {
   // }
  public joiGroup(room: string, user: string) {
    this.hubConnection
-   .invoke('JoinGroup', room.toString(), user.toString())
+   .send('JoinGroup', room.toString(), user.toString())
    .catch((err) => {
       console.error(err.toString());
    });
  }
  public stopTyping(room: string, user: string) {
    this.hubConnection
-   .invoke('StopTyping', room.toString(), user.toString())
+   .send('StopTyping', room.toString(), user.toString())
    .catch((err) => {
       console.error(err.toString());
    });
  }
  public typing(room: string, user: string) {
    this.hubConnection
-   .invoke('Typing', room.toString(), user.toString())
+   .send('Typing', room.toString(), user.toString())
    .catch((err) => {
       console.error(err.toString());
    });
  }
  public sendToGroup(room: string, message: string, user: string) {
    this.hubConnection
-   .invoke('SendMessageToGroup', room.toString(), message, user.toString())
+   .send('SendMessageToGroup', room.toString(), message, user.toString())
    .catch((err) => {
       console.error(err.toString());
    });
  }
  public checkAlert(user: string) {
-   
   this.hubConnection
-  .invoke('CheckAlert', user)
+  .send('CheckAlert', user)
   .catch((err) => {
      console.error(err.toString());
   });
@@ -76,4 +90,13 @@ export class SignalrService {
  public receiveMessageGroup(callBack: (message: string) => any) {
    this.hubConnection.on('ReceiveMessageGroup', callBack);
  }
+ private registerOnServerEvents(): void {
+  this.hubConnection.on('ReceiveMessageGroup', (message) => {
+    this.changeReceiveMessage(message);
+  });
+
+  this.hubConnection.on('ReceiveTyping', (message) => {
+    this.changeReceiveTyping(message);
+  });
+  }
 }

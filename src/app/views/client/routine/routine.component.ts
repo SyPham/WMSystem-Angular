@@ -117,7 +117,7 @@ export class RoutineComponent implements OnInit {
         this.tasks = res;
       });
     } else {
-      this.alertify.message('Please select on OC!!!', true);
+      this.alertify.message('Please select on OC!!!');
     }
   }
   delete() {
