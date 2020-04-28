@@ -85,7 +85,7 @@
                   style="padding:4px;color:white">{{data.Entity.state}}</span>
               </ng-template>
             </e-column>
-            <e-column field="Entity.DueDate" headerText="Due Date" width="200" textAlign="Center">
+            <e-column field="Entity.DueDateTime" headerText="Due Date" width="200" textAlign="Center">
               <ng-template #template let-data>
                 <ejs-tooltip id='tooltip' content='{{periodText(data.Entity.periodType)}}'>
                   {{data.Entity.DueDate}}

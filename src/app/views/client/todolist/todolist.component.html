@@ -36,9 +36,6 @@
     <button type="button" (click)="sortUncompleted()" class="btn bg-gradient-secondary btn-sm mr-1">
       <i class="fas fa-pencil-alt"></i> Uncompleted Task
     </button>
-    <button type="button" (click)="test()" class="btn bg-gradient-secondary btn-sm mr-1">
-      <i class="fas fa-pencil-alt"></i> Test
-    </button>
   </div>
 </div>
 <div class="card">
@@ -101,7 +98,7 @@
                         style="padding:4px;color:white">{{data.Entity.state}}</span>
                     </ng-template>
                   </e-column>
-                  <e-column field="Entity.DueDate" type='date' [valueAccessor]='dueDateAccessor' clipMode='EllipsisWithTooltip' headerText="Due Date" width="200" textAlign="Center">
+                  <e-column field="Entity.DueDateTime" type='date' format='d MMM, yyyy hh:mm:ss a' clipMode='EllipsisWithTooltip' headerText="Due Date" width="200" textAlign="Center">
                     <ng-template #template let-data>
                       <ejs-tooltip id='tooltip' content='{{periodText(data.Entity.periodType)}}'>
                         {{data.Entity.DueDate}}

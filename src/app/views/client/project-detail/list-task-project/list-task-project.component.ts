@@ -47,6 +47,7 @@ export class ListTaskProjectComponent implements OnInit {
   parentId: number;
   public data: object;
   projectID: number;
+  searchSettings: object;
   public pageSetting: object;
   @ViewChild('treegrid')
   public treeGridObj: TreeGridComponent;
@@ -76,6 +77,13 @@ export class ListTaskProjectComponent implements OnInit {
       'PdfExport',
       'Print'
     ];
+    this.searchSettings = {
+      hierarchyMode: 'Parent',
+      fields: ['Entity.JobName'],
+      operator: 'contains',
+      key: '',
+      ignoreCase: true
+    };
     this.editSettings = { allowAdding: true, mode: 'Row' };
     this.pageSetting = { pageCount: 2, pageSizes: true };
     this.contextMenuItems = [

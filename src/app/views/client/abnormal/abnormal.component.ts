@@ -75,7 +75,7 @@ export class AbnormalComponent implements OnInit {
     ];
     this.searchSettings = {
       hierarchyMode: 'Parent',
-      fields: ['JobName'],
+      fields: ['Entity.JobName'],
       operator: 'contains',
       key: '',
       ignoreCase: true

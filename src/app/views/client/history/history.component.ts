@@ -54,8 +54,8 @@ export class HistoryComponent implements OnInit {
     public modifyDateAccessor = (field: Date, data: { Entity: {ModifyDateTime: Date} }, column: object): Date => {
       return new Date(data.Entity.ModifyDateTime) ;
    }
-   public dueDateAccessor = (field: Date, data: { Entity: {DueDate: Date} }, column: object): Date => {
-    return new Date(data.Entity.DueDate);
+   public dueDateAccessor = (field: object, data: { Entity: {DueDate: string} }, column: object): string => {
+    return new Date(data.Entity.DueDate).toISOString();
   }
     ngOnInit(): void {
       this.optionGridTree();
@@ -108,7 +108,7 @@ export class HistoryComponent implements OnInit {
     optionGridTree() {
       this.searchSettings = {
         hierarchyMode: 'Parent',
-        fields: ['JobName'],
+        fields: ['Entity.JobName'],
         operator: 'contains',
         key: '',
         ignoreCase: true

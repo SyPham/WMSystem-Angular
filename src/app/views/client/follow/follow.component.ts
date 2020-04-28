@@ -75,6 +75,13 @@ export class FollowComponent implements OnInit {
       'ExcelExport',
       'Print'
     ];
+    this.searchSettings = {
+      hierarchyMode: 'Parent',
+      fields: ['Entity.JobName'],
+      operator: 'contains',
+      key: '',
+      ignoreCase: true
+    };
     this.editSettings = { allowAdding: true, mode: 'Row' };
     this.pageSetting = { pageCount: 2, pageSizes: true };
     this.contextMenuItems = [

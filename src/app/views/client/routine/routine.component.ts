@@ -75,7 +75,7 @@ export class RoutineComponent implements OnInit {
     ];
     this.searchSettings = {
       hierarchyMode: 'Parent',
-      fields: ['JobName'],
+      fields: ['Entity.JobName'],
       operator: 'contains',
       key: '',
       ignoreCase: true
@@ -98,8 +98,8 @@ export class RoutineComponent implements OnInit {
     this.route.data.subscribe(data => {
       const taskname = this.route.snapshot.paramMap.get('taskname');
       this.searchSettings = {
-        hierarchyMode: 'None',
-        fields: ['JobName'],
+        hierarchyMode: 'Parent',
+        fields: ['Entity.JobName'],
         operator: 'contains',
         key: taskname || '',
         ignoreCase: true

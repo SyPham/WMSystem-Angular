@@ -82,8 +82,8 @@ export class TodolistComponent implements OnInit {
     this.route.data.subscribe(data => {
       const taskname = this.route.snapshot.paramMap.get('taskname');
       this.searchSettings = {
-        hierarchyMode: 'None',
-        fields: ['JobName'],
+        hierarchyMode: 'Parent',
+        fields: ['Entity.JobName'],
         operator: 'contains',
         key: taskname || '',
         ignoreCase: true
@@ -112,7 +112,7 @@ export class TodolistComponent implements OnInit {
       hierarchyMode: 'Parent'
     };
     this.filterSettings = { type: 'CheckBox' };
-    this.sortSettings = { columns: [{ field: 'Entity.DueDate', direction: 'Ascending' }] };
+    this.sortSettings = { columns: [{ field: 'Entity.DueDateTime', direction: 'Ascending' }] };
     this.toolbarOptions = [
       'Search',
       'ExpandAll',
