@@ -171,8 +171,10 @@ export class HistoryComponent implements OnInit {
         console.log('undo: ', res);
         if (res) {
           this.alertify.success('You have already undoed this one');
+          this.getListTree();
          } else {
           this.alertify.warning('You can\'t undo this one');
+          this.getListTree();
          }
       });
     }

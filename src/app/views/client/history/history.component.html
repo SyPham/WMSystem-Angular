@@ -33,7 +33,7 @@
                 <e-columns>
                   <e-column field="Entity.Undo" [disableHtmlEncode]="false" headerText="Undo" width="150" textAlign="Center">
                     <ng-template #template let-data>
-                      <button class="btn btn-xs btn-success" (click)="undo(data.ID)" > <i class="fa fa-undo"></i> Undo</button>
+                      <button class="btn btn-xs btn-success" (click)="undo(data.Entity.ID)" > <i class="fa fa-undo"></i> Undo</button>
                     </ng-template>
                   </e-column>
                   <!-- <e-column field="Entity.Priority" headerText="Priority" width="110" textAlign="Center">

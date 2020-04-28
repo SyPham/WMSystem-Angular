@@ -58,11 +58,11 @@
         </div>
        
         <!-- Daily -->
-        <div class="col-md-6 d-none" *ngIf="daily" style="cursor: not-allowed;">
+        <div [class]="daily?'col-md-6 d-none':'col-md-6'" >
           <div class="form-group">
             <label for="JobType">Daily</label>
             <small class="text-danger">(*) Require</small>
-            <ejs-datepicker [format]="format" [(ngModel)]="duedatedaily"  placeholder='Select duedate'></ejs-datepicker>
+            <ejs-datetimepicker [format]="format" [(ngModel)]="duedatedaily"  placeholder='Select duedate'></ejs-datetimepicker>
           </div>
         </div>
         <!-- ----Daily -->

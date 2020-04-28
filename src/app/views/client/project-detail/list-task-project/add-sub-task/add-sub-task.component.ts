@@ -120,6 +120,7 @@ export class AddSubTaskComponent implements OnInit {
       this.jobname = edit._JobName;
       this.who = edit._FromWhoID;
       this.priority = edit._Priority;
+      this.periodtype = edit._periodtype;
       this.pic = edit._PIC;
       this.mapPeriodWithDueDate(edit._periodtype, edit);
     }
@@ -129,14 +130,14 @@ export class AddSubTaskComponent implements OnInit {
       case PeriodType.Daily:
         this.periodtype = PeriodType.Daily;
         this.selectedPeriodMain = 'Daily';
-        this.changeStatus(true, true, true, true);
+        this.changeStatus(false, true, true, true);
         this.duedatedaily = item._DueDate;
         break;
       case PeriodType.Weekly:
         this.periodtype = PeriodType.Weekly;
         this.selectedPeriodMain = 'Weekly';
         this.duedateweekly = item._DueDate;
-        this.changeStatus(false, true, true);
+        this.changeStatus(true, false, true);
         break;
         case PeriodType.Monthly:
         this.periodtype = PeriodType.Monthly;
@@ -253,6 +254,7 @@ export class AddSubTaskComponent implements OnInit {
     }
   }
   change(arg?){
+    debugger
     console.log('change: ', arg.target.value);
     switch (arg.target.value) {
       case 'reset': this.changeStatus(); break;

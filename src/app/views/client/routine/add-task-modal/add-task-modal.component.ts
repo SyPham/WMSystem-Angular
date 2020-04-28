@@ -179,7 +179,7 @@ export class AddTaskModalComponent implements OnInit {
       case PeriodType.Daily:
         this.periodtype = PeriodType.Daily;
         this.selectedPeriodMain = 'Daily';
-        this.changeStatus(true, true, true, true);
+        this.changeStatus(false, true, true, true);
         this.duedatedaily = item._DueDate;
         break;
       case PeriodType.Weekly:
