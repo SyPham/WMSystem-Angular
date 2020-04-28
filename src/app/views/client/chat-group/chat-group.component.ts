@@ -15,6 +15,7 @@ export class ChatGroupComponent implements OnInit {
   room: '';
   projects: any;
   messages: any;
+  joinGroupMesasge: string;
   message: string;
   typing: string;
   projectName: '';
@@ -32,12 +33,10 @@ export class ChatGroupComponent implements OnInit {
     this.projectName = '';
     this.getProjects();
     this.hub.startConnection();
-    this.hub.currentreceiveMessageGroup.subscribe(res => {
-      if (res > 0) {
-        debugger
-        this.getChatMessage();
-      }
-    });
+    this.receivedMessage();
+    this.receiveTyping();
+    this.receivedStopTyping();
+    this.receivedJoinGroup();
   }
   defaultImage() {
     return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJYAA
@@ -101,7 +100,7 @@ export class ChatGroupComponent implements OnInit {
       this.room = item.Room;
       this.projectName = item.Name;
       this.hub.hubConnection
-        .send('JoinGroup', this.room, this.currentUser)
+        .invoke('JoinGroup', this.room.toString(), this.currentUser.toString())
         .catch((err) => {
           console.error(err.toString());
         });
@@ -113,7 +112,7 @@ export class ChatGroupComponent implements OnInit {
   }
   sendToGroup() {
     this.hub.hubConnection
-      .send('SendMessageToGroup', this.room, this.message, this.currentUser)
+      .send('SendMessageToGroup', this.room.toString(), this.message.toString(), this.currentUser.toString())
       .catch((err) => {
         console.error(err.toString());
       });
@@ -121,21 +120,43 @@ export class ChatGroupComponent implements OnInit {
     this.getChatMessage();
   }
   stillTyping() {
-    this.hub.typing(this.room, this.currentUser);
     // this.typing = 'typing';
+    this.hub.hubConnection
+    .invoke('Typing', this.room.toString(), this.currentUser.toString())
+    .catch((err) => {
+       console.error(err.toString());
+    });
   }
   stopTyping() {
     this.hub.hubConnection
-    .send('Typing', this.room, this.currentUser)
+    .send('Typing', this.room.toString(), this.currentUser.toString())
     .catch((err) => {
        console.error(err.toString());
     });
     this.typing = '';
   }
   receiveTyping() {
-    this.hub.receiveTyping((user, username) => {
+    this.hub.hubConnection.on('ReceiveTyping', (user, username) => {
       if (this.currentUser !== Number(user)) {
         this.typing = `${username} is typing`;
+      }
+    });
+  }
+  receivedMessage() {
+    this.hub.hubConnection.on('ReceiveMessageGroup', (message) => {
+      this.getChatMessage();
+    });
+  }
+  receivedStopTyping() {
+    this.hub.hubConnection.on('ReceiveStopTyping', (message) => {
+      this.typing = '';
+    });
+  }
+  receivedJoinGroup() {
+    this.hub.hubConnection.on('ReceiveJoinGroup', (user, username) => {
+      if (Number(localStorage.getItem('UserID')) !== Number(user)) {
+        this.joinGroupMesasge = `${username} already joined this group!`;
+        this.alertify.message(this.joinGroupMesasge);
       }
     });
   }

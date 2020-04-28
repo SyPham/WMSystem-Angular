@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as signalR from '@aspnet/signalr';
+import * as signalR from '@microsoft/signalr';
 import { environment } from '../../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 @Injectable({
@@ -30,7 +30,9 @@ export class SignalrService {
                             .build();
     this.hubConnection
       .start()
-      .then(() => console.log('Connection started'))
+      .then(() =>{
+         console.log('Connection started');
+        })
       .catch(err => console.log('Error while starting connection: ' + err))
   }
   // public addTransferChartDataListener = () => {
@@ -45,35 +47,35 @@ export class SignalrService {
   // }
  public joiGroup(room: string, user: string) {
    this.hubConnection
-   .send('JoinGroup', room.toString(), user.toString())
+   .invoke('JoinGroup', room.toString(), user.toString())
    .catch((err) => {
       console.error(err.toString());
    });
  }
  public stopTyping(room: string, user: string) {
    this.hubConnection
-   .send('StopTyping', room.toString(), user.toString())
+   .invoke('StopTyping', room.toString(), user.toString())
    .catch((err) => {
       console.error(err.toString());
    });
  }
  public typing(room: string, user: string) {
    this.hubConnection
-   .send('Typing', room.toString(), user.toString())
+   .invoke('Typing', room.toString(), user.toString())
    .catch((err) => {
       console.error(err.toString());
    });
  }
  public sendToGroup(room: string, message: string, user: string) {
    this.hubConnection
-   .send('SendMessageToGroup', room.toString(), message, user.toString())
+   .invoke('SendMessageToGroup', room.toString(), message, user.toString())
    .catch((err) => {
       console.error(err.toString());
    });
  }
  public checkAlert(user: string) {
   this.hubConnection
-  .send('CheckAlert', user)
+  .invoke('CheckAlert', user)
   .catch((err) => {
      console.error(err.toString());
   });

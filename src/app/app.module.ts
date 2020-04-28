@@ -22,6 +22,8 @@ import { AuthService } from './_core/_service/auth.service';
 import { AuthGuard } from './_core/_guards/auth.guard';
 import { NgxSpinnerService } from 'ngx-spinner';
 
+import { SignalrService } from './_core/_service/signalr.service';
+
 // handle err
 import { ErrorInterceptorProvider } from './_core/_service/error.interceptor';
 
@@ -94,6 +96,7 @@ import { MaintenanceComponent} from './views/maintenance/maintenance.component';
   ],
   providers: [
     AlertifyService,
+    SignalrService,
     AuthGuard,
     NgxSpinnerService,
     ErrorInterceptorProvider,

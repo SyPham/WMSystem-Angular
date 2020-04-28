@@ -39,7 +39,7 @@
               "./node_modules/admin-lte/dist/js/adminlte.min.js",
               "./node_modules/alertifyjs/build/alertify.min.js",
               "./node_modules/sweetalert2/dist/sweetalert2.js",
-              "./node_modules/bootstrap4-toggle/js/bootstrap4-toggle.min.js"
+              "./node_modules/bootstrap4-toggle/js/bootstrap4-toggle.min.js",
             ]
           },
           "configurations": {

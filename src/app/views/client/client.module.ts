@@ -52,7 +52,6 @@ import { TooltipModule } from '@syncfusion/ej2-angular-popups';
 import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { UploaderModule  } from '@syncfusion/ej2-angular-inputs';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -105,7 +104,9 @@ import { UploaderModule  } from '@syncfusion/ej2-angular-inputs';
     ContentEditableFormDirective,
     TreeComponent,
   ],
-  providers: [RoutineResolver],
+  providers: [
+    RoutineResolver
+  ],
   // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ClientModule {}
