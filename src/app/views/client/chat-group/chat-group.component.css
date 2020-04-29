@@ -739,7 +739,7 @@ body {
   position: absolute;
   left: 0;
   z-index: 4;
-  top: -425px;
+  top: -435px;
   margin-top: 10px;
   font-size: 1.1em;
   color: #435f7a;
@@ -759,6 +759,8 @@ body {
   position: relative;
   width: 150px;
   height: 150px;
+  float: left;
+  margin-right: 5px;
 }
 #frame .content .message-input .wrap .image-preview img{
   width: 100%;
@@ -766,9 +768,17 @@ body {
 }
 #frame .content .message-input .wrap .image-preview .img-content .fa-close{
   position: absolute;
-  top: 0;
+  top: 4%;
+  right: 4%;
   z-index: 5;
-  right: 0;
+  border-radius: 50%;
+  background: #808080;
+  width: 20px;
+  color: white;
+  height: 20px;
+  text-align: center;
+  padding-top: 2px;
+  cursor: pointer;
 }
 #frame .content .message-input .wrap .smile {
   position: absolute;

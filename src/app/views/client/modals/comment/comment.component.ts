@@ -29,6 +29,8 @@ export class CommentComponent implements OnInit {
     this.initialParams();
     this.onService();
     this.getAllComment();
+    console.log('Open model comment', this.task);
+
   }
   initialParams() {
     this.totalShow = 3;

@@ -22,6 +22,7 @@ export class ChatGroupComponent implements OnInit {
   isActive: boolean;
   isShowIcon: boolean;
   imageSrcPreview: any;
+  showImageList: boolean;
   currentUser = JSON.parse(localStorage.getItem('user')).User.ID;
   urls = [];
   constructor(
@@ -90,6 +91,8 @@ export class ChatGroupComponent implements OnInit {
     this.chatService.getChatMessage(this.room).subscribe(
       (response: any) => {
         this.messages = response;
+        let objDiv = document.getElementById('messageBox');
+        objDiv.scrollTop = objDiv.scrollHeight;
       });
   }
   datetime(d) {
@@ -114,14 +117,15 @@ export class ChatGroupComponent implements OnInit {
     }
   }
   sendToGroup() {
-    this.hub.hubConnection
-      .send('SendMessageToGroup', this.room.toString(), this.message.toString(), this.currentUser.toString())
-      .catch((err) => {
-        console.error(err.toString());
-      });
+    // this.hub.hubConnection
+    //   .send('SendMessageToGroup', this.room.toString(), this.message.toString(), this.currentUser.toString(), this.urls as Array<string>)
+    //   .catch((err) => {
+    //     console.error(err.toString());
+    //   });
+    this.addMessageGroup();
     this.isShowIcon = false;
+    this.showImageList = false;
     this.message = '';
-    this.getChatMessage();
   }
   stillTyping() {
     // this.typing = 'typing';
@@ -133,18 +137,15 @@ export class ChatGroupComponent implements OnInit {
   }
   stopTyping() {
     this.hub.hubConnection
-    .send('Typing', this.room.toString(), this.currentUser.toString())
+    .send('StopTyping', this.room.toString(), this.currentUser.toString())
     .catch((err) => {
        console.error(err.toString());
     });
-    this.typing = '';
   }
   receiveTyping() {
     this.hub.hubConnection.on('ReceiveTyping', (user, username) => {
       if (this.currentUser !== Number(user)) {
-        setTimeout(() => {
           this.typing = `${username} is typing`;
-        }, 3000);
       }
     });
   }
@@ -174,6 +175,7 @@ export class ChatGroupComponent implements OnInit {
   }
   displayImage() {
     document.getElementById('image-file').click();
+    this.showImageList = true;
   }
   onChangeImageFile($event) {
     this.urls = [];
@@ -187,9 +189,33 @@ export class ChatGroupComponent implements OnInit {
         reader.readAsDataURL(file);
       }
     }
+    if (this.urls.length > 5) {
+      this.urls = [];
+      this.alertify.warning('You have picked too many files. Limit is 10', true);
+    }
     console.log(this.urls);
   }
   bindImagebase64(img) {
     this.sanitizer.bypassSecurityTrustResourceUrl(img);
+  }
+
+  removeImage(arr, elem) {
+    this.urls = arr.filter(item => item !== elem);
+    if (this.urls.length === 0) {
+      this.showImageList = false;
+    }
+  }
+  onBlurInputChat(event) {
+    this.stopTyping();
+  }
+  addMessageGroup() {
+    let chat = {
+      RoomID: this.room,
+      userID: this.currentUser,
+      Message: this.message,
+      Images : this.urls as Array<string>
+    };
+    this.chatService.addMessageGroup(chat)
+      .subscribe(arg => console.log('Successfully!'));
   }
 }

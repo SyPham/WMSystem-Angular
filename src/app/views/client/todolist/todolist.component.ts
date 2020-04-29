@@ -269,7 +269,7 @@ export class TodolistComponent implements OnInit {
           this.alertify.success(res.message);
           this.getListTree();
         } else {
-          this.alertify.error(res.message, true);
+          this.alertify.warning(res.message, true);
         }
       });
     }

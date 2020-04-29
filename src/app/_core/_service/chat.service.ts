@@ -34,4 +34,7 @@ export class ChatService {
       })
     );
   }
+  addMessageGroup(chat) {
+    return this.http.post(`${this.baseUrl}Chat/addMessageGroup`, chat);
+  }
 }

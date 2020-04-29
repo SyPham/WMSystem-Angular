@@ -76,7 +76,7 @@ export class AlertifyService {
     //alertify.error(message);
   }
 
-  warning(message: string, noToast?: boolean) {
+  warning(message: string, noToast?: boolean, title?: string) {
     if (!noToast) {
       this.Toast.fire({
         icon: 'warning',
