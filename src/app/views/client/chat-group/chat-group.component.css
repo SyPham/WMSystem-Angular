@@ -705,6 +705,7 @@ body {
   padding: 11px 32px 10px 8px;
   font-size: 0.8em;
   color: #32465a;
+  text-indent: 30px;
 }
 @media screen and (max-width: 735px) {
   #frame .content .message-input .wrap input {
@@ -733,6 +734,61 @@ body {
 #frame .content .message-input .wrap .attachment:hover {
   opacity: 1;
 }
+
+#frame .content .message-input .wrap .emoji {
+  position: absolute;
+  left: 0;
+  z-index: 4;
+  top: -425px;
+  margin-top: 10px;
+  font-size: 1.1em;
+  color: #435f7a;
+  cursor: pointer;
+}
+#frame .content .message-input .wrap .image-preview {
+  width: 100%;
+  height:150px;
+  object-fit: contain;
+  position: absolute;
+  z-index: 5;
+  left: 1%;
+  top: -150px;
+  overflow: scroll;
+}
+#frame .content .message-input .wrap .image-preview .img-content{
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+#frame .content .message-input .wrap .image-preview img{
+  width: 100%;
+  height: 100%;
+}
+#frame .content .message-input .wrap .image-preview .img-content .fa-close{
+  position: absolute;
+  top: 0;
+  z-index: 5;
+  right: 0;
+}
+#frame .content .message-input .wrap .smile {
+  position: absolute;
+  z-index: 4;
+  left: 1%;
+  margin-top: 10px;
+  font-size: 1.1em;
+  color: #435f7a;
+  opacity: 0.5;
+  cursor: pointer;
+}
+@media screen and (max-width: 735px) {
+  #frame .content .message-input .wrap .attachment {
+    margin-top: 17px;
+    right: 85px;
+  }
+}
+#frame .content .message-input .wrap .smile:hover {
+  opacity: 1;
+}
 #frame .content .message-input .wrap button {
   float: right;
   border: none;
@@ -753,7 +809,6 @@ body {
 #frame .content .message-input .wrap button:focus {
   outline: none;
 }
-
 .typing {
   position: relative;
   display: inline-block;

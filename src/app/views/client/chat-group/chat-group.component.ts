@@ -16,11 +16,14 @@ export class ChatGroupComponent implements OnInit {
   projects: any;
   messages: any;
   joinGroupMesasge: string;
-  message: string;
+  message: string = '';
   typing: string;
   projectName: '';
   isActive: boolean;
+  isShowIcon: boolean;
+  imageSrcPreview: any;
   currentUser = JSON.parse(localStorage.getItem('user')).User.ID;
+  urls = [];
   constructor(
     private sanitizer: DomSanitizer,
     private chatService: ChatService,
@@ -116,6 +119,7 @@ export class ChatGroupComponent implements OnInit {
       .catch((err) => {
         console.error(err.toString());
       });
+    this.isShowIcon = false;
     this.message = '';
     this.getChatMessage();
   }
@@ -138,7 +142,9 @@ export class ChatGroupComponent implements OnInit {
   receiveTyping() {
     this.hub.hubConnection.on('ReceiveTyping', (user, username) => {
       if (this.currentUser !== Number(user)) {
-        this.typing = `${username} is typing`;
+        setTimeout(() => {
+          this.typing = `${username} is typing`;
+        }, 3000);
       }
     });
   }
@@ -154,10 +160,36 @@ export class ChatGroupComponent implements OnInit {
   }
   receivedJoinGroup() {
     this.hub.hubConnection.on('ReceiveJoinGroup', (user, username) => {
-      if (Number(localStorage.getItem('UserID')) !== Number(user)) {
+      if (Number(this.currentUser) !== Number(user)) {
         this.joinGroupMesasge = `${username} already joined this group!`;
         this.alertify.message(this.joinGroupMesasge);
       }
     });
+  }
+  emojiSelect($event) {
+    this.message += $event.emoji.native;
+  }
+  onClickIcon() {
+    this.isShowIcon = !this.isShowIcon;
+  }
+  displayImage() {
+    document.getElementById('image-file').click();
+  }
+  onChangeImageFile($event) {
+    this.urls = [];
+    let files = $event.target.files;
+    if (files) {
+      for (let file of files) {
+        let reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.urls.push(e.target.result);
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+    console.log(this.urls);
+  }
+  bindImagebase64(img) {
+    this.sanitizer.bypassSecurityTrustResourceUrl(img);
   }
 }

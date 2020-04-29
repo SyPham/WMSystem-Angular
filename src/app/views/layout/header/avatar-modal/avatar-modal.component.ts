@@ -62,7 +62,7 @@ export class AvatarModalComponent implements OnInit {
     };
     this.userService.changeAvatar(user).subscribe( res => {
       console.log('changeAvatar: ', res);
-      if (res){
+      if (res) {
         this.alertify.success('The avatar has been uploaded!!');
         this.headerService.changeImage(this.croppedImage);
         this.modalService.dismissAll();

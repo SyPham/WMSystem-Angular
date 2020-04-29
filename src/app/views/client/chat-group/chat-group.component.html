@@ -81,8 +81,17 @@
         <small style="color:#808080" class="typing">{{typing}}</small>
       </div>
       <div class="wrap">
+        <!-- <div class="image-preview">
+          <div *ngFor="let item of urls" class="img-content">
+            <img [src]="item" class="img-thumbnail" alt="your image" />
+            <i class="fa fa-close"></i>
+          </div>
+        </div> -->
+        <emoji-mart title="Pick your emoji…" *ngIf="isShowIcon" (emojiSelect)="emojiSelect($event)" totalFrequentLines='2' sheetSize='32' class="emoji" useButton='true' emoji="point_up"></emoji-mart>
+        <input type="file" multiple name="image-file" (change)="onChangeImageFile($event)" class="d-none" accept="image/*" id="image-file" />
         <input type="text" [attr.disabled]="projectName?.length === 0 ? true : null" id="inputChat" (keyup)='sendMessage($event)' [(ngModel)]="message" placeholder="Write your message..." />
-        <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+        <i class="fa fa-paperclip attachment" (click)="displayImage()" aria-hidden="true"></i>
+        <i class="fa fa-smile smile" (click)="onClickIcon()" aria-hidden="true"></i>
         <button class="submit" (click)='sendToGroup()'>
           <i class="fa fa-paper-plane" aria-hidden="true"></i>
         </button>
