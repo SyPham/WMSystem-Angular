@@ -211,14 +211,10 @@ export class ChatGroupComponent implements OnInit {
     this.showImageList = true;
   }
   onChangeImageFile($event) {
-    // for (let i = 0; i <= event.target.files.length - 1; i++) {
-    //   let selectedFile = event.target.files[i];
-    //   this.fileList.push(selectedFile);
-    //   this.listOfFiles.push(selectedFile.name)
-    // }
     console.log($event);
     this.urls = [];
     this.paths = [];
+    this.fileList =[];
     this.files = $event.target.files;
     console.log(this.files);
     if (this.files) {
@@ -254,6 +250,9 @@ export class ChatGroupComponent implements OnInit {
   removeSelectedFile(index) {
     this.fileList.splice(index, 1);
     this.urls.splice(index, 1);
+    if (this.urls.length === 0) {
+      this.showImageList = false;
+    }
     console.log(this.fileList);
     console.log(this.urls);
 
@@ -275,15 +274,21 @@ export class ChatGroupComponent implements OnInit {
       });
   }
   uploadImage(chat) {
-    const formData = new FormData();
-    for (const iterator of this.fileList) {
-      formData.append('UploadedFile', iterator);
+    if (this.fileList) {
+      const formData = new FormData();
+      for (const iterator of this.fileList) {
+        formData.append('UploadedFile', iterator);
+      }
+      formData.append('Chat', chat.ID);
+      this.chatService.uploadImages(formData).subscribe( res => {
+        console.log(res);
+        this.showImageList = false;
+        this.urls = [];
+        this.paths = [];
+        this.fileList =[];
+        this.getChatMessage();
+      });
     }
-    formData.append('Chat', chat.ID);
-    this.chatService.uploadImages(formData).subscribe( res => {
-      console.log(res);
-    });
-
   }
   renderGalleryImages(item) {
    let listAll = [];

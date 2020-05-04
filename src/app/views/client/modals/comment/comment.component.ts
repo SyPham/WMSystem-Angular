@@ -15,6 +15,10 @@ export class CommentComponent implements OnInit {
   public content: string;
   @Input() taskID: number;
   @Input() task: any;
+  files: any;
+  urls: [];
+  fileList: File[] = [];
+  showImageList: boolean;
   userid = JSON.parse(localStorage.getItem('user')).User.ID;
   comment: IComment;
   dataComment: ICommentTreeView[];
@@ -75,4 +79,64 @@ export class CommentComponent implements OnInit {
       }
     });
   }
+  onChangeImageFile($event) {
+    console.log($event);
+    this.showImageList = true;
+    this.urls = [];
+    this.fileList = [];
+    this.files = $event.target.files;
+    console.log(this.files);
+    if (this.files) {
+      for (let file of this.files) {
+        let reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.urls.push(e.target.result);
+          this.fileList.push(file);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    if (this.urls.length > 5) {
+      this.urls = [];
+      this.alertify.warning('You have picked too many files. Limit is 10', true);
+    }
+    console.log(this.urls);
+    console.log(this.fileList);
+  }
+  uploadImage(comment) {
+    if (this.fileList) {
+      const formData = new FormData();
+      for (const iterator of this.fileList) {
+        formData.append('UploadedFile', iterator);
+      }
+      formData.append('Comment', comment.ID);
+      this.commentService.uploadImages(formData).subscribe( res => {
+        console.log(res);
+      });
+    }
+  }
+  displayImage() {
+    document.getElementById('image-file').click();
+  }
+  removeSelectedFile(index) {
+    this.fileList.splice(index, 1);
+    this.urls.splice(index, 1);
+    if (this.urls.length === 0) {
+      this.showImageList = false;
+    }
+    console.log(this.fileList);
+    console.log(this.urls);
+  }
+  renderGalleryImages(item) {
+    let listAll = [];
+    for (const iterator of item.Images) {
+     let child = {
+       small: iterator,
+       medium: iterator,
+       big: iterator
+     };
+     listAll.push(child);
+    }
+    return listAll;
+   }
 }

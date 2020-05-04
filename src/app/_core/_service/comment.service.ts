@@ -44,5 +44,8 @@ export class CommentService {
   getUsernames() {
     return this.http.get(this.baseUrl + 'Users/getUsernames');
   }
+  uploadImages(images: any) {
+    return this.http.post(`${this.baseUrl}Comments/Created`, images);
+  }
 }
 

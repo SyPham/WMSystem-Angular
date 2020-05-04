@@ -20,13 +20,24 @@
             <!-- <h2>Comments</h2> -->
             <div class="comment-form comment-post">
               <!-- <ejs-uploader #defaultupload class="ejs-uploader" ></ejs-uploader> -->
-              <i class="fas fa-camera"></i>
+              <i (click)="displayImage()" class="fas fa-camera attachment"></i>
               <textarea class="comment-area" [(ngModel)]="content" placeholder="Write your comment here"></textarea>
               <a (click)="addComment()" class="btn comment-btn text-white">Post</a>
             </div>
+            <input type="file" #attachments multiple name="UploadedFile" (change)="onChangeImageFile($event)" class="d-none"
+          accept="image/*" id="image-file" />
           </div>
         </div>
-
+        <div class="row">
+          <div class="col-12 imageList">
+            <div class="image-preview" *ngIf="showImageList">
+              <div *ngFor="let item of urls; let index=index" class="img-content">
+                <img [src]="item" class="img-thumbnail" alt="your image" />
+                <i class="fa fa-times fa-close" (click)="removeSelectedFile(index)"></i>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- =======COMMENTS START=======-->
         <div class="row">
           <div class="col-12">

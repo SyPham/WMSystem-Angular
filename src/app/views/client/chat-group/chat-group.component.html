@@ -62,7 +62,31 @@
 
     <div id="messageBox" class="messages" ref="messageBox">
       <ul>
-        <li *ngFor="let item of messages; let i=index" [class]="checkShowMessage(item.UserID)">
+        <ng-container *ngFor="let item of messages; let i=index">
+          <li *ngIf="item.Images.length !== 0" [class]="checkShowMessage(item.UserID)">
+              <div class="clearfix">
+                <div [class]="checkShowMessageUsername(item.UserID)">{{item.Username}}, {{datetime(item.CreatedTime)}}
+                </div>
+              </div>
+              <div></div>
+              <div>
+                <img [src]="imageBase64(item.ImageBase64)" alt />
+              <ngx-gallery [options]="galleryOptions" [images]="renderGalleryImages(item)"></ngx-gallery>
+              </div>
+          </li>
+          <li *ngIf="item.Message !== ''" [class]="checkShowMessage(item.UserID)">
+              <div class="clearfix">
+                <div [class]="checkShowMessageUsername(item.UserID)">{{item.Username}}, {{datetime(item.CreatedTime)}}
+                </div>
+              </div>
+              <div></div>
+              <div>
+                <img [src]="imageBase64(item.ImageBase64)" alt />
+                <p>{{item.Message}}</p>
+              </div>
+          </li>
+        </ng-container>
+        <!-- <li *ngFor="let item of messages; let i=index" [class]="checkShowMessage(item.UserID)">
           <ng-container *ngIf="item.Images.length > 0;else templateName">
             <div class="clearfix">
               <div [class]="checkShowMessageUsername(item.UserID)">{{item.Username}}, {{datetime(item.CreatedTime)}}
@@ -71,7 +95,7 @@
             <div></div>
             <div>
               <img [src]="imageBase64(item.ImageBase64)" alt />
-              <ngx-gallery [options]="galleryOptions" [images]="renderGalleryImages(item)"></ngx-gallery>
+            <ngx-gallery [options]="galleryOptions" [images]="renderGalleryImages(item)"></ngx-gallery>
             </div>
           </ng-container>
           <ng-template #templateName>
@@ -85,7 +109,7 @@
               <p>{{item.Message}}</p>
             </div>
           </ng-template>
-        </li>
+        </li> -->
       </ul>
     </div>
     <div class="message-input">
