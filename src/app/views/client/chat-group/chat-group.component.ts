@@ -1,16 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ChatService } from 'src/app/_core/_service/chat.service';
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
 import { SignalrService } from 'src/app/_core/_service/signalr.service';
 import { CalendarsService } from 'src/app/_core/_service/calendars.service';
-
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery-9';
+import { environment } from '../../../../environments/environment';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-chat-group',
   templateUrl: './chat-group.component.html',
   styleUrls: ['./chat-group.component.css']
 })
 export class ChatGroupComponent implements OnInit {
+  @ViewChild('attachments') attachment: any;
+  selectedFile: File;
+  fileList: File[] = [];
+  listOfFiles: any[] = [];
+  galleryOptions: NgxGalleryOptions[];
+  galleryImages: NgxGalleryImage[];
   keyword: '%20';
   room: '';
   projects: any;
@@ -25,6 +33,14 @@ export class ChatGroupComponent implements OnInit {
   showImageList: boolean;
   currentUser = JSON.parse(localStorage.getItem('user')).User.ID;
   urls = [];
+  paths = [];
+  images = [];
+  files: any;
+  myForm = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    file: new FormControl('', [Validators.required]),
+    fileSource: new FormControl('', [Validators.required])
+  });
   constructor(
     private sanitizer: DomSanitizer,
     private chatService: ChatService,
@@ -34,6 +50,28 @@ export class ChatGroupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.galleryOptions = [
+      { image: false, thumbnailsRemainingCount: true, height: '100px' },
+      { breakpoint: 500, width: '100%', thumbnailsColumns: 2 }
+    ];
+
+    this.galleryImages = [
+      {
+        small: 'https://img.thuthuatphanmem.vn/uploads/2018/10/08/anh-anime-phong-canh-dep_093817122.jpg',
+        medium: 'https://img.thuthuatphanmem.vn/uploads/2018/10/08/anh-anime-phong-canh-dep_093817122.jpg',
+        big: 'https://img.thuthuatphanmem.vn/uploads/2018/10/08/anh-anime-phong-canh-dep_093817122.jpg'
+      },
+      {
+        small: 'https://img.thuthuatphanmem.vn/uploads/2018/10/08/anh-anime-phong-canh-dep_093817122.jpg',
+        medium: 'https://img.thuthuatphanmem.vn/uploads/2018/10/08/anh-anime-phong-canh-dep_093817122.jpg',
+        big: 'https://img.thuthuatphanmem.vn/uploads/2018/10/08/anh-anime-phong-canh-dep_093817122.jpg'
+      },
+      {
+        small: 'https://img.thuthuatphanmem.vn/uploads/2018/10/08/anh-anime-phong-canh-dep_093817122.jpg',
+        medium: 'https://img.thuthuatphanmem.vn/uploads/2018/10/08/anh-anime-phong-canh-dep_093817122.jpg',
+        big: 'https://img.thuthuatphanmem.vn/uploads/2018/10/08/anh-anime-phong-canh-dep_093817122.jpg'
+      }
+    ];
     this.projectName = '';
     this.getProjects();
     this.hub.startConnection();
@@ -117,11 +155,6 @@ export class ChatGroupComponent implements OnInit {
     }
   }
   sendToGroup() {
-    // this.hub.hubConnection
-    //   .send('SendMessageToGroup', this.room.toString(), this.message.toString(), this.currentUser.toString(), this.urls as Array<string>)
-    //   .catch((err) => {
-    //     console.error(err.toString());
-    //   });
     this.addMessageGroup();
     this.isShowIcon = false;
     this.showImageList = false;
@@ -130,22 +163,22 @@ export class ChatGroupComponent implements OnInit {
   stillTyping() {
     // this.typing = 'typing';
     this.hub.hubConnection
-    .invoke('Typing', this.room.toString(), this.currentUser.toString())
-    .catch((err) => {
-       console.error(err.toString());
-    });
+      .invoke('Typing', this.room.toString(), this.currentUser.toString())
+      .catch((err) => {
+        console.error(err.toString());
+      });
   }
   stopTyping() {
     this.hub.hubConnection
-    .send('StopTyping', this.room.toString(), this.currentUser.toString())
-    .catch((err) => {
-       console.error(err.toString());
-    });
+      .send('StopTyping', this.room.toString(), this.currentUser.toString())
+      .catch((err) => {
+        console.error(err.toString());
+      });
   }
   receiveTyping() {
     this.hub.hubConnection.on('ReceiveTyping', (user, username) => {
       if (this.currentUser !== Number(user)) {
-          this.typing = `${username} is typing`;
+        this.typing = `${username} is typing`;
       }
     });
   }
@@ -178,14 +211,30 @@ export class ChatGroupComponent implements OnInit {
     this.showImageList = true;
   }
   onChangeImageFile($event) {
+    // for (let i = 0; i <= event.target.files.length - 1; i++) {
+    //   let selectedFile = event.target.files[i];
+    //   this.fileList.push(selectedFile);
+    //   this.listOfFiles.push(selectedFile.name)
+    // }
+    console.log($event);
     this.urls = [];
-    let files = $event.target.files;
-    if (files) {
-      for (let file of files) {
+    this.paths = [];
+    this.files = $event.target.files;
+    console.log(this.files);
+    if (this.files) {
+      for (let file of this.files) {
         let reader = new FileReader();
         reader.onload = (e: any) => {
           this.urls.push(e.target.result);
-        }
+          this.images.push(e.target.result);
+          this.fileList.push(file);
+          this.paths.push(environment.imagePath + file.name);
+          this.myForm.patchValue({
+            fileSource: this.images,
+            file
+          });
+          console.log(this.myForm);
+        };
         reader.readAsDataURL(file);
       }
     }
@@ -194,28 +243,58 @@ export class ChatGroupComponent implements OnInit {
       this.alertify.warning('You have picked too many files. Limit is 10', true);
     }
     console.log(this.urls);
+    console.log(this.paths);
+    console.log(this.fileList);
+    this.attachment.nativeElement.value = '';
   }
   bindImagebase64(img) {
     this.sanitizer.bypassSecurityTrustResourceUrl(img);
   }
 
-  removeImage(arr, elem) {
-    this.urls = arr.filter(item => item !== elem);
-    if (this.urls.length === 0) {
-      this.showImageList = false;
-    }
+  removeSelectedFile(index) {
+    this.fileList.splice(index, 1);
+    this.urls.splice(index, 1);
+    console.log(this.fileList);
+    console.log(this.urls);
+
   }
   onBlurInputChat(event) {
     this.stopTyping();
+    this.showImageList = false;
   }
   addMessageGroup() {
     let chat = {
       RoomID: this.room,
       userID: this.currentUser,
-      Message: this.message,
-      Images : this.urls as Array<string>
+      Message: this.message
     };
     this.chatService.addMessageGroup(chat)
-      .subscribe(arg => console.log('Successfully!'));
+      .subscribe(arg => {
+        console.log('Successfully!');
+        this.uploadImage(arg);
+      });
+  }
+  uploadImage(chat) {
+    const formData = new FormData();
+    for (const iterator of this.fileList) {
+      formData.append('UploadedFile', iterator);
+    }
+    formData.append('Chat', chat.ID);
+    this.chatService.uploadImages(formData).subscribe( res => {
+      console.log(res);
+    });
+
+  }
+  renderGalleryImages(item) {
+   let listAll = [];
+   for (const iterator of item.Images) {
+    let child = {
+      small: iterator,
+      medium: iterator,
+      big: iterator
+    };
+    listAll.push(child);
+   }
+   return listAll;
   }
 }

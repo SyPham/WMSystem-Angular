@@ -52,6 +52,7 @@ import { TooltipModule } from '@syncfusion/ej2-angular-popups';
 import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { UploaderModule  } from '@syncfusion/ej2-angular-inputs';
+import { NgxGalleryModule } from 'ngx-gallery-9';
 @NgModule({
   imports: [
     CommonModule,
@@ -82,8 +83,9 @@ import { UploaderModule  } from '@syncfusion/ej2-angular-inputs';
     TooltipModule,
     RichTextEditorModule,
     PickerModule,
-    UploaderModule
-    ],
+    UploaderModule,
+    NgxGalleryModule
+      ],
   declarations: [
     TodolistComponent,
     ProjectComponent,

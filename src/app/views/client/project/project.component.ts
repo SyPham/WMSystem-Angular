@@ -26,7 +26,7 @@ export class ProjectComponent implements OnInit {
   text: string;
   name: string = '';
   id: number = 0;
-  isAdd: boolean = true;
+  isAdd: boolean;
   titleModal: string = 'Add Project';
   createdBy: number;
   private modalRef: NgbModalRef;
@@ -57,6 +57,10 @@ export class ProjectComponent implements OnInit {
     this.isAdd = true;
     this.modalRef = this.modalService.open(content);
   }
+  openEditProject(content) {
+    this.isAdd = true;
+    this.modalRef = this.modalService.open(content);
+  }
   close() {
     this.isAdd = true;
     this.modalRef.close();
@@ -78,10 +82,9 @@ export class ProjectComponent implements OnInit {
   }
   edit(content, item) {
     this.titleModal = 'Edit project';
-    this.isAdd = false;
     this.id = item.ID;
     this.name = item.Name;
-    this.open(content);
+    this.openEditProject(content);
   }
   onChangeSwitch(id) {
    this.onOff(id);
@@ -103,21 +106,20 @@ export class ProjectComponent implements OnInit {
       return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64, ' + img);
     }
   }
-  save() {
-    if (this.isAdd) this.create(this.name);
-    else this.update(this.project);
-  }
-  update(project: Project) {
-    project.ID = this.id;
-    project.Name = this.name;
-    this.projectService.update(project).subscribe(res => {
+  update() {
+    const project = {
+      ID : this.id,
+      Name : this.name
+    };
+    console.log(project);
+    this.projectService.update(project as Project).subscribe(res => {
       this.alertify.success('Update Successfully!');
       this.load();
       this.close();
     });
   }
-  create(name: string) {
-    this.projectService.create({ Name: name }).subscribe(res => {
+  create() {
+    this.projectService.create({ Name: this.name }).subscribe(res => {
       this.alertify.success('Add Successfully!');
       this.load();
       this.close();

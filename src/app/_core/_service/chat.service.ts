@@ -37,4 +37,7 @@ export class ChatService {
   addMessageGroup(chat) {
     return this.http.post(`${this.baseUrl}Chat/addMessageGroup`, chat);
   }
+  uploadImages(images: any) {
+    return this.http.post(`${this.baseUrl}Chat/Created`, images);
+  }
 }

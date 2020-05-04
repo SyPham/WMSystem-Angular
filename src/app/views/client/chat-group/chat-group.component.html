@@ -62,17 +62,29 @@
 
     <div id="messageBox" class="messages" ref="messageBox">
       <ul>
-        <li *ngFor="let item of messages; let i=index"
-        [class]="checkShowMessage(item.UserID)"
-        >
-          <div class="clearfix">
-            <div [class]="checkShowMessageUsername(item.UserID)">{{item.Username}}, {{datetime(item.CreatedTime)}}</div>
-          </div>
-          <div></div>
-          <div>
-            <img [src]="imageBase64(item.ImageBase64)" alt />
-            <p>{{item.Message}}</p>
-          </div>
+        <li *ngFor="let item of messages; let i=index" [class]="checkShowMessage(item.UserID)">
+          <ng-container *ngIf="item.Images.length > 0;else templateName">
+            <div class="clearfix">
+              <div [class]="checkShowMessageUsername(item.UserID)">{{item.Username}}, {{datetime(item.CreatedTime)}}
+              </div>
+            </div>
+            <div></div>
+            <div>
+              <img [src]="imageBase64(item.ImageBase64)" alt />
+              <ngx-gallery [options]="galleryOptions" [images]="renderGalleryImages(item)"></ngx-gallery>
+            </div>
+          </ng-container>
+          <ng-template #templateName>
+            <div class="clearfix">
+              <div [class]="checkShowMessageUsername(item.UserID)">{{item.Username}}, {{datetime(item.CreatedTime)}}
+              </div>
+            </div>
+            <div></div>
+            <div>
+              <img [src]="imageBase64(item.ImageBase64)" alt />
+              <p>{{item.Message}}</p>
+            </div>
+          </ng-template>
         </li>
       </ul>
     </div>
@@ -82,14 +94,18 @@
       </div>
       <div class="wrap">
         <div class="image-preview" *ngIf="showImageList">
-            <div *ngFor="let item of urls; let i=index" class="img-content">
-              <img [src]="item" class="img-thumbnail" alt="your image" />
-              <i class="fa fa-times fa-close" (click)="removeImage(urls, item)"></i>
-            </div>
+          <div *ngFor="let item of urls; let index=index" class="img-content">
+            <img [src]="item" class="img-thumbnail" alt="your image" />
+            <i class="fa fa-times fa-close" (click)="removeSelectedFile(index)"></i>
+          </div>
         </div>
-        <emoji-mart title="Pick your emoji…" *ngIf="isShowIcon" (emojiSelect)="emojiSelect($event)" totalFrequentLines='2' sheetSize='32' class="emoji" useButton='true' emoji="point_up"></emoji-mart>
-        <input type="file" multiple name="image-file" (change)="onChangeImageFile($event)" class="d-none" accept="image/*" id="image-file" />
-        <input type="text" autocomplete="off" [attr.disabled]="projectName?.length === 0 ? true : null" id="inputChat" (blur)="onBlurInputChat($event)" (keyup)='sendMessage($event)' [(ngModel)]="message" placeholder="Write your message..." />
+        <emoji-mart title="Pick your emoji…" *ngIf="isShowIcon" (emojiSelect)="emojiSelect($event)"
+          totalFrequentLines='2' sheetSize='32' class="emoji" useButton='true' emoji="point_up"></emoji-mart>
+        <input type="file" #attachments multiple name="UploadedFile" (change)="onChangeImageFile($event)" class="d-none"
+          accept="image/*" id="image-file" />
+        <input type="text" autocomplete="off" [attr.disabled]="projectName?.length === 0 ? true : null" id="inputChat"
+          (blur)="onBlurInputChat($event)" (keyup)='sendMessage($event)' [(ngModel)]="message"
+          placeholder="Write your message..." />
         <i class="fa fa-paperclip attachment" (click)="displayImage()" aria-hidden="true"></i>
         <i class="fa fa-smile smile" (click)="onClickIcon()" aria-hidden="true"></i>
         <button class="submit" (click)='sendToGroup()'>

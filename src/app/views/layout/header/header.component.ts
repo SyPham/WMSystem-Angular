@@ -19,6 +19,7 @@ import { AvatarModalComponent } from './avatar-modal/avatar-modal.component';
 export class HeaderComponent implements OnInit {
   public data: any;
   private intervalID: any;
+  private intervalSignalr: any;
   public navAdmin: any;
   public navClient: any;
   public total: number;
@@ -48,7 +49,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.navAdmin = new Nav().getNavAdmin();
     this.navClient = new Nav().getNavClient();
-    this.checkTask();
+    this.checkServer();
+    // this.checkAlert();
     this.getAvatar();
     this.role = JSON.parse(localStorage.getItem('user')).User.Role;
     this.currentUser = JSON.parse(localStorage.getItem('user')).User.Username;
@@ -62,6 +64,9 @@ export class HeaderComponent implements OnInit {
   ngOnDestroy() {
     if (this.intervalID) {
       clearInterval(this.intervalID);
+    }
+    if (this.intervalSignalr) {
+      clearInterval(this.intervalSignalr);
     }
   }
   onService() {
@@ -150,9 +155,9 @@ export class HeaderComponent implements OnInit {
   }
   checkServer() {
     let user = JSON.parse(localStorage.getItem('user')).User.Username;
-    setInterval(() => {
+    this.intervalSignalr = setInterval(() => {
       if (this.signalrService.hubConnection.state) {
-        console.log(user + 'yeu cau server check alert');
+        console.log(user + ' yeu cau server check alert');
         this.checkAlert();
       } else {
         setTimeout( () => {
@@ -162,8 +167,14 @@ export class HeaderComponent implements OnInit {
     }, 30000);
   }
   checkAlert() {
-    let userId = JSON.parse(localStorage.getItem('user')).User.ID;
-    this.signalrService.checkAlert(userId);
+    let user = JSON.parse(localStorage.getItem('user')).User.Username;
+    this.headerService.checkTask().subscribe( res => {
+    });
+    // this.signalrService.hubConnection
+    // .invoke('CheckAlert', user)
+    // .catch((err) => {
+    //   console.error(err.toString());
+    // });
   }
   getNotifications() {
     console.log('getNotifications: ', this.userid);
