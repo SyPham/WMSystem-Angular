@@ -30,7 +30,7 @@
     <div class="nested-comments" *ngIf="node.HasChildren">
       <div class="comment-box-wrapper">
         <ng-container *ngFor="let child of node.children; let i = index">
-          <app-node-tree  [node]="child" *ngIf="i < totalShow;" [task]='task' [taskID]="taskID" ></app-node-tree>
+          <app-node-tree [node]="child" *ngIf="i < totalShow;" [clientRouter]='clientRouter' [taskID]="taskID" ></app-node-tree>
         </ng-container>
         <small
         style="cursor: pointer;"
@@ -99,7 +99,7 @@
   </div>
   <div class="nested-comments" *ngIf="node.HasChildren">
       <ng-container *ngFor="let child of node.children; let i = index">
-        <app-node-tree  [node]="child" *ngIf="i < totalShow;" [task]='task' [taskID]="taskID" ></app-node-tree>
+        <app-node-tree [node]="child" *ngIf="i < totalShow;" [clientRouter]='clientRouter' [taskID]="taskID" ></app-node-tree>
       </ng-container>
       <small
       style="cursor: pointer;"

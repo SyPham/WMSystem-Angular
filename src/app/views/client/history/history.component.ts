@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit,OnDestroy, ViewChild, Input } from '@angular/core';
 import { WatchTutorialVideoComponent } from '../routine/watch-tutorial-video/watch-tutorial-video.component';
 import { TreeGridComponent, FilterSettingsModel, EditSettingsModel } from '@syncfusion/ej2-angular-treegrid';
 import { NgbModalRef, NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HistoryService } from 'src/app/_core/_service/history.service';
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
 import { CalendarsService } from 'src/app/_core/_service/calendars.service';
@@ -11,6 +11,8 @@ import { HeaderService } from 'src/app/_core/_service/header.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
 import { CommentComponent } from '../modals/comment/comment.component';
 import { PeriodType } from 'src/app/_core/enum/task.enum';
+import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
@@ -37,6 +39,7 @@ export class HistoryComponent implements OnInit {
     private historyService: HistoryService,
     private calendarsService: CalendarsService,
     private headerService: HeaderService,
+    private router: Router,
     private alertify: AlertifyService) {
     }
     srcTutorial: string;
@@ -49,6 +52,7 @@ export class HistoryComponent implements OnInit {
     public pageSetting: object;
     public searchSettings: object;
     public sortSettings: object;
+    subscription: Subscription;
     @ViewChild('treegrid')
     public treeGridObj: TreeGridComponent;
     public modifyDateAccessor = (field: Date, data: { Entity: {ModifyDateTime: Date} }, column: object): Date => {
@@ -63,11 +67,17 @@ export class HistoryComponent implements OnInit {
       this.resolver();
     }
     notification() {
-      this.headerService.currentMessage
+      this.subscription = this.headerService.currentMessage
       .subscribe((arg: IHeader) => {
         console.log('notification ', arg);
         if (arg?.router?.toLowerCase() === 'history') {
           this.search = arg.message;
+        }
+        const url = arg?.router?.toLowerCase();
+        if (url?.includes('history-comment') && this.router.url.includes('history-comment')) {
+          const name = url.split('/')[3];
+          const id = url.split('/')[2];
+          this.openCommentModalForNotification(name, id);
         }
       });
     }
@@ -81,11 +91,21 @@ export class HistoryComponent implements OnInit {
     periodText(enumVal) {
      return this.getEnumKeyByEnumValue(PeriodType, Number(enumVal));
     }
+    openCommentModalForNotification(name, id) {
+      const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
+      modalRef.componentInstance.title = name;
+      modalRef.componentInstance.taskID = id;
+      modalRef.componentInstance.clientRouter = ClientRouter.History;
+      modalRef.result.then((result) => {
+        console.log('open Comment Modal From Todolist', result);
+      }, (reason) => {
+      });
+    }
     openCommentModal(args) {
       const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
       modalRef.componentInstance.title = args.rowData.Entity.JobName;
       modalRef.componentInstance.taskID = args.rowData.Entity.ID;
-      modalRef.componentInstance.task = args.rowData.Entity;
+      modalRef.componentInstance.clientRouter = ClientRouter.History;
       modalRef.result.then((result) => {
           console.log('openCommentModal From Todolist', result );
         }, (reason) => {

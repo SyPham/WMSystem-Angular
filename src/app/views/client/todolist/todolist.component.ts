@@ -1,7 +1,9 @@
-import { Component, OnInit, OnChanges, ViewChild, DoCheck, Input } from '@angular/core';
-import { PageService, ToolbarItems,
+import { Component, OnInit, OnChanges, OnDestroy, ViewChild, DoCheck, Input } from '@angular/core';
+import {
+  PageService, ToolbarItems,
   TreeGridComponent, EditSettingsModel,
-  FilterSettingsModel, FilterService } from '@syncfusion/ej2-angular-treegrid';
+  FilterSettingsModel, FilterService
+} from '@syncfusion/ej2-angular-treegrid';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -25,16 +27,19 @@ import { HeaderService } from 'src/app/_core/_service/header.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
 import { RoutineService } from 'src/app/_core/_service/routine.service';
 import { DragScrollComponent } from 'ngx-drag-scroll';
+import { Subscription } from 'rxjs';
+import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 declare let $: any;
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
   styleUrls: ['./todolist.component.css'],
-  providers: [ FilterService ],
+  providers: [FilterService],
 })
 export class TodolistComponent implements OnInit {
   @Input() Id: number;
   @Input() Users: [];
+  ROUTER_NAME: ['To Do List', 'To Do List 2', 'To Do List 3'];
   taskId: 0;
   // tslint:disable-next-line:ban-types
   public contextMenuItems: Object;
@@ -50,8 +55,8 @@ export class TodolistComponent implements OnInit {
     private listTaskProjectService: ListTaskProjectService,
     private projectDetailService: ProjectDetailService,
     private todolistSerivce: TodolistService,
-    private headerService: HeaderService,
     private routineService: RoutineService,
+    private headerService: HeaderService,
     private router: Router,
     private alertify: AlertifyService) {
   }
@@ -67,17 +72,23 @@ export class TodolistComponent implements OnInit {
   searchSettings: object;
   @ViewChild('treegrid')
   public treeGridObj: TreeGridComponent;
+  subscription: Subscription;
   @ViewChild('nav', { read: DragScrollComponent, static: true }) ds: DragScrollComponent;
-  public dueDateAccessor = (field: Date, data: { Entity: {DueDate: Date} }, column: object): Date => {
+  public dueDateAccessor = (field: Date, data: { Entity: { DueDate: Date } }, column: object): Date => {
     return new Date(data.Entity.DueDate);
   }
   ngOnInit(): void {
     this.optionGridTree();
     this.resolver();
+    this.notification();
   }
- test() {
-  this.treeGridObj.search('Report');
- }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+  test() {
+    this.treeGridObj.search('Report');
+  }
+
   onRouteChange() {
     this.route.data.subscribe(data => {
       const taskname = this.route.snapshot.paramMap.get('taskname');
@@ -91,11 +102,17 @@ export class TodolistComponent implements OnInit {
     });
   }
   notification() {
-    this.headerService.currentMessage
+   this.subscription = this.headerService.currentMessage
       .subscribe((arg: IHeader) => {
         console.log('notification ', arg);
+        const url = arg?.router?.toLowerCase();
         if (arg?.router?.toLowerCase() === 'todolist') {
           this.search = arg.message;
+        }
+        if (url?.includes('todolist-comment') && this.router.url.includes('todolist-comment')) {
+          const name = url.split('/')[3];
+          const id = url.split('/')[2];
+          this.openCommentModalForNotification(name, id);
         }
       });
   }
@@ -283,13 +300,23 @@ export class TodolistComponent implements OnInit {
   recordDoubleClick(agrs?: any) {
     this.openCommentModal(agrs);
   }
+  openCommentModalForNotification(name, id) {
+    const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
+    modalRef.componentInstance.title = name;
+    modalRef.componentInstance.taskID = id;
+    modalRef.componentInstance.clientRouter = ClientRouter.ToDoList;
+    modalRef.result.then((result) => {
+      console.log('open Comment Modal From Todolist', result);
+    }, (reason) => {
+    });
+  }
   openCommentModal(args) {
     const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
     modalRef.componentInstance.title = args.rowData.Entity.JobName;
     modalRef.componentInstance.taskID = args.rowData.Entity.ID;
-    modalRef.componentInstance.task = args.rowData.Entity;
+    modalRef.componentInstance.clientRouter = ClientRouter.ToDoList;
     modalRef.result.then((result) => {
-      console.log('openCommentModal From Todolist', result);
+      console.log('open Comment Modal From Todolist', result);
     }, (reason) => {
     });
   }

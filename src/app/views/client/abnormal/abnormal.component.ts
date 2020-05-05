@@ -22,6 +22,7 @@ import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
 import { JobTypeService } from 'src/app/_core/_service/jobType.service';
 import { SignalrService } from 'src/app/_core/_service/signalr.service';
 import { CommentComponent } from '../modals/comment/comment.component';
+import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 declare let $: any;
 @Component({
   selector: 'app-abnormal',
@@ -261,6 +262,12 @@ export class AbnormalComponent implements OnInit {
           iconCss: ' fa fa-bell',
           target: '.e-content',
           id: 'Follow'
+        },
+        {
+          text: 'Unfollow',
+          iconCss: ' fa fa-bell-slash',
+          target: '.e-content',
+          id: 'Unfollow'
         }
       ];
     }
@@ -467,7 +474,7 @@ export class AbnormalComponent implements OnInit {
     const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
     modalRef.componentInstance.title = args.rowData.JobName;
     modalRef.componentInstance.taskID = args.rowData.ID;
-    modalRef.componentInstance.task = args.rowData.Entity;
+    modalRef.componentInstance.clientRouter = ClientRouter.Abnormal;
     modalRef.result.then((result) => {
       console.log('openCommentModal From Todolist', result);
     }, (reason) => {

@@ -197,7 +197,7 @@ export class AddTaskModalComponent implements OnInit {
       case PeriodType.SpecificDate:
         this.periodtype = PeriodType.SpecificDate;
         this.selectedPeriodMain = 'DueDate';
-        this.deadline = item._DueDate;
+        this.deadline = item._SpecificDate;
         this.changeStatus(true, true, true, false);
         break;
       default:

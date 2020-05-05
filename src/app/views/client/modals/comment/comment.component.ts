@@ -4,6 +4,7 @@ import { IComment, ICommentTreeView } from 'src/app/_core/_model/comment.interfa
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Task } from 'src/app/_core/_model/Task';
+import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 
 @Component({
   selector: 'app-comment',
@@ -14,7 +15,7 @@ export class CommentComponent implements OnInit {
   @Input() title: string;
   public content: string;
   @Input() taskID: number;
-  @Input() task: any;
+  @Input() clientRouter: ClientRouter;
   files: any;
   urls: [];
   fileList: File[] = [];
@@ -33,17 +34,16 @@ export class CommentComponent implements OnInit {
     this.initialParams();
     this.onService();
     this.getAllComment();
-    console.log('Open model comment', this.task);
-
   }
   initialParams() {
     this.totalShow = 3;
     this.comment = {
       Content: this.content,
       ParentID: 0,
-      TaskCode: this.task.TaskCode,
+      TaskCode: '',
       TaskID: this.taskID,
-      UserID: this.userid
+      UserID: this.userid,
+      ClientRouter: this.clientRouter
     };
   }
   onService() {
@@ -112,6 +112,7 @@ export class CommentComponent implements OnInit {
       }
       formData.append('Comment', comment.ID);
       this.commentService.uploadImages(formData).subscribe( res => {
+        this.getAllComment();
         console.log(res);
         this.showImageList = false;
         this.fileList = [];

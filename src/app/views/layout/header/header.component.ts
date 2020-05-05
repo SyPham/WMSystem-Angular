@@ -1,4 +1,4 @@
-import { Component, OnInit , OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../../_core/_service/auth.service';
 import { AlertifyService } from '../../../_core/_service/alertify.service';
 import { Router } from '@angular/router';
@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
   userid: number;
   role: number;
   avatar: any;
+  currentUser = JSON.parse(localStorage.getItem('user')).User.ID;
   constructor(
     private authService: AuthService,
     private alertify: AlertifyService,
@@ -60,6 +61,7 @@ export class HeaderComponent implements OnInit {
     this.userid = JSON.parse(localStorage.getItem('user')).User.ID;
     this.getNotifications();
     this.onService();
+    this.receiveGroupNotification();
   }
   ngOnDestroy() {
     if (this.intervalID) {
@@ -67,6 +69,15 @@ export class HeaderComponent implements OnInit {
     }
     if (this.intervalSignalr) {
       clearInterval(this.intervalSignalr);
+    }
+  }
+  receiveGroupNotification() {
+    if (this.signalrService.hubConnection.state) {
+      this.signalrService.hubConnection.on('ReceiveMessage', (user, username) => {
+        if (user.indexOf(this.currentUser)) {
+         this.getNotifications();
+        }
+      });
     }
   }
   onService() {
@@ -132,7 +143,7 @@ export class HeaderComponent implements OnInit {
     this.authService.currentUser = null;
     this.alertify.message('Logged out');
     const uri = this.router.url;
-    this.router.navigate(['login'], {queryParams: {uri}});
+    this.router.navigate(['login'], { queryParams: { uri } });
 
   }
   openAvatarModal() {
@@ -160,7 +171,7 @@ export class HeaderComponent implements OnInit {
         console.log(user + ' yeu cau server check alert');
         this.checkAlert();
       } else {
-        setTimeout( () => {
+        setTimeout(() => {
           this.router.navigate(['/maintenance']);
         });
       }
@@ -168,7 +179,7 @@ export class HeaderComponent implements OnInit {
   }
   checkAlert() {
     let user = JSON.parse(localStorage.getItem('user')).User.Username;
-    this.headerService.checkTask().subscribe( res => {
+    this.headerService.checkTask().subscribe(res => {
     });
     // this.signalrService.hubConnection
     // .invoke('CheckAlert', user)
@@ -179,7 +190,7 @@ export class HeaderComponent implements OnInit {
   getNotifications() {
     console.log('getNotifications: ', this.userid);
 
-    this.headerService.getAllNotificationCurrentUser(this.page, this.pageSize, this.userid).subscribe( (res: any) => {
+    this.headerService.getAllNotificationCurrentUser(this.page, this.pageSize, this.userid).subscribe((res: any) => {
       this.data = res.model;
       this.total = res.total;
       this.totalCount = res.TotalCount;
@@ -228,15 +239,10 @@ export class HeaderComponent implements OnInit {
       this.getNotifications();
     });
     let obj: IHeader = {
-      router: item.URL.split('/')[1],
-      message: item.URL.split('/')[2],
+      router: item.URL,
+      message: item.URL,
     };
-    if (obj.router === 'project-detail') {
-      this.router.navigate([item.URL.replace('project-detail', 'project/detail')]);
-    } else {
-      // this.headerService.changeMessage(obj);
-       let url = `/${obj.router}`;
-       this.router.navigate([item.URL]);
-    }
+    this.headerService.changeMessage(obj);
+    this.router.navigate([item.URL]);
   }
 }

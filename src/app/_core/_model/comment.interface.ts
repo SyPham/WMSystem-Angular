@@ -1,9 +1,12 @@
+import { ClientRouter } from '../enum/ClientRouter';
+
 export interface IComment {
     Content: string;
     TaskCode: string;
     TaskID: number;
     ParentID: number;
     UserID: number;
+    ClientRouter: ClientRouter;
 }
 export interface ICommentTreeView {
      ID: number;

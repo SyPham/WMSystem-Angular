@@ -5,6 +5,7 @@ import { AlertifyService } from 'src/app/_core/_service/alertify.service';
 // This is required
 import { DomSanitizer } from '@angular/platform-browser';
 import { CalendarsService } from 'src/app/_core/_service/calendars.service';
+import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 
 @Component({
   selector: 'app-node-tree',
@@ -14,7 +15,7 @@ import { CalendarsService } from 'src/app/_core/_service/calendars.service';
 export class NodeTreeComponent implements OnInit {
   @Input() node: any;
   @Input() taskID: number;
-  @Input() task: any;
+  @Input() clientRouter: ClientRouter;
   files: any;
   urls: [];
   fileList: File[] = [];
@@ -91,8 +92,9 @@ export class NodeTreeComponent implements OnInit {
         Content: event.target.value,
         TaskID: this.taskID,
         ParentID: parentid,
-        TaskCode: this.task.TaskCode,
-        UserID: this.userid
+        TaskCode: '',
+        UserID: this.userid,
+        ClientRouter: this.clientRouter
       };
       this.commentService.addSubComment(subComment).subscribe(res => {
         if (res) {

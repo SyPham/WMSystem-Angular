@@ -3,13 +3,13 @@ import { WatchTutorialVideoComponent } from '../routine/watch-tutorial-video/wat
 import { TreeGridComponent, FilterSettingsModel, EditSettingsModel } from '@syncfusion/ej2-angular-treegrid';
 import { NgbModalRef, NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
-import { HistoryService } from 'src/app/_core/_service/history.service';
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
 import { FollowService } from 'src/app/_core/_service/follow.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
 import { HeaderService } from 'src/app/_core/_service/header.service';
 import { PeriodType } from 'src/app/_core/enum/task.enum';
 import { CommentComponent } from '../modals/comment/comment.component';
+import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 declare let $: any;
 @Component({
   selector: 'app-follow',
@@ -185,7 +185,7 @@ export class FollowComponent implements OnInit {
     const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
     modalRef.componentInstance.title = args.rowData.Entity.JobName;
     modalRef.componentInstance.taskID = args.rowData.Entity.ID;
-    modalRef.componentInstance.task = args.rowData.Entity;
+    modalRef.componentInstance.clientRouter = ClientRouter.Follow;
     modalRef.result.then((result) => {
       console.log('openCommentModal From Todolist', result );
     }, (reason) => {

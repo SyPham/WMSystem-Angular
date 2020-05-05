@@ -17,6 +17,7 @@ import { ProjectDetailService } from 'src/app/_core/_service/projectDetail.servi
 import { Task } from 'src/app/_core/_model/Task';
 import { CommentComponent } from '../../modals/comment/comment.component';
 import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
+import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 // tslint:disable-next-line:no-conflicting-lifecycle
 declare let $: any;
 @Component({
@@ -310,7 +311,7 @@ export class ListTaskProjectComponent implements OnInit {
     const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
     modalRef.componentInstance.title = args.rowData.Entity.JobName;
     modalRef.componentInstance.taskID = args.rowData.Entity.ID;
-    modalRef.componentInstance.task = args.rowData.Entity;
+    modalRef.componentInstance.clientRouter = ClientRouter.ProjectDetail;
     modalRef.result.then((result) => {
       console.log('openCommentModal From Todolist', result);
     }, (reason) => {

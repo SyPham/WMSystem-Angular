@@ -21,6 +21,7 @@ import { WatchTutorialVideoComponent } from './watch-tutorial-video/watch-tutori
 import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
 import { JobTypeService } from 'src/app/_core/_service/jobType.service';
 import { CommentComponent } from '../modals/comment/comment.component';
+import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 declare let $: any;
 @Component({
   selector: 'app-routine',
@@ -479,7 +480,7 @@ export class RoutineComponent implements OnInit {
     const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
     modalRef.componentInstance.title = args.rowData.Entity.JobName;
     modalRef.componentInstance.taskID = args.rowData.Entity.ID;
-    modalRef.componentInstance.task = args.rowData.Entity;
+    modalRef.componentInstance.clientRouter = ClientRouter.Routine;
     modalRef.result.then((result) => {
       console.log('openCommentModal From Todolist', result);
     }, (reason) => {

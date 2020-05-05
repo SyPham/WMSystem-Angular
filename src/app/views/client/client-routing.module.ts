@@ -115,6 +115,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'history-comment/:id/:taskname',
+        resolve: { histories: HistoryResolver },
+        component: HistoryComponent,
+        data: {
+          title: 'History'
+        }
+      },
+      {
         path: 'follow',
         resolve: { follows: FollowResolver },
         component: FollowComponent,
