@@ -72,6 +72,7 @@ export class CommentComponent implements OnInit {
     this.commentService.addComment(this.comment).subscribe(res => {
       if (res) {
         this.alertify.success('You have already added the comment successfully!');
+        this.uploadImage(res);
         this.getAllComment();
         this.content = '';
       } else {
@@ -112,11 +113,14 @@ export class CommentComponent implements OnInit {
       formData.append('Comment', comment.ID);
       this.commentService.uploadImages(formData).subscribe( res => {
         console.log(res);
+        this.showImageList = false;
+        this.fileList = [];
+        this.urls = [];
       });
     }
   }
   displayImage() {
-    document.getElementById('image-file').click();
+    document.getElementById('image-file-comment').click();
   }
   removeSelectedFile(index) {
     this.fileList.splice(index, 1);

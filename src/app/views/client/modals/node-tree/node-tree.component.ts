@@ -28,6 +28,10 @@ export class NodeTreeComponent implements OnInit {
   usernames: any;
   userid = Number(JSON.parse(localStorage.getItem('user')).User.ID);
   mentionConfig: any;
+  galleryOptions = [
+    { image: false, thumbnailsRemainingCount: true, height: '100px' },
+    { breakpoint: 500, width: '100%', thumbnailsColumns: 2 }
+  ];
   constructor(
     private commentService: CommentService,
     private alertify: AlertifyService,
@@ -80,7 +84,7 @@ export class NodeTreeComponent implements OnInit {
     return this.totalShow < this.node.children.length || this.node.children.length > this.totalShow;
   }
   addSubComment(event, parentid) {
-    if (event.target.value) {
+    if (event.target.value || this.fileList) {
       console.log('addSubComment');
       console.log(event);
       const subComment: IComment = {
@@ -92,6 +96,8 @@ export class NodeTreeComponent implements OnInit {
       };
       this.commentService.addSubComment(subComment).subscribe(res => {
         if (res) {
+          console.log('addSubComment: ', res);
+          this.uploadImage(res);
           this.getAllComment();
           this.alertify.success('You have already added the comment successfully!');
           this.commentService.changeMessage(200);
@@ -145,7 +151,7 @@ export class NodeTreeComponent implements OnInit {
     this.isShowIcon = !this.isShowIcon;
   }
   displayImage() {
-    document.getElementById('image-file-bottom').click();
+    document.getElementById('image-file-node-tre').click();
   }
   onChangeImageFile($event) {
     console.log($event);
@@ -180,6 +186,9 @@ export class NodeTreeComponent implements OnInit {
       formData.append('Comment', comment.ID);
       this.commentService.uploadImages(formData).subscribe( res => {
         console.log(res);
+        this.showImageList = false;
+        this.fileList = [];
+        this.urls = [];
       });
     }
   }

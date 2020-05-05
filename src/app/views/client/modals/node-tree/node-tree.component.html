@@ -1,8 +1,8 @@
-<div>
-  <div class="comment-box-wrapper">
-    <div class="comment-box">
+<ng-container *ngIf="node.Images.length !== 0">
+<div class="comment-box-wrapper">
+    <div class="comment-box" >
       <img [src]="imageBase64(node.ImageBase64)" class="commenter-image" alt="commenter_image" />
-      <div class="comment-content">
+      <div class="comment-content" style="background: #ffffff;">
         <div class="commenter-head">
           <span class="commenter-name">
             <a href>{{node.Username}}</a>
@@ -13,7 +13,7 @@
           </span>
         </div>
         <div class="comment-body">
-          <span class="comment">{{node.Content}}</span>
+          <span class="comment"> <ngx-gallery [options]="galleryOptions" [images]="renderGalleryImages(node)"></ngx-gallery></span>
         </div>
         <div class="comment-footer">
           <span class="comment-reply">
@@ -44,9 +44,17 @@
       </div>
     </div>
     <div class="comment-box search" *ngIf="isShow === true">
+      <input type="file" #attachments multiple name="UploadedFile" (change)="onChangeImageFile($event)" class="d-none"
+            accept="image/*" id="image-file-node-tre" />
+      <div class="image-preview" *ngIf="showImageList">
+        <div *ngFor="let item of urls; let index=index" class="img-content">
+          <img [src]="item" class="img-thumbnail" alt="your image" />
+          <i class="fa fa-times fa-close" (click)="removeSelectedFile(index)"></i>
+        </div>
+      </div>
       <emoji-mart *ngIf="isShowIcon" title="Pick your emoji…" (emojiSelect)="emojiSelect($event)" totalFrequentLines='2' sheetSize='64' class="emoji" useButton='true' emoji="point_up"></emoji-mart>
       <img [src]="imageBase64CurrentUser()" class="commenter-image" alt="commenter_image" />
-      <i class="fa fa-camera"></i>
+      <i class="fa fa-camera" (click)="displayImage()"></i>
       <i class="far fa-smile" (click)="onClickIcon()"></i>
       <input
         class="form-control ml-1 mt-1 form-control-sm"
@@ -58,5 +66,74 @@
         placeholder="Type a comment"
       />
     </div>
+</div>
+</ng-container>
+<ng-container *ngIf="node.Content.length !== 0">
+<div class="comment-box-wrapper">
+  <div class="comment-box" >
+    <img [src]="imageBase64(node.ImageBase64)" class="commenter-image" alt="commenter_image" />
+    <div class="comment-content">
+      <div class="commenter-head">
+        <span class="commenter-name">
+          <a href>{{node.Username}}</a>
+        </span>
+        <span class="comment-date">
+          <i class="far fa-clock"></i>
+          {{datetime(node.CreatedTime)}}
+        </span>
+      </div>
+      <div class="comment-body">
+        <span class="comment">{{node.Content}}</span>
+      </div>
+      <div class="comment-footer">
+        <span class="comment-reply">
+          <a v-show="node.HasChildren">{{ node.HasChildren ? node.children.length : 0 }}</a>
+          <a
+            class="comment-action"
+            style="cursor: pointer;"
+            (click)="clickReply($event, node)"
+          >{{ node.HasChildren ? "Replies" : "Reply" }}</a>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="nested-comments" *ngIf="node.HasChildren">
+      <ng-container *ngFor="let child of node.children; let i = index">
+        <app-node-tree  [node]="child" *ngIf="i < totalShow;" [task]='task' [taskID]="taskID" ></app-node-tree>
+      </ng-container>
+      <small
+      style="cursor: pointer;"
+      *ngIf="checkMore()"
+      (click)="increseTotalShow()"
+      class="text-center text-primary d-block"
+    >
+      Load more 
+      <i class="fas fa-chevron-down text-small"></i>
+    </small>
+    
+  </div>
+  <div class="comment-box search" *ngIf="isShow === true">
+    <input type="file" #attachments multiple name="UploadedFile" (change)="onChangeImageFile($event)" class="d-none"
+          accept="image/*" id="image-file-node-tre" />
+    <div class="image-preview" *ngIf="showImageList">
+      <div *ngFor="let item of urls; let index=index" class="img-content">
+        <img [src]="item" class="img-thumbnail" alt="your image" />
+        <i class="fa fa-times fa-close" (click)="removeSelectedFile(index)"></i>
+      </div>
+    </div>
+    <emoji-mart *ngIf="isShowIcon" title="Pick your emoji…" (emojiSelect)="emojiSelect($event)" totalFrequentLines='2' sheetSize='64' class="emoji" useButton='true' emoji="point_up"></emoji-mart>
+    <img [src]="imageBase64CurrentUser()" class="commenter-image" alt="commenter_image" />
+    <i class="fa fa-camera" (click)="displayImage()"></i>
+    <i class="far fa-smile" (click)="onClickIcon()"></i>
+    <input
+      class="form-control ml-1 mt-1 form-control-sm"
+      type="text"
+      (keyup.enter)="addSubComment($event, node?.ID)"
+      [(ngModel)]="content"
+      [mention]="usernames"
+      [mentionConfig]="mentionConfig"
+      placeholder="Type a comment"
+    />
   </div>
 </div>
+</ng-container>

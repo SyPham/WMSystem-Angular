@@ -25,7 +25,7 @@
               <a (click)="addComment()" class="btn comment-btn text-white">Post</a>
             </div>
             <input type="file" #attachments multiple name="UploadedFile" (change)="onChangeImageFile($event)" class="d-none"
-          accept="image/*" id="image-file" />
+          accept="image/*" id="image-file-comment" />
           </div>
         </div>
         <div class="row">
@@ -42,11 +42,7 @@
         <div class="row">
           <div class="col-12">
             <ng-container *ngFor="let item of dataComment; let i = index">
-              <div class="comment-box-wrapper">
-                <div class="comment-box-wrapper">
-                    <app-tree [treeData]="item" *ngIf="i < totalShow;" [task]="task" [taskID]="taskID"></app-tree>
-                </div>
-              </div>
+                <app-tree [treeData]="item" *ngIf="i < totalShow;" [task]="task" [taskID]="taskID"></app-tree>
             </ng-container>
             <small style="cursor: pointer;" (click)="increseTotalShow()"
             *ngIf="totalShow < dataComment?.length" class="text-center text-primary d-block">
