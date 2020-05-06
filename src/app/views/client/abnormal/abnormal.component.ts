@@ -68,7 +68,7 @@ export class AbnormalComponent implements OnInit {
     this.signalr.startConnection();
     this.resolver();
     this.filterSettings = { type: 'CheckBox' };
-    this.pageSetting = { pageCount: 2, pageSizes: true };
+    this.pageSetting = { pageCount: 5, pageSizes: true };
     this.toolbarOptions = [
       'Search',
       'ExpandAll',

@@ -86,7 +86,7 @@ export class ListTaskProjectComponent implements OnInit {
       ignoreCase: true
     };
     this.editSettings = { allowAdding: true, mode: 'Row' };
-    this.pageSetting = { pageCount: 2, pageSizes: true };
+    this.pageSetting = { pageCount: 5, pageSizes: true };
     this.contextMenuItems = [
       {
         text: 'Add Sub-Task',

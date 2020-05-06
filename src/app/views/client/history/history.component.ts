@@ -144,7 +144,7 @@ export class HistoryComponent implements OnInit {
         { text: 'All columns', tooltipText: 'Show all columns', prefixIcon: 'e-add', id: 'AllColumns' },
         { text: 'Default columns', tooltipText: 'Show default columns', prefixIcon: 'e-add', id: 'DefaultColumns' }
       ];
-      this.pageSetting = { pageCount: 2, pageSizes: true } ;
+      this.pageSetting = { pageCount: 5, pageSizes: true } ;
       this.contextMenuItems = [
           {
             text: 'Watch Video',

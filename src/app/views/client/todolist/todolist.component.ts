@@ -140,7 +140,7 @@ export class TodolistComponent implements OnInit {
       { text: 'Default columns', tooltipText: 'Show default columns', prefixIcon: 'e-add', id: 'DefaultColumns' },
     ];
     this.editSettings = { allowAdding: true, mode: 'Row' };
-    this.pageSetting = { pageCount: 2, pageSizes: true };
+    this.pageSetting = { pageCount: 5, pageSizes: true };
     this.contextMenuItems = [
       {
         text: 'Finish Task',
