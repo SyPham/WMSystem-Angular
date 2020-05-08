@@ -89,8 +89,8 @@ import { MaintenanceComponent} from './views/maintenance/maintenance.component';
     JwtModule.forRoot({
       config: {
         tokenGetter,
-        whitelistedDomains: ['10.4.4.224:11111'],
-        blacklistedRoutes: ['10.4.4.224:11111/api/auth']
+        whitelistedDomains: ['10.4.4.224:106'],
+        blacklistedRoutes: ['10.4.4.224:106/api/auth']
       }
     })
   ],

@@ -28,7 +28,7 @@ import { ButtonAllModule , CheckBoxAllModule} from '@syncfusion/ej2-angular-butt
 
 import { DatePickerModule, DatePickerAllModule, DateRangePickerAllModule, DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
 
-import { NumericTextBoxAllModule } from '@syncfusion/ej2-angular-inputs';
+import { NumericTextBoxAllModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 
 import { TreeGridAllModule } from '@syncfusion/ej2-angular-treegrid';
 import { AddSubTaskComponent } from './project-detail/list-task-project/add-sub-task/add-sub-task.component';
@@ -84,7 +84,8 @@ import { NgxGalleryModule } from 'ngx-gallery-9';
     RichTextEditorModule,
     PickerModule,
     UploaderModule,
-    NgxGalleryModule
+    NgxGalleryModule,
+    TextBoxModule
       ],
   declarations: [
     TodolistComponent,

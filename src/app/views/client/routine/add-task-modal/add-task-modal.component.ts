@@ -308,11 +308,11 @@ export class AddTaskModalComponent implements OnInit {
     this.periodtype = PeriodType.Monthly;
   }
   change(arg?) {
-    console.log('change: ', arg.target.value);
-    switch (arg.target.value) {
+    console.log('change: ', arg.value);
+    switch (arg.value) {
       case 'reset': this.changeStatus(); break;
       case 'Daily':
-        this.changeStatus();
+        this.changeStatus(false);
         this.clearPeriod(true, false, false, false, false, false);
         this.duedatedaily = new Date();
         this.periodtype = PeriodType.Daily;

@@ -1,14 +1,25 @@
 <div class="row">
-    <div class="col-md-12 col-xs-12 col-12">
+    <div class="col-lg-4">
+    </div>
+    <div class="col-lg-3 col-xs-12 col-12">
       <h5 class="text-primary">Filter date range</h5>
     </div>
-    <div class="col-lg-6 col-xs-12 col-12 pb-4">
+    <div class="col-lg-1">
+     
+    </div>
+    <div class="col-lg-4">
+    </div>
+    <div class="col-lg-4">
+    </div>
+    <div class="col-lg-3 col-xs-12 col-12 pb-4">
         <ejs-daterangepicker (cleared)="cleared($event)" cssClass="format-wide" (focus)='onFocus($event)' dayHeaderFormat='Short' #ejDateRangePicker [format]="'MMMM dd, yyyy'" showClearButton="false" [allowEdit]="false" showTodayButton="true" (change)="onChangeDateRangepPicker($event)" [(ngModel)]="daterange"></ejs-daterangepicker>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-1">
       <button class="btn btn-sm btn-info" (click)='reset()'>
         <i class="fa fa-refresh"> </i> Reset
       </button>
+    </div>
+    <div class="col-lg-4">
     </div>
   </div>
   <div class="card">
@@ -28,6 +39,7 @@
               (recordDoubleClick)="recordDoubleClick($event)" [searchSettings]="searchSettings"
               (dataBound)="dataBound($event)"
               [sortSettings]="sortSettings"
+              (contextMenuOpen)="contextMenuOpen($event)"
               (contextMenuClick)="contextMenuClick($event)">
               <drag-scroll #nav>
                 <e-columns>

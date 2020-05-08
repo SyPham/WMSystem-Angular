@@ -14,7 +14,7 @@
           type="text"
           [(ngModel)]="jobname"
           placeholder='Enter task name'
-          class="form-control JobType"
+          class="e-input JobType"
         />
       </div>
     </div>
@@ -28,13 +28,13 @@
     <div class="col-md-4">
      <div class="form-group">
       <label for="JobType">Be Assigned</label>
-      <ejs-multiselect [dataSource]='beAssigned' [(ngModel)]="pic" [fields]='fields' [placeholder]='waterMark'></ejs-multiselect>
+      <ejs-multiselect [dataSource]='beAssigned'[mode]='box' [(ngModel)]="pic" [fields]='fields' [placeholder]='waterMark'></ejs-multiselect>
     </div>
     </div>
     <div class="col-md-4">
       <div class="form-group">
        <label for="JobType">Deputy</label>
-       <ejs-multiselect [dataSource]='beAssigned' [(ngModel)]="deputies" [fields]='fields' [placeholder]='waterMark'></ejs-multiselect>
+       <ejs-multiselect [dataSource]='beAssigned'[mode]='box' [(ngModel)]="deputies" [fields]='fields' [placeholder]='waterMark'></ejs-multiselect>
      </div>
      </div>
     <div class="col-md-12">
@@ -43,10 +43,12 @@
           <div class="form-group">
             <label for="Period">Period</label>
             <small  class="text-danger">(*) Default is daily</small>
-            <select id="Period" [(ngModel)]="selectedPeriodMain" (change)="change($event)" class="form-control">
+            <ejs-dropdownlist [dataSource]='period'(change)="change($event)"  [(ngModel)]="selectedPeriodMain" [placeholder]='waterMark'></ejs-dropdownlist>
+
+            <!-- <select id="Period" [(ngModel)]="selectedPeriodMain" (change)="change($event)" class="form-control">
               <option value="reset">Choose period</option>
               <option *ngFor="let item of period" [value]="item">{{item}}</option>
-            </select>
+            </select> -->
           </div>
         </div>
         <div [class]="duedate?'col-md-6 d-none':'col-md-6'">

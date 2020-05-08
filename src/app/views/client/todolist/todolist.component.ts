@@ -117,10 +117,10 @@ export class TodolistComponent implements OnInit {
       });
   }
   resolver() {
-    $('#overlay').fadeIn();
+   // $('#overlay').fadeIn();
     this.route.data.subscribe(data => {
       this.data = data.todolist;
-      $('#overlay').fadeOut();
+     // $('#overlay').fadeOut();
       this.onRouteChange();
     });
   }
@@ -267,10 +267,10 @@ export class TodolistComponent implements OnInit {
     this.router.navigate(['/todolist']);
   }
   getListTree() {
-    $('#overlay').fadeIn();
+    // $('#overlay').fadeIn();
     this.todolistSerivce.getTasks().subscribe((res) => {
       console.log('getTasks: ', res);
-      $('#overlay').fadeOut();
+     // $('#overlay').fadeOut();
       this.data = res;
     });
   }
@@ -374,7 +374,8 @@ export class TodolistComponent implements OnInit {
     console.log('contextMenuClick', args);
     const data = args.rowInfo.rowData.Entity;
     console.log('contextMenuClickdata', data);
-
+    this.tutorialName = data.JobName;
+    this.srcTutorial = data.VideoLink;
     this.taskId = data.ID;
     switch (args.item.id) {
       case 'Done':

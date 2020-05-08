@@ -30,7 +30,6 @@
               "./node_modules/bootstrap4-toggle/css/bootstrap4-toggle.min.css",
               "./node_modules/alertifyjs/build/css/alertify.min.css",
               "./node_modules/alertifyjs/build/css/themes/bootstrap.min.css",
-              "./node_modules/@syncfusion/ej2-angular-dropdowns/styles/multi-select/bootstrap.css",
               "./node_modules/@ctrl/ngx-emoji-mart/picker.css"
             ],
             "scripts": [

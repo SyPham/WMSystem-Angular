@@ -9,19 +9,19 @@
     <div class="col-lg-6">
       <div class="form-group">
         <label for="name">Username</label> <small *ngIf="action=== 'Add'" class="text-danger text-small text-small"> *Require</small>
-        <input type="text" id='Username' [(ngModel)]="user.username" class="form-control">
+        <input type="text" placeholder="Enter Username"  id='Username' [(ngModel)]="user.username" class="e-input">
       </div>
     </div>
     <div class="col-lg-6">
       <div class="form-group">
         <label for="Password">Password</label><small *ngIf="action=== 'Add'" class="text-danger text-small"> *Require</small>
-        <input type="password" id='Password' [(ngModel)]="user.password" class="form-control">
+        <input type="password" placeholder="Enter Password" id='Password' [(ngModel)]="user.password" class="e-input">
       </div>
     </div>
     <div class="col-lg-6">
       <div class="form-group">
         <label for="Email">Email</label><small *ngIf="action=== 'Add'" class="text-danger text-small"> *Require</small>
-        <input type="text" id='Email' [(ngModel)]="user.email" class="form-control">
+        <input type="text" placeholder="Enter Email"  id='Email' [(ngModel)]="user.email" class="e-input">
       </div>
     </div>
     
@@ -41,13 +41,13 @@
     <div class="col-lg-6">
       <div class="form-group">
         <label for="name">Username</label> 
-        <input type="text" id='Username' [(ngModel)]="user.Username" class="form-control">
+        <input type="text" id='Username' placeholder="Enter Username" [(ngModel)]="user.Username" class="e-input">
       </div>
     </div>
     <div class="col-lg-6">
       <div class="form-group">
         <label for="Email">Email</label>
-        <input type="text" id='Email' [(ngModel)]="user.Email" class="form-control">
+        <input type="text" id='Email' placeholder="Enter Email" [(ngModel)]="user.Email" class="e-input">
       </div>
     </div>
     

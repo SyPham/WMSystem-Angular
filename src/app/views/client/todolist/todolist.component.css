@@ -2,3 +2,6 @@ drag-scroll {
     height: 700px;
     width: 100%;
   }
+  .e-grid .e-rowcell {
+    font-size: 12px;
+   }

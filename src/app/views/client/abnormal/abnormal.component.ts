@@ -47,7 +47,7 @@ export class AbnormalComponent implements OnInit {
   public ocLevel = JSON.parse(localStorage.getItem('user')).User.OCLevel;
   public isLeader = JSON.parse(localStorage.getItem('user')).User.IsLeader;
   public currentUser = JSON.parse(localStorage.getItem('user')).User.ID;
-  ocId: number;
+  ocId = 0;
   public contextMenuItems: object;
   public filterSettings: FilterSettingsModel;
   private tutorialName: string;
@@ -429,6 +429,7 @@ export class AbnormalComponent implements OnInit {
     modalRef.componentInstance.title = 'Add Tutorial Abnormal Task';
     modalRef.componentInstance.taskId = this.taskId;
     modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
+    modalRef.componentInstance.jobType = JobType.Abnormal;
     modalRef.result.then((result) => {
       console.log('openTutorialModal', result);
     }, (reason) => {
@@ -441,6 +442,7 @@ export class AbnormalComponent implements OnInit {
     modalRef.componentInstance.taskId = this.taskId;
     modalRef.componentInstance.tutorialID = args.rowInfo.rowData.Entity.ID;
     modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
+    modalRef.componentInstance.jobType = JobType.Abnormal;
     modalRef.result.then((result) => {
       console.log('openEditTutorialModal', result);
     }, (reason) => {

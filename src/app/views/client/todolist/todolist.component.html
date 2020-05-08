@@ -3,38 +3,38 @@
     <h5 class="text-primary">Sort By:</h5>
   </div>
   <div class="col-lg-12 col-xs-12 col-12 pb-4">
-    <button type="button" (click)="all()" class="btn bg-gradient-secondary btn-sm  mr-1">
+    <button  type="button" (click)="all()" class="btn btn-sm bg-gradient-secondary mr-1">
       <i class="fas fa-sync-alt"></i> All
     </button>
-    <button type="button" (click)="sortProject()" class="btn bg-gradient-secondary btn-sm  mr-1">
+    <button type="button" (click)="sortProject()" class="btn btn-sm bg-gradient-secondary mr-1">
       <i class="fas fa-tasks"></i> Project
     </button>
-    <button type="button" (click)="sortRoutine()" class="btn bg-gradient-secondary btn-sm  mr-1">
+    <button type="button" (click)="sortRoutine()" class="btn btn-sm bg-gradient-secondary mr-1">
       <i class="fas fa-book-open"></i> Routine
     </button>
-    <button type="button" (click)="sortAbnormal()" class="btn bg-gradient-secondary btn-sm  mr-1">
-      <i class="fas fa-book-open"></i> Abnormal
+    <button type="button" (click)="sortAbnormal()" class="btn btn-sm bg-gradient-secondary mr-1">
+      <i class="fas fa-atlas"></i> Abnormal
     </button>
-    <button type="button" (click)="sortHigh()" class="btn bg-gradient-secondary btn-sm  mr-1">
+    <button type="button" (click)="sortHigh()" class="btn btn-sm bg-gradient-secondary mr-1">
       <i class="fas fa-exclamation"></i> High
     </button>
-    <button type="button" (click)="sortMedium()" class="btn bg-gradient-secondary btn-sm  mr-1">
+    <button type="button" (click)="sortMedium()" class="btn btn-sm bg-gradient-secondary mr-1">
       <i class="fab fa-medium"></i> Medium
     </button>
-    <button type="button" (click)="sortLow()" class="btn bg-gradient-secondary btn-sm  mr-1">
+    <button type="button" (click)="sortLow()" class="btn btn-sm bg-gradient-secondary mr-1">
       <i class="fas fa-low-vision"></i> Low
     </button>
-    <button type="button" (click)="sortByAssignedJob()" class="btn bg-gradient-secondary btn-sm mr-1">
+    <button type="button" (click)="sortByAssignedJob()" class="btn btn-sm bg-gradient-secondary mr-1">
       <i class="fas fa-marker"></i> Assigned
     </button>
-    <button type="button" (click)="sortByBeAssignedJob()" class="btn bg-gradient-secondary btn-sm mr-1">
+    <button type="button" (click)="sortByBeAssignedJob()" class="btn btn-sm bg-gradient-secondary mr-1">
       <i class="fas fa-pencil-alt"></i> BeAssigned
     </button>
-    <button type="button" (click)="sortCompleted()" class="btn bg-gradient-secondary btn-sm mr-1">
-      <i class="fas fa-marker"></i> Completed Task
+    <button type="button" (click)="sortCompleted()" class="btn btn-sm bg-gradient-secondary mr-1">
+      <i class="fas fa-check"></i> Done
     </button>
-    <button type="button" (click)="sortUncompleted()" class="btn bg-gradient-secondary btn-sm mr-1">
-      <i class="fas fa-pencil-alt"></i> Uncompleted Task
+    <button type="button" (click)="sortUncompleted()" class="btn btn-sm bg-gradient-secondary mr-1">
+      <i class="fa fa-times"></i> Undone
     </button>
   </div>
 </div>
@@ -116,7 +116,7 @@
                     textAlign="Center">
                     <ng-template #template let-data>
                       <button [class]="data.Entity.VideoStatus? 'btn btn-sm btn-success' : 'd-none'"
-                        (click)="openWatchTutorialWatchModalByButton(data)">Watch</button>
+                        (click)="openWatchTutorialWatchModalByButton(data.Entity)">Watch</button>
                     </ng-template>
                   </e-column>
                 </e-columns>

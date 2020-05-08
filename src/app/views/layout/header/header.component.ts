@@ -26,7 +26,6 @@ export class HeaderComponent implements OnInit {
   public totalCount: number;
   public page: number;
   public pageSize: number;
-  public currentUser: string;
   public currentTime: any;
   userid: number;
   role: number;
@@ -51,7 +50,7 @@ export class HeaderComponent implements OnInit {
     this.navAdmin = new Nav().getNavAdmin();
     this.navClient = new Nav().getNavClient();
     this.checkServer();
-    // this.checkAlert();
+    this.checkAlert();
     this.getAvatar();
     this.role = JSON.parse(localStorage.getItem('user')).User.Role;
     this.currentUser = JSON.parse(localStorage.getItem('user')).User.Username;

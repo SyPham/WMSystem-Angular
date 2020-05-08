@@ -45,7 +45,7 @@ export class RoutineComponent implements OnInit {
   public ocLevel = JSON.parse(localStorage.getItem('user')).User.OCLevel;
   public isLeader = JSON.parse(localStorage.getItem('user')).User.IsLeader;
   public currentUser = JSON.parse(localStorage.getItem('user')).User.ID;
-  ocId: number;
+  ocId = 0;
   public contextMenuItems: object;
   public filterSettings: FilterSettingsModel;
   private tutorialName: string;
@@ -434,6 +434,7 @@ export class RoutineComponent implements OnInit {
     const modalRef = this.modalService.open(TutorialModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Add Tutorial Routine Task';
     modalRef.componentInstance.taskId = this.taskId;
+    modalRef.componentInstance.jobType = JobType.Routine;
     modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
       console.log('openTutorialModal', result);
@@ -446,6 +447,7 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.title = 'Edit Tutorial Routine Task';
     modalRef.componentInstance.taskId = this.taskId;
     modalRef.componentInstance.tutorialID = args.rowInfo.rowData.Entity.ID;
+    modalRef.componentInstance.jobType = JobType.Routine;
     modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
       console.log('openEditTutorialModal', result);

@@ -92,7 +92,7 @@
          
             <e-column field="Entity.WatchVideo" [disableHtmlEncode]="false" headerText="Watch Video" width="200" textAlign="Center">
               <ng-template #template let-data>
-                <button [class]="data.Entity.VideoStatus? 'btn btn-sm btn-success' : 'd-none'" (click)="openWatchTutorialWatchModalByButton(data)">Watch</button>
+                <button [class]="data.Entity.VideoStatus? 'btn btn-sm btn-success' : 'd-none'" (click)="openWatchTutorialWatchModalByButton(data.Entity)">Watch</button>
               </ng-template>
             </e-column>
           </e-columns>

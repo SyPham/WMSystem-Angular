@@ -254,12 +254,11 @@ export class AddSubTaskComponent implements OnInit {
     }
   }
   change(arg?){
-    debugger
-    console.log('change: ', arg.target.value);
-    switch (arg.target.value) {
+    console.log('change: ', arg);
+    switch (arg.value) {
       case 'reset': this.changeStatus(); break;
       case 'Daily':
-      this.changeStatus();
+      this.changeStatus(false);
       this.clearPeriod(true, false, false, false);
       this.duedatedaily = new Date();
       this.periodtype = PeriodType.Daily;
