@@ -74,7 +74,13 @@ export class HeaderComponent implements OnInit {
     if (this.signalrService.hubConnection.state) {
       this.signalrService.hubConnection.on('ReceiveMessage', (user, username) => {
         if (user.indexOf(this.currentUser)) {
-         this.getNotifications();
+          this.getNotifications();
+        }
+      });
+      this.signalrService.hubConnection.on('ReceiveCheckAlert', (user) => {
+        if (user.indexOf(this.currentUser)) {
+          this.getNotifications();
+          console.log('there are late tasks');
         }
       });
     }
@@ -177,37 +183,40 @@ export class HeaderComponent implements OnInit {
     }, 30000);
   }
   checkAlert() {
-    let user = JSON.parse(localStorage.getItem('user')).User.Username;
-    this.headerService.checkTask().subscribe(res => {
-    });
-    // this.signalrService.hubConnection
-    // .invoke('CheckAlert', user)
-    // .catch((err) => {
-    //   console.error(err.toString());
-    // });
+    if (this.signalrService.hubConnection.state === 'Connected') {
+      let user = JSON.parse(localStorage.getItem('user')).User.Username;
+      let userId = JSON.parse(localStorage.getItem('user')).User.ID;
+      // this.headerService.checkTask().subscribe(res => {
+      // });
+      this.signalrService.hubConnection
+        .invoke('CheckAlert', userId.toString())
+        .catch((err) => {
+          console.error(err.toString());
+        });
+      }
   }
-  getNotifications() {
-    console.log('getNotifications: ', this.userid);
+getNotifications() {
+  console.log('getNotifications: ', this.userid);
 
-    this.headerService.getAllNotificationCurrentUser(this.page, this.pageSize, this.userid).subscribe((res: any) => {
-      this.data = res.model;
-      this.total = res.total;
-      this.totalCount = res.TotalCount;
-      console.log('get Notifications data: ', this.data);
+  this.headerService.getAllNotificationCurrentUser(this.page, this.pageSize, this.userid).subscribe((res: any) => {
+    this.data = res.model;
+    this.total = res.total;
+    this.totalCount = res.TotalCount;
+    console.log('get Notifications data: ', this.data);
 
-    });
+  });
+}
+
+getAvatar() {
+  let img = localStorage.getItem('avatar');
+  if (img == null) {
+    this.avatar = this.defaultImage();
+  } else {
+    this.avatar = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64, ' + img);
   }
-
-  getAvatar() {
-    let img = localStorage.getItem('avatar');
-    if (img == null) {
-      this.avatar = this.defaultImage();
-    } else {
-      this.avatar = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64, ' + img);
-    }
-  }
-  defaultImage() {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJYAA
+}
+defaultImage() {
+  return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJYAA
       ACWBAMAAADOL2zRAAAAG1BMVEVsdX3////Hy86jqK1+ho2Ql521ur7a3N7s7e5Yhi
       PTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABAElEQVRoge3SMW+DMBiE4YsxJqMJtH
       OTITPeOsLQnaodGImEUMZEkZhRUqn92f0MaTubtfeMh/QGHANEREREREREREREtIJ
@@ -215,33 +224,33 @@ export class HeaderComponent implements OnInit {
       IXmXLy2jEbiqE6Df7DTleA5socLqvEFVxtJyrpZFWz/pHM2CVte0lS8g2eDe6prOy
       qPglhzROL+Xye4tmT4WvRcQ2/m81p+/rdguOi8Hc5L/8Qk4vhZzy08DduGt9eVQyP
       2qoTM1zi0/uf4hvBWf5c77e69Gf798y08L7j0RERERERERERH9P99ZpSVRivB/rgAAAABJRU5ErkJggg==`);
+}
+imageBase64(img) {
+  if (img == null) {
+    return this.defaultImage();
+  } else {
+    return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64, ' + img);
   }
-  imageBase64(img) {
-    if (img == null) {
-      return this.defaultImage();
-    } else {
-      return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64, ' + img);
-    }
-  }
-  datetime(d) {
-    return this.calendarsService.JSONDateWithTime(d);
-  }
-  checkTask() {
-    this.headerService.checkTask(this.userid)
-      .subscribe(() => console.log('Vua moi kiem tra nhiem vu - ', this.userid));
-  }
-  seen(item) {
-    console.log('seen: ', item);
-    this.headerService.seen(item).subscribe(res => {
-      this.page = 1;
-      this.data = [];
-      this.getNotifications();
-    });
-    let obj: IHeader = {
-      router: item.URL,
-      message: item.URL,
-    };
-    this.headerService.changeMessage(obj);
-    this.router.navigate([item.URL]);
-  }
+}
+datetime(d) {
+  return this.calendarsService.JSONDateWithTime(d);
+}
+checkTask() {
+  this.headerService.checkTask(this.userid)
+    .subscribe(() => console.log('Vua moi kiem tra nhiem vu - ', this.userid));
+}
+seen(item) {
+  console.log('seen: ', item);
+  this.headerService.seen(item).subscribe(res => {
+    this.page = 1;
+    this.data = [];
+    this.getNotifications();
+  });
+  let obj: IHeader = {
+    router: item.URL,
+    message: item.URL,
+  };
+  this.headerService.changeMessage(obj);
+  this.router.navigate([item.URL]);
+}
 }

@@ -30,7 +30,7 @@ export class SignalrService {
                             .build();
     this.hubConnection
       .start()
-      .then(() =>{
+      .then(() => {
          console.log('Connection started');
         })
       .catch(err => console.log('Error while starting connection: ' + err))
