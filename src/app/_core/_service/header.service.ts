@@ -22,7 +22,7 @@ export class HeaderService {
   currentMessage = this.messageSource.asObservable();
   imgSource = new BehaviorSubject<string>('');
   currentImage = this.imgSource.asObservable();
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private http2: HttpClient) {}
   // method này để change source message
   changeMessage(message) {
     this.messageSource.next(message);
@@ -40,6 +40,21 @@ export class HeaderService {
   }
   seen(item) {
     return this.http.get(`${this.baseUrl}Home/Seen/${item.ID}`);
+  }
+  test() {
+    return this.http.post('https://notify-api.line.me/api/notify/',
+      {
+        message: 'Hi peter, nice to meet you ',
+        stickerPackageId: 1,
+        stickerId: 2
+    }, {
+      headers: {
+          Authorization: 'Bearer ' + '76b67a31f18e173961df0e6c5a0df1f4',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Access-Control-Allow-Origin': 'https://notify-api.line.me/api/notify',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+          'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
+      }});
   }
 
   checkTask(userId = 0) {

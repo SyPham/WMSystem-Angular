@@ -78,10 +78,10 @@ export class HeaderComponent implements OnInit {
         }
       });
       this.signalrService.hubConnection.on('ReceiveCheckAlert', (user) => {
-        if (user.indexOf(this.currentUser)) {
+        // if (user.indexOf(this.currentUser)) {
           this.getNotifications();
           console.log('there are late tasks');
-        }
+       // }
       });
     }
   }
@@ -238,6 +238,10 @@ datetime(d) {
 checkTask() {
   this.headerService.checkTask(this.userid)
     .subscribe(() => console.log('Vua moi kiem tra nhiem vu - ', this.userid));
+}
+test() {
+  this.headerService.test()
+    .subscribe(() => console.log('Gui thong bao den line'));
 }
 seen(item) {
   console.log('seen: ', item);

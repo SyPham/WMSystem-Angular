@@ -96,7 +96,7 @@ export class TodolistComponent implements OnInit {
         hierarchyMode: 'Parent',
         fields: ['Entity.JobName'],
         operator: 'contains',
-        key: taskname || '',
+        key: taskname?.replace(/-/g, ' ')?.replace(/_/g, '-') || '',
         ignoreCase: true
       };
     });
@@ -107,12 +107,12 @@ export class TodolistComponent implements OnInit {
         console.log('notification ', arg);
         const url = arg?.router?.toLowerCase();
         if (arg?.router?.toLowerCase() === 'todolist') {
-          this.search = arg.message;
+          this.search = arg.message?.replace(/-/g, ' ')?.replace(/_/g, '-');
         }
         if (url?.includes('todolist-comment') && this.router.url.includes('todolist-comment')) {
           const name = url.split('/')[3];
           const id = url.split('/')[2];
-          this.openCommentModalForNotification(name, id);
+          this.openCommentModalForNotification(name?.replace(/-/g, ' ')?.replace(/_/g, '-'), id);
         }
       });
   }
