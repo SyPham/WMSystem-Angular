@@ -9,8 +9,9 @@ import { Task } from '../_model/Task';
 import { IHeader } from '../_model/header.interface';
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer HF6qOCM9xL4lXFsqOLPzhJ',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Access-Control-Allow-Origin': '*'
   })
 };
 @Injectable({
@@ -42,19 +43,14 @@ export class HeaderService {
     return this.http.get(`${this.baseUrl}Home/Seen/${item.ID}`);
   }
   test() {
-    return this.http.post('https://notify-api.line.me/api/notify/',
+    return this.http.post('https: //notify-bot.line.me/oauth/authorize',
       {
-        message: 'Hi peter, nice to meet you ',
-        stickerPackageId: 1,
-        stickerId: 2
-    }, {
-      headers: {
-          Authorization: 'Bearer ' + '76b67a31f18e173961df0e6c5a0df1f4',
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Access-Control-Allow-Origin': 'https://notify-api.line.me/api/notify',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-          'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
-      }});
+        grant_type: 'authorization_code',
+        code: token,
+        redirect_uri: 'http://10.4.4.224:106/',
+        client_id: clientId,
+        client_secret: clientSecret,
+    }, httpOptions);
   }
 
   checkTask(userId = 0) {

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open --host 10.4.4.224 --port 100 --disableHostCheck ",
+    "start": "ng serve --open --host 10.4.4.224 --port 100 --disableHostCheck",
     "pro": "ng serve --open --host 10.4.0.76 --port 97 --disableHostCheck",
     "dev_henry": "ng serve --open --host 192.168.1.11 --port 1003 --disableHostCheck",
     "build": "ng build",
