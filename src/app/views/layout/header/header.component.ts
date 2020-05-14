@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import { Nav } from 'src/app/_core/_model/nav';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AvatarModalComponent } from './avatar-modal/avatar-modal.component';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -73,7 +74,7 @@ export class HeaderComponent implements OnInit {
   receiveGroupNotification() {
     if (this.signalrService.hubConnection.state) {
       this.signalrService.hubConnection.on('ReceiveMessage', (user, username) => {
-        if (user.indexOf(this.currentUser)) {
+        if (user.indexOf(this.currentUser) > -1) {
           this.getNotifications();
         }
       });
@@ -186,8 +187,6 @@ export class HeaderComponent implements OnInit {
     if (this.signalrService.hubConnection.state === 'Connected') {
       let user = JSON.parse(localStorage.getItem('user')).User.Username;
       let userId = JSON.parse(localStorage.getItem('user')).User.ID;
-      // this.headerService.checkTask().subscribe(res => {
-      // });
       this.signalrService.hubConnection
         .invoke('CheckAlert', userId.toString())
         .catch((err) => {
@@ -209,27 +208,20 @@ getNotifications() {
 
 getAvatar() {
   let img = localStorage.getItem('avatar');
-  if (img == null) {
+  if (img === 'null') {
     this.avatar = this.defaultImage();
   } else {
     this.avatar = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64, ' + img);
   }
 }
 defaultImage() {
-  return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJYAA
-      ACWBAMAAADOL2zRAAAAG1BMVEVsdX3////Hy86jqK1+ho2Ql521ur7a3N7s7e5Yhi
-      PTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABAElEQVRoge3SMW+DMBiE4YsxJqMJtH
-      OTITPeOsLQnaodGImEUMZEkZhRUqn92f0MaTubtfeMh/QGHANEREREREREREREtIJ
-      J0xbH299kp8l8FaGtLdTQ19HjofxZlJ0m1+eBKZcikd9PWtXC5DoDotRO04B9YOvF
-      IXmXLy2jEbiqE6Df7DTleA5socLqvEFVxtJyrpZFWz/pHM2CVte0lS8g2eDe6prOy
-      qPglhzROL+Xye4tmT4WvRcQ2/m81p+/rdguOi8Hc5L/8Qk4vhZzy08DduGt9eVQyP
-      2qoTM1zi0/uf4hvBWf5c77e69Gf798y08L7j0RERERERERERH9P99ZpSVRivB/rgAAAABJRU5ErkJggg==`);
+  return '../../../../assets/img/logo-1.png';
 }
 imageBase64(img) {
   if (img == null) {
     return this.defaultImage();
   } else {
-    return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64, ' + img);
+    return environment.imagePath + img;
   }
 }
 datetime(d) {

@@ -39,47 +39,56 @@
      </div>
     <div class="col-md-12">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <div class="form-group">
             <label for="Period">Cycle</label>
-            <small  class="text-danger">(*) Default is daily</small>
-            <ejs-dropdownlist [dataSource]='period'(change)="change($event)"  [(ngModel)]="selectedPeriodMain" [placeholder]='waterMark'></ejs-dropdownlist>
-
-            <!-- <select id="Period" [(ngModel)]="selectedPeriodMain" (change)="change($event)" class="form-control">
-              <option value="reset">Choose period</option>
-              <option *ngFor="let item of period" [value]="item">{{item}}</option>
-            </select> -->
+            <small  class="text-danger">(*) Default is daily</small>      
+            <div class="form-group">
+                <div *ngFor="let item of period" class="custom-control custom-radio float-left mr-2">
+                  <input
+                    class="custom-control-input"
+                    type="radio"
+                    [(ngModel)]="selectedPeriodMain"
+                    [id]="'period'+ item"
+                    name="period"
+                    (change)='change($event)'
+                    [value]="item"
+                  />
+                  <label [for]="'period'+ item" class="custom-control-label">{{item}}</label>
+                </div>
+            </div>
           </div>
         </div>
-        <div [class]="duedate?'col-md-6 d-none':'col-md-6'">
+        <!-- Specific Date -->
+        <div [class]="duedate?'col-md-8 d-none':'col-md-8'">
           <div class="form-group">
-            <label for="JobType">Due Date</label>
+            <label for="JobType">Due Date Time</label>
             <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [(ngModel)]="deadline" placeholder='Select duedate'></ejs-datetimepicker>
+            <ejs-datetimepicker [format]="format" [(ngModel)]="deadline" placeholder='Select due date time'></ejs-datetimepicker>
           </div>
         </div>
        
         <!-- Daily -->
-        <div [class]="daily?'col-md-6 d-none':'col-md-6'" >
+        <div [class]="daily?'col-md-8 d-none':'col-md-8'" >
           <div class="form-group">
-            <label for="JobType">1st Due Date</label>
+            <label for="JobType">1st Due Date Time</label>
             <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [format]="format" [(ngModel)]="duedatedaily"  placeholder='Select duedate'></ejs-datetimepicker>
+            <ejs-datetimepicker [format]="format" [(ngModel)]="duedatedaily"  placeholder='Select due date time of daily'></ejs-datetimepicker>
           </div>
         </div>
         <!-- ----Daily -->
         <!-- Weekly -->
-        <div [class]="weekly?'col-md-6 d-none':'col-md-6'">
+        <div [class]="weekly?'col-md-8 d-none':'col-md-8'">
           <div class="form-group">
-            <label for="JobType">1st Due Date</label>  <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [format]="format" placeholder='Select duedate' [(ngModel)]="duedateweekly"></ejs-datetimepicker>
+            <label for="JobType">1st Due Date Time</label>  <small class="text-danger">(*) Require</small>
+            <ejs-datetimepicker [format]="format" placeholder='Select due date time of weekly' [(ngModel)]="duedateweekly"></ejs-datetimepicker>
           </div>
         </div>
         <!-- Monthly -->
-        <div [class]="monthly?'col-md-6 d-none':'col-md-6'">
+        <div [class]="monthly?'col-md-8 d-none':'col-md-8'">
           <div class="form-group">
-            <label for="JobType">1st Due Date</label>  <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [format]="format" placeholder='Select duedate' [(ngModel)]="duedatemonthly"></ejs-datetimepicker>
+            <label for="JobType">1st Due Date Time</label>  <small class="text-danger">(*) Require</small>
+            <ejs-datetimepicker [format]="format" placeholder='Select due date time of monthly' [(ngModel)]="duedatemonthly"></ejs-datetimepicker>
           </div>
         </div>
         <!-- End monthly -->
@@ -91,7 +100,7 @@
       <small  class="text-danger">(*) Default is medium</small>
 
       <div class="form-group">
-        <div class="custom-control custom-radio">
+        <div class="custom-control custom-radio float-left mr-2">
           <input
             class="custom-control-input"
             type="radio"
@@ -103,7 +112,7 @@
           <label for="priorityHigh" class="custom-control-label">High</label>
         </div>
 
-        <div class="custom-control custom-radio">
+        <div class="custom-control custom-radio float-left mr-2">
           <input
             class="custom-control-input"
             checked="true"
@@ -116,7 +125,7 @@
           <label for="priorityMedium" class="custom-control-label">Medium</label>
         </div>
 
-        <div class="custom-control custom-radio">
+        <div class="custom-control custom-radio float-left mr-2">
           <input
             class="custom-control-input"
             type="radio"

@@ -13,6 +13,7 @@ import { CommentComponent } from '../modals/comment/comment.component';
 import { PeriodType } from 'src/app/_core/enum/task.enum';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 import { Subscription } from 'rxjs';
+import { SignalrService } from 'src/app/_core/_service/signalr.service';
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
@@ -21,10 +22,13 @@ import { Subscription } from 'rxjs';
 export class HistoryComponent implements OnInit {
   @ViewChild('ejDateRangePicker')
   public ejDateRangePicker: DateRangePickerComponent;
+  @ViewChild('ejDateRangePickerForDueDateTime')
+  public ejDateRangePickerForDueDateTime: DateRangePickerComponent;
   @Input() Id: number;
   @Input() Users: [];
   taskId: 0;
   daterange: any[];
+  daterangeForDueDateTime: any[];
   subtractDate: Date;
   currentDate: Date;
   public contextMenuItems: object;
@@ -40,6 +44,7 @@ export class HistoryComponent implements OnInit {
     private calendarsService: CalendarsService,
     private headerService: HeaderService,
     private router: Router,
+    private signalrService: SignalrService,
     private alertify: AlertifyService) {
     }
     srcTutorial: string;
@@ -52,6 +57,7 @@ export class HistoryComponent implements OnInit {
     public pageSetting: object;
     public searchSettings: object;
     public sortSettings: object;
+    currentUser = JSON.parse(localStorage.getItem('user')).User.ID;
     subscription: Subscription;
     @ViewChild('treegrid')
     public treeGridObj: TreeGridComponent;
@@ -65,6 +71,17 @@ export class HistoryComponent implements OnInit {
       this.optionGridTree();
       this.setCurrentDate();
       this.resolver();
+      this.signalrService.startConnection();
+
+    }
+    receiveSignalr() {
+      if (this.signalrService.hubConnection.state) {
+        this.signalrService.hubConnection.on('ReceiveMessageForCurd', (user, username) => {
+          if (user.indexOf(this.currentUser) > -1) {
+            this.getListTree();
+          }
+        });
+      }
     }
     notification() {
       this.subscription = this.headerService.currentMessage
@@ -123,6 +140,7 @@ export class HistoryComponent implements OnInit {
       this.subtractDate = new Date();
       this.subtractDate.setDate(this.subtractDate.getDate() - 7);
       this.daterange = [this.subtractDate, this.currentDate];
+      // this.daterangeForDueDateTime = [this.subtractDate, this.currentDate];
     }
 
     optionGridTree() {
@@ -134,7 +152,7 @@ export class HistoryComponent implements OnInit {
         ignoreCase: true
       };
       this.filterSettings = { type: 'CheckBox' };
-      this.sortSettings = { columns: [{ field: 'Entity.ModifyDateTime', direction: 'Decending' }] };
+      this.sortSettings = { columns: [{ field: 'Entity.FinishedDateTime', direction: 'Decending' }] };
       this.toolbarOptions = [
         'Search',
         'ExpandAll',
@@ -171,12 +189,21 @@ export class HistoryComponent implements OnInit {
             break;
       }
     }
-    sortDateRange() {
+    filterDateRange() {
       let start = this.calendarsService.toFormatDate(this.daterange[0]);
       let end = this.calendarsService.toFormatDate(this.daterange[1]);
 
-      this.historyService.sortDateRange(start, end).subscribe((res) => {
-        console.log('sortDateRange: ', res);
+      this.historyService.filterDateRange(start, end).subscribe((res) => {
+        console.log('filterDateRange: ', res);
+        this.data = res;
+      });
+    }
+    filterDateRangeByDueDateTime() {
+      let start = this.calendarsService.toFormatDate(this.daterangeForDueDateTime[0]);
+      let end = this.calendarsService.toFormatDate(this.daterangeForDueDateTime[1]);
+
+      this.historyService.filterDateRangeByDueDateTime(start, end).subscribe((res) => {
+        console.log('filterDateRangeByDueDateTime: ', res);
         this.data = res;
       });
     }
@@ -202,7 +229,13 @@ export class HistoryComponent implements OnInit {
       this.search = '';
       this.treeGridObj.search('');
       this.setCurrentDate();
-      this. sortDateRange();
+      this.filterDateRange();
+    }
+    resetForDueDateTime() {
+      this.search = '';
+      this.treeGridObj.search('');
+      this.setCurrentDate();
+      this.filterDateRange();
     }
     create() {
       if (this.search) {
@@ -216,6 +249,10 @@ export class HistoryComponent implements OnInit {
       console.log('onFocus: ', args);
       this.ejDateRangePicker.show();
     }
+    onFocusForDueDateTime(args: any): void {
+      console.log('onFocusForDueDateTime: ', args);
+      this.ejDateRangePickerForDueDateTime.show();
+    }
     showAllColumnsTreegrid() {
       const hide = ['Undo', 'From', 'Task Name',
       'Project Name', 'Created Date Time', 'Finished DateTime',
@@ -225,7 +262,7 @@ export class HistoryComponent implements OnInit {
       }
     }
     defaultColumnsTreegrid() {
-      const hide = ['Undo','From', 'Watch Video', 'Period Type'];
+      const hide = ['Undo', 'From', 'Watch Video', 'Period Type'];
       for (const item of hide) {
         this.treeGridObj.hideColumns([item, 'Ship Name']);
       }
@@ -237,11 +274,23 @@ export class HistoryComponent implements OnInit {
       console.log('onChangeDateRangepPicker: ', event);
       if (event.value == null) {
         this.ejDateRangePicker.value = [this.subtractDate, new Date()];
-        this.sortDateRange();
+        this.filterDateRange();
       } else {
         this.daterange = [];
         this.daterange = event.value;
-        this.sortDateRange();
+        this.filterDateRange();
+      }
+    }
+    onChangeDateRangepPickerForDueDateTime(event) {
+      console.log('onChangeDateRangepPicker: ', event);
+      if (event.value == null) {
+        this.ejDateRangePicker.value = [this.subtractDate, new Date()];
+        this.filterDateRange();
+        this.daterangeForDueDateTime = [];
+      } else {
+        this.daterangeForDueDateTime = [];
+        this.daterangeForDueDateTime = event.value;
+        this.filterDateRangeByDueDateTime();
       }
     }
     openWatchTutorialWatchModal() {

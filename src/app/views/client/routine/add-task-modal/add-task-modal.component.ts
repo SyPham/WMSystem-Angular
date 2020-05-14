@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges, Input } from '@angular/core';
 import { Task } from 'src/app/_core/_model/Task';
 import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
 import { EmitType } from '@syncfusion/ej2-base';
@@ -164,6 +164,7 @@ export class AddTaskModalComponent implements OnInit {
     }
   }
   private loadEdit(edit: Task) {
+    debugger
     if (edit !== null) {
       this.Id = edit._ID;
       this.jobname = edit._JobName;
@@ -197,7 +198,7 @@ export class AddTaskModalComponent implements OnInit {
       case PeriodType.SpecificDate:
         this.periodtype = PeriodType.SpecificDate;
         this.selectedPeriodMain = 'DueDate';
-        this.deadline = item._SpecificDate;
+        this.deadline = item._DueDate;
         this.changeStatus(true, true, true, false);
         break;
       default:
@@ -309,7 +310,7 @@ export class AddTaskModalComponent implements OnInit {
   }
   change(arg?) {
     console.log('change: ', arg.value);
-    switch (arg.value) {
+    switch (this.selectedPeriodMain) {
       case 'reset': this.changeStatus(); break;
       case 'Daily':
         this.changeStatus(false);

@@ -18,6 +18,7 @@ import { Task } from 'src/app/_core/_model/Task';
 import { CommentComponent } from '../../modals/comment/comment.component';
 import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
+import { SignalrService } from 'src/app/_core/_service/signalr.service';
 // tslint:disable-next-line:no-conflicting-lifecycle
 declare let $: any;
 @Component({
@@ -34,12 +35,14 @@ export class ListTaskProjectComponent implements OnInit {
   public toolbarOptions: any[];
   public filterSettings: FilterSettingsModel;
   public editSettings: EditSettingsModel;
+  currentUser = JSON.parse(localStorage.getItem('user')).User.ID;
   private modalRef: NgbModalRef;
   constructor(
     private route: ActivatedRoute,
     config: NgbModalConfig,
     private modalService: NgbModal,
     private router: Router,
+    private signalrService: SignalrService,
     private addTaskService: AddTaskService,
     private listTaskProjectService: ListTaskProjectService,
     private projectDetailService: ProjectDetailService,
@@ -58,6 +61,8 @@ export class ListTaskProjectComponent implements OnInit {
   ngOnInit(): void {
     this.optionGridTree();
     this.onService();
+    this.signalrService.startConnection();
+    this.receiveSignalr();
     this.projectID = +this.route.snapshot.paramMap.get('id');
   }
   onService() {
@@ -66,6 +71,15 @@ export class ListTaskProjectComponent implements OnInit {
         this.getListTree(this.Id);
       }
     });
+  }
+  receiveSignalr() {
+    if (this.signalrService.hubConnection.state) {
+      this.signalrService.hubConnection.on('ReceiveMessageForCurd', (user, username) => {
+        if (user.indexOf(this.currentUser) > -1) {
+          this.getListTree(this.Id);
+        }
+      });
+    }
   }
   optionGridTree() {
     this.filterSettings = { type: 'CheckBox' };

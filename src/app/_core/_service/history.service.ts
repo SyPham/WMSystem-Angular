@@ -27,10 +27,20 @@ export class HistoryService {
     );
   }
 
-  sortDateRange(start, end) {
+  filterDateRange(start, end) {
     start = new Date(start).toISOString();
     end = new Date(end).toISOString();
     return this.http.get(`${this.baseUrl}Tasks/History/${start}/${end}`).pipe(
+      map(response => {
+        console.log('sortDateRange: ', response);
+        return response;
+      })
+    );
+  }
+  filterDateRangeByDueDateTime(start, end) {
+    start = new Date(start).toISOString();
+    end = new Date(end).toISOString();
+    return this.http.get(`${this.baseUrl}Tasks/HistoryFilterByDueDateTime/${start}/${end}`).pipe(
       map(response => {
         console.log('sortDateRange: ', response);
         return response;

@@ -1,26 +1,36 @@
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-4 col-xs-12 col-12">
+      <h5 class="text-primary">Filter Due Date Time range</h5>
     </div>
-    <div class="col-lg-3 col-xs-12 col-12">
-      <h5 class="text-primary">Filter date range</h5>
-    </div>
-    <div class="col-lg-1">
-     
+    <div class="col-lg-2">
     </div>
     <div class="col-lg-4">
+      <h5 class="text-primary">Filter Created Date Time range</h5>
     </div>
-    <div class="col-lg-4">
+
+    <div class="col-lg-2">
     </div>
-    <div class="col-lg-3 col-xs-12 col-12 pb-4">
-        <ejs-daterangepicker (cleared)="cleared($event)" cssClass="format-wide" (focus)='onFocus($event)' dayHeaderFormat='Short' #ejDateRangePicker [format]="'MMMM dd, yyyy'" showClearButton="false" [allowEdit]="false" showTodayButton="true" (change)="onChangeDateRangepPicker($event)" [(ngModel)]="daterange"></ejs-daterangepicker>
+
+    <!-- Input -->
+    
+    <div class="col-lg-4 col-xs-12 col-12">
+      <ejs-daterangepicker placeholder="Select on due date time range" cssClass="format-wide" (focus)='onFocusForDueDateTime($event)' dayHeaderFormat='Short' #ejDateRangePickerForDueDateTime [format]="'MMMM dd, yyyy'" showClearButton="false" [allowEdit]="false" showTodayButton="true" (change)="onChangeDateRangepPickerForDueDateTime($event)" [(ngModel)]="daterangeForDueDateTime"></ejs-daterangepicker>
     </div>
-    <div class="col-lg-1">
+    <div class="col-lg-2">
       <button class="btn btn-sm btn-info" (click)='reset()'>
         <i class="fa fa-refresh"> </i> Reset
       </button>
     </div>
     <div class="col-lg-4">
+      <ejs-daterangepicker placeholder="Select on created date time range" (cleared)="cleared($event)" cssClass="format-wide" (focus)='onFocus($event)' dayHeaderFormat='Short' #ejDateRangePicker [format]="'MMMM dd, yyyy'" showClearButton="false" [allowEdit]="false" showTodayButton="true" (change)="onChangeDateRangepPicker($event)" [(ngModel)]="daterange"></ejs-daterangepicker>
     </div>
+
+    <div class="col-lg-2">
+      <button class="btn btn-sm btn-info" (click)='reset()'>
+        <i class="fa fa-refresh"> </i> Reset
+      </button>
+    </div>
+    <!-- end -->
   </div>
   <div class="card">
     <div class="card-header">
@@ -75,20 +85,20 @@
                         style="padding:4px;color:white">{{data.Entity.state === 'Undone' ? 'Late' : 'Ontime'}}</span>
                     </ng-template>
                   </e-column>
-                  <e-column field="Entity.DueDateTime" type='date' clipMode='EllipsisWithTooltip' headerText="Due Date" width="200" textAlign="Center">
-                    <ng-template #template let-data>
+                  <e-column field="Entity.DueDate" type='date' format='d MMM, yyyy hh:mm:ss a' type='date' clipMode='EllipsisWithTooltip' headerText="Due Date Time" width="200" textAlign="Center">
+                    <!-- <ng-template #template let-data>
                       <ejs-tooltip id='tooltip' content='{{periodText(data.Entity.periodType)}}'>
                         {{data.Entity.DueDate}}
                      </ejs-tooltip>
-                    </ng-template>
+                    </ng-template> -->
                   </e-column>
                   <e-column field="Entity.periodType" headerText="Period Type" width="200" textAlign="Center">
                     <ng-template #template let-data>
                       {{periodText(data.Entity.periodType)}}
                     </ng-template>
                   </e-column>
-                  <e-column field="Entity.ModifyDateTime" headerText="Finished DateTime" width="200" textAlign="Center"></e-column>
-                  <e-column field="Entity.CreatedDate"  headerText="Created Date Time" width="200" textAlign="Center"></e-column>
+                  <e-column field="Entity.FinishedDateTime" format='d MMM, yyyy hh:mm:ss a' type='date' headerText="Finished DateTime" width="200" textAlign="Center"></e-column>
+                  <e-column field="Entity.CreatedDate" type='date' format='d MMM, yyyy hh:mm:ss a'  headerText="Created Date Time" width="200" textAlign="Center"></e-column>
                   <e-column field="Entity.WatchVideo" [disableHtmlEncode]="false" headerText="Watch Video" width="200"
                     textAlign="Center">
                     <ng-template #template let-data>

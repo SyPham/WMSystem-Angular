@@ -255,7 +255,7 @@ export class AddSubTaskComponent implements OnInit {
   }
   change(arg?){
     console.log('change: ', arg);
-    switch (arg.value) {
+    switch (this.selectedPeriodMain) {
       case 'reset': this.changeStatus(); break;
       case 'Daily':
       this.changeStatus(false);

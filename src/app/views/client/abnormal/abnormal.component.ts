@@ -498,27 +498,21 @@ export class AbnormalComponent implements OnInit {
     }
     const data = args.rowInfo.rowData.Entity;
     return new Task()
-      .createNewTask(
+      .create(
         data.ID,
         data.JobName,
         data.PICs,
         data.FromWho.ID,
         data.ProjectID,
-        data.SpecificDate,
-        data.DueDateDaily,
-        data.DueDateWeekly,
-        data.DueDateMonthly,
-        data.DueDateQuarterly,
-        data.DueDateYearly,
         false,
         data.PriorityID,
         data.ParentID,
         data.periodType,
         data.ProjectID,
         data.JobTypeID,
-        data.DateOfWeekly,
         data.Deputies,
-        data.OCID
+        data.OCID,
+        data.DueDate
       );
   }
 

@@ -23,7 +23,7 @@ export class HistoryResolver implements Resolve<object> {
   }
 
   resolve(route: ActivatedRouteSnapshot): Observable<object> {
-    return this.historyService.sortDateRange(this.subtractDate, this.currentDate).pipe(
+    return this.historyService.filterDateRange(this.subtractDate, this.currentDate).pipe(
       catchError(error => {
         this.alertify.error('Problem retrieving data');
         localStorage.removeItem('user');

@@ -79,16 +79,11 @@
       <e-column field="Entity.PIC" headerText="PIC" width="180" textAlign="Center"></e-column>
       <e-column field="Entity.state" headerText="Status" width="120" textAlign="Center">
         <ng-template #template let-data>
-          <span id="priority" [class]="data.Entity.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
+          <span id="priority" [class]="data.Entity.state == 'Delay' ? 'badge bg-danger' : 'badge bg-primary'"
             style="padding:4px;color:white">{{data.Entity.state}}</span>
         </ng-template>
       </e-column>
-      <e-column field="Entity.DueDate" type='date' format='dd MMM, yyyy hh:mm:ss a' [valueAccessor]='dueDateAccessor' clipMode='EllipsisWithTooltip' headerText="Due Date" width="200" textAlign="Center">
-        <ng-template #template let-data>
-          <ejs-tooltip id='tooltip' content='{{periodText(data.Entity.periodType)}}'>
-            {{data.Entity.DueDate}}
-         </ejs-tooltip>
-        </ng-template>
+      <e-column field="Entity.DueDate" type='date' format='dd MMM, yyyy hh:mm:ss a' clipMode='EllipsisWithTooltip' headerText="Due Date Time" width="200" textAlign="Center">
       </e-column>
       <e-column field="Entity.periodType" headerText="Period Type" width="200" textAlign="Center">
         <ng-template #template let-data>
@@ -96,7 +91,7 @@
         </ng-template>
       </e-column>
       <!-- <e-column field="Entity.ModifyDateTime" headerText="Finished DateTime" width="200" textAlign="Center"></e-column> -->
-      <e-column field="Entity.CreatedDate" headerText="Created Date Time" width="200" textAlign="Center"></e-column>
+      <e-column field="Entity.CreatedDate"type='date' format='d MMM, yyyy hh:mm:ss a' headerText="Created Date Time" width="200" textAlign="Center"></e-column>
         </e-columns>
     </ejs-treegrid>
 </div>

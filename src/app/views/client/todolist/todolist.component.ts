@@ -29,6 +29,7 @@ import { RoutineService } from 'src/app/_core/_service/routine.service';
 import { DragScrollComponent } from 'ngx-drag-scroll';
 import { Subscription } from 'rxjs';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
+import { SignalrService } from 'src/app/_core/_service/signalr.service';
 declare let $: any;
 @Component({
   selector: 'app-todolist',
@@ -46,6 +47,7 @@ export class TodolistComponent implements OnInit {
   public toolbarOptions: any[];
   public filterSettings: FilterSettingsModel;
   public editSettings: EditSettingsModel;
+  currentUser = JSON.parse(localStorage.getItem('user')).User.ID;
   private modalRef: NgbModalRef;
   constructor(
     private route: ActivatedRoute,
@@ -58,6 +60,7 @@ export class TodolistComponent implements OnInit {
     private routineService: RoutineService,
     private headerService: HeaderService,
     private router: Router,
+    private signalrService: SignalrService,
     private alertify: AlertifyService) {
   }
   srcTutorial: string;
@@ -81,6 +84,8 @@ export class TodolistComponent implements OnInit {
     this.optionGridTree();
     this.resolver();
     this.notification();
+    this.signalrService.startConnection();
+    this.receiveSignalr();
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -88,7 +93,15 @@ export class TodolistComponent implements OnInit {
   test() {
     this.treeGridObj.search('Report');
   }
-
+  receiveSignalr() {
+    if (this.signalrService.hubConnection.state) {
+      this.signalrService.hubConnection.on('ReceiveMessageForCurd', (user, username) => {
+        if (user.indexOf(this.currentUser) > -1) {
+          this.getListTree();
+        }
+      });
+    }
+  }
   onRouteChange() {
     this.route.data.subscribe(data => {
       const taskname = this.route.snapshot.paramMap.get('taskname');
@@ -129,7 +142,7 @@ export class TodolistComponent implements OnInit {
       hierarchyMode: 'Parent'
     };
     this.filterSettings = { type: 'CheckBox' };
-    this.sortSettings = { columns: [{ field: 'Entity.DueDateTime', direction: 'Ascending' }] };
+    this.sortSettings = { columns: [{ field: 'Entity.DueDate', direction: 'Ascending' }] };
     this.toolbarOptions = [
       'Search',
       'ExpandAll',
@@ -407,10 +420,4 @@ export class TodolistComponent implements OnInit {
   periodText(enumVal) {
     return this.getEnumKeyByEnumValue(PeriodType, Number(enumVal));
   }
-  // ngAfterViewInit() {
-  //   // Starting ngx-drag-scroll from specified index(3)
-  //   setTimeout(() => {
-  //     this.ds.moveTo(0);
-  //   }, 0);
-  // }
 }

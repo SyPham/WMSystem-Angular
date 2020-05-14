@@ -81,16 +81,11 @@
             <e-column field="Entity.DeputyName" headerText="Deputy" width="180" textAlign="Center"></e-column>
             <e-column field="Entity.state" headerText="Status" width="120" textAlign="Center">
               <ng-template #template let-data>
-                <span id="priority" [class]="data.Entity.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
+                <span id="priority" [class]="data.Entity.state == 'Delay' ? 'badge bg-danger' : 'badge bg-primary'"
                   style="padding:4px;color:white">{{data.Entity.state}}</span>
               </ng-template>
             </e-column>
-            <e-column field="Entity.DueDateTime" headerText="Due Date" width="200" textAlign="Center">
-              <ng-template #template let-data>
-                <ejs-tooltip id='tooltip' content='{{periodText(data.Entity.periodType)}}'>
-                  {{data.Entity.DueDate}}
-               </ejs-tooltip>
-              </ng-template>
+            <e-column field="Entity.DueDate" type='date' format='d MMM, yyyy hh:mm:ss a' headerText="Due Date" width="200" textAlign="Center">
             </e-column>
             <e-column field="Entity.periodType" headerText="Period Type" width="200" textAlign="Center">
               <ng-template #template let-data>
@@ -99,9 +94,7 @@
             </e-column>
             <!-- <e-column field="Entity.ModifyDateTime" headerText="Finished DateTime" width="200" textAlign="Center"> -->
             <!-- </e-column> -->
-            <e-column field="Entity.CreatedDate" headerText="Created Date" width="200" textAlign="Center">
-            </e-column>
-         
+            <e-column field="Entity.CreatedDate" type='date' format='d MMM, yyyy hh:mm:ss a' headerText="Created Date Time" width="200" textAlign="Center"></e-column>
             <e-column field="Entity.WatchVideo" [disableHtmlEncode]="false" headerText="Watch Video" width="200" textAlign="Center">
               <ng-template #template let-data>
                 <button [class]="data.Entity.VideoStatus? 'btn btn-sm btn-success' : 'd-none'" (click)="openWatchTutorialWatchModalByButton(data.Entity)">Watch</button>
