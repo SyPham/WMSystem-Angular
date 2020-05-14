@@ -89,8 +89,8 @@ import { MaintenanceComponent} from './views/maintenance/maintenance.component';
     JwtModule.forRoot({
       config: {
         tokenGetter,
-        whitelistedDomains: ['10.4.4.224:106', 'notify-api.line.me'],
-        blacklistedRoutes: ['10.4.4.224:106/api/auth', 'https://notify-api.line.me/api/notify/']
+        whitelistedDomains: ['10.4.4.224:106'],
+        blacklistedRoutes: ['10.4.4.224:106/api/auth']
       }
     })
   ],
@@ -108,7 +108,7 @@ import { MaintenanceComponent} from './views/maintenance/maintenance.component';
     ProjectDetailResolver,
     RoleResolver,
     AuthService,
-    // { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true }
     // { provide: HTTP_INTERCEPTORS, multi: true }
   ],
   bootstrap: [AppComponent]
