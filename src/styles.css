@@ -21,6 +21,9 @@
  * Copyright 2015 Daniel Cardoso <@DanielCardoso>
  * Licensed under MIT
  */
+ .modal-xxl {
+     width: 90%!important;
+ }
  .la-ball-spin-clockwise,
  .la-ball-spin-clockwise > div {
      position: relative;

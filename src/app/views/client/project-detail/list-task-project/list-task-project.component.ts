@@ -67,7 +67,7 @@ export class ListTaskProjectComponent implements OnInit {
   }
   onService() {
     this.addTaskService.currentMessage.subscribe(res => {
-      if (res === JobType.Project) {
+      if (res[0] === JobType.Project) {
         this.getListTree(this.Id);
       }
     });
@@ -107,12 +107,6 @@ export class ListTaskProjectComponent implements OnInit {
         iconCss: ' e-icons e-add',
         target: '.e-content',
         id: 'Add-Sub-Task'
-      },
-      {
-        text: 'Add Remark',
-        iconCss: ' e-icons e-add',
-        target: '.e-content',
-        id: 'Remark'
       },
       {
         text: 'Finish Task',
@@ -193,6 +187,12 @@ export class ListTaskProjectComponent implements OnInit {
         this.getListTree(this.Id);
       });
     }
+  }
+  follow(id) {
+    this.projectDetailService.follow(id).subscribe(res => {
+      this.alertify.success('You have already followd this one!');
+      this.getListTree(this.Id);
+    });
   }
   done() {
     if (this.taskId > 0) {

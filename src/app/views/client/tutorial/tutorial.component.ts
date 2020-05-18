@@ -8,6 +8,7 @@ import { TutorialModalComponent } from '../routine/tutorial-modal/tutorial-modal
 import { Tutorial } from 'src/app/_core/_model/tutorial';
 import { ActivatedRoute } from '@angular/router';
 import { AddTaskService } from 'src/app/_core/_service/addTask.service';
+import { JobType } from 'src/app/_core/enum/task.enum';
 @Component({
   selector: 'app-tutorial',
   templateUrl: './tutorial.component.html',
@@ -65,7 +66,7 @@ export class TutorialComponent implements OnInit {
       this.created();
     });
     this.addTaskService.currentMessage.subscribe(res => {
-      if (res === 101) {
+      if (res[0] === JobType.Tutorial) {
          this.dataSourceChanged();
       }
     });
@@ -89,7 +90,6 @@ export class TutorialComponent implements OnInit {
     //   parentid: args.data.parentid
     // };
   }
-  
   getTutorials() {
     this.tutorialService.getTutorials(this.projectId)
       .subscribe((arg) => {
@@ -140,6 +140,7 @@ export class TutorialComponent implements OnInit {
     const modalRef = this.modalService.open(TutorialModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Add Tutorial Video From tutorial';
     modalRef.componentInstance.projectid = this.projectId;
+    modalRef.componentInstance.jobType = JobType.Tutorial;
     modalRef.result.then((result) => {
       console.log('openMainTutorialModal', result );
     }, (reason) => {
@@ -151,6 +152,7 @@ export class TutorialComponent implements OnInit {
     modalRef.componentInstance.taskId = 0;
     modalRef.componentInstance.tutorialID = args.rowInfo.rowData.ID;
     modalRef.componentInstance.jobname =  args.rowInfo.rowData.JobName;
+    modalRef.componentInstance.jobType = JobType.Tutorial;
     modalRef.result.then((result) => {
       console.log('openEditTutorialModal', result );
     }, (reason) => {

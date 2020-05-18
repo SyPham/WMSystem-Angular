@@ -7,7 +7,7 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body table-responsive p-0">
-        <ejs-treegrid #treegrid [dataSource]="ocs" created='created()' [treeColumnIndex]='1' allowPaging='true' allowSorting='true'
+        <ejs-treegrid #treegrid [dataSource]="ocs" allowPaging='true' [pageSettings]='pageSetting' created='created()' [treeColumnIndex]='1' allowPaging='true' allowSorting='true'
           gridLines='Both' [toolbar]='toolbarOptions' childMapping="children" (rowSelected)="rowSelected($event)">
           <e-columns>
             <e-column field="levelnumber" width="80" textAlign="Center" headerText="Level"></e-column>

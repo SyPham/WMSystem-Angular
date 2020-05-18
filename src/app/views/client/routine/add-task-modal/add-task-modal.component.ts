@@ -266,9 +266,9 @@ export class AddTaskModalComponent implements OnInit {
           console.log('createSubTask: ', res);
           this.clearForm();
           if (this.jobtype === JobType.Abnormal){
-            this.addTaskService.changeMessage(JobType.Abnormal);
+            this.addTaskService.changeMessage([JobType.Abnormal, this.ocid]);
           } else {
-            this.addTaskService.changeMessage(JobType.Routine);
+            this.addTaskService.changeMessage([JobType.Routine, this.ocid]);
           }
           this.activeModal.close('createSubTask');
         });
@@ -277,9 +277,9 @@ export class AddTaskModalComponent implements OnInit {
           console.log('createMainTask: ', res);
           this.clearForm();
           if (this.jobtype === JobType.Abnormal){
-            this.addTaskService.changeMessage(JobType.Abnormal);
+            this.addTaskService.changeMessage([JobType.Abnormal, this.ocid]);
           } else {
-            this.addTaskService.changeMessage(JobType.Routine);
+            this.addTaskService.changeMessage([JobType.Routine, this.ocid]);
           }
           this.activeModal.close('createMainTask');
         });

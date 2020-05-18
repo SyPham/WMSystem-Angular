@@ -232,10 +232,6 @@ checkTask() {
     .subscribe(() => console.log('Vua moi kiem tra nhiem vu - ', this.userid));
 }
 
-test() {
-  this.headerService.test()
-    .subscribe(() => console.log('Gui thong bao den line'));
-}
 seen(item) {
   console.log('seen: ', item);
   this.headerService.seen(item).subscribe(res => {
@@ -249,5 +245,6 @@ seen(item) {
   };
   this.headerService.changeMessage(obj);
   this.router.navigate([item.URL]);
-}
+  }
+
 }

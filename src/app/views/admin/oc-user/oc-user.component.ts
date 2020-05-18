@@ -3,6 +3,7 @@ import { OcUserService } from 'src/app/_core/_service/oc-user.service';
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
 import { UserService } from 'src/app/_core/_service/user.service';
 import { Pagination } from 'src/app/_core/_model/pagination';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-oc-user',
@@ -10,6 +11,7 @@ import { Pagination } from 'src/app/_core/_model/pagination';
   styleUrls: ['./oc-user.component.css']
 })
 export class OcUserComponent implements OnInit {
+  pageSetting = { pageCount: 5, pageSizes: true };
   ocs: any;
   data: any;
   public toolbarOptions: any[];
@@ -23,15 +25,22 @@ export class OcUserComponent implements OnInit {
   constructor(
     private ocUserService: OcUserService,
     private userService: UserService,
+    private route: ActivatedRoute,
     private alertify: AlertifyService
   ) { }
 
   ngOnInit() {
     this.optionGridTree();
-    this.getOcs();
+    this.resolver();
   }
   created() {
     this.getOcs();
+  }
+  resolver() {
+    this.route.data.subscribe(res => {
+      this.ocs = res.ocs;
+      console.log('Ocs: ', this.ocs);
+    });
   }
   onChange($event, item) {
     console.log('OnChange: ', $event);

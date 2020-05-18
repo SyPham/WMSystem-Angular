@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AbnormalService } from 'src/app/_core/_service/abnormal.service';
 import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
@@ -83,11 +83,15 @@ export class AbnormalComponent implements OnInit {
     };
     this.checkRole();
   }
+  ngOnDestroy() {
+    this.addTaskService.changeMessage([]);
+  }
   resolver() {
     this.route.data.subscribe(data => {
       this.ocs = data.ocs;
       this.addTaskService.currentMessage.subscribe(res => {
-        if (res === JobType.Abnormal) {
+        if (res[0] === JobType.Abnormal) {
+          this.ocId = res[1];
           this.getTasks();
         }
       });
@@ -396,8 +400,9 @@ export class AbnormalComponent implements OnInit {
     const modalRef = this.modalService.open(AddTaskModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Add Abnormal Main Task';
     modalRef.componentInstance.ocid = this.ocId;
+    modalRef.componentInstance.jobType = JobType.Abnormal;
     modalRef.result.then((result) => {
-      console.log('openAddMainTaskModal', result)
+      console.log('openAddMainTaskModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Abnormal);
@@ -407,8 +412,10 @@ export class AbnormalComponent implements OnInit {
     modalRef.componentInstance.title = 'Add Abnormal Sub-Task';
     modalRef.componentInstance.ocid = this.ocId;
     modalRef.componentInstance.parentId = this.parentId;
+    modalRef.componentInstance.ocid = this.ocId;
+    modalRef.componentInstance.jobType = JobType.Abnormal;
     modalRef.result.then((result) => {
-      console.log('openAddSubTaskModal', result)
+      console.log('openAddSubTaskModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Abnormal);
@@ -417,6 +424,8 @@ export class AbnormalComponent implements OnInit {
     const modalRef = this.modalService.open(AddTaskModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Edit Abnormal Task';
     modalRef.componentInstance.edit = this.editTask(args);
+    modalRef.componentInstance.ocid = this.ocId;
+    modalRef.componentInstance.jobType = JobType.Abnormal;
     modalRef.result.then((result) => {
       console.log('openEditTaskModal', result);
     }, (reason) => {
@@ -428,6 +437,7 @@ export class AbnormalComponent implements OnInit {
     const modalRef = this.modalService.open(TutorialModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Add Tutorial Abnormal Task';
     modalRef.componentInstance.taskId = this.taskId;
+    modalRef.componentInstance.ocid = this.ocId;
     modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.componentInstance.jobType = JobType.Abnormal;
     modalRef.result.then((result) => {
@@ -440,6 +450,7 @@ export class AbnormalComponent implements OnInit {
     const modalRef = this.modalService.open(TutorialModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Edit Tutorial Abnormal Task';
     modalRef.componentInstance.taskId = this.taskId;
+    modalRef.componentInstance.ocid = this.ocId;
     modalRef.componentInstance.tutorialID = args.rowInfo.rowData.Entity.ID;
     modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.componentInstance.jobType = JobType.Abnormal;

@@ -5,11 +5,11 @@ import { JobType } from '../enum/task.enum';
   providedIn: 'root'
 })
 export class AddTaskService {
-  messageSource = new BehaviorSubject<JobType>(null);
+  messageSource = new BehaviorSubject<any[]>([]);
   currentMessage = this.messageSource.asObservable();
   constructor() { }
   // method này để change source message
-  changeMessage(message: JobType) {
+  changeMessage(message) {
     this.messageSource.next(message);
   }
 }

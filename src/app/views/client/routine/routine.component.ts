@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { RoutineService } from 'src/app/_core/_service/routine.service';
 import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
@@ -22,6 +22,7 @@ import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
 import { JobTypeService } from 'src/app/_core/_service/jobType.service';
 import { CommentComponent } from '../modals/comment/comment.component';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
+import { RoutineDetailComponent } from '../modals/routine-detail/routine-detail.component';
 declare let $: any;
 @Component({
   selector: 'app-routine',
@@ -45,11 +46,11 @@ export class RoutineComponent implements OnInit {
   public ocLevel = JSON.parse(localStorage.getItem('user')).User.OCLevel;
   public isLeader = JSON.parse(localStorage.getItem('user')).User.IsLeader;
   public currentUser = JSON.parse(localStorage.getItem('user')).User.ID;
-  ocId = 0;
   public contextMenuItems: object;
   public filterSettings: FilterSettingsModel;
   private tutorialName: string;
   searchSettings: object;
+  ocId = 0;
   constructor(
     config: NgbModalConfig,
     private modalService: NgbModal,
@@ -65,6 +66,9 @@ export class RoutineComponent implements OnInit {
     this.resolver();
     this.optionGridTree();
     this.checkRole();
+  }
+  ngOnDestroy() {
+    this.addTaskService.changeMessage([]);
   }
   optionGridTree() {
     this.filterSettings = { type: 'CheckBox' };
@@ -88,7 +92,8 @@ export class RoutineComponent implements OnInit {
       this.ocs = data.ocs;
       // $('#overlay').fadeOut();
       this.addTaskService.currentMessage.subscribe(res => {
-        if (res === JobType.Routine) {
+        if (res[0] === JobType.Routine) {
+          this.ocId = res[1];
           this.getTasks();
         }
       });
@@ -112,9 +117,9 @@ export class RoutineComponent implements OnInit {
   }
   getTasks() {
     if (this.ocId) {
-      // $('#overlay').fadeIn();
-      this.routineService.getTasks(this.ocId).subscribe(res => {
-        // $('#overlay').fadeOut();
+        $('#overlay').fadeIn();
+        this.routineService.getTasks(this.ocId).subscribe(res => {
+         $('#overlay').fadeOut();
         this.tasks = res;
       });
     } else {
@@ -271,25 +276,7 @@ export class RoutineComponent implements OnInit {
       ];
     }
   }
-  toolbarClick(args: any): void {
-    switch (args.item.text) {
-      case 'PDF Export':
-        this.treeGridObj.pdfExport({ hierarchyExportMode: 'All' });
-        break;
-      case 'Excel Export':
-        this.treeGridObj.excelExport({ hierarchyExportMode: 'All' });
-        break;
-      case 'Add New':
-        this.openAddMainTaskModal();
-        break;
-      case 'All columns':
-        this.showAllColumnsTreegrid();
-        break;
-      case 'Default columns':
-        this.defaultColumnsTreegrid();
-        break;
-    }
-  }
+ 
   getEnumKeyByEnumValue(myEnum, enumValue) {
     let keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
     return keys.length > 0 ? keys[0] : null;
@@ -309,6 +296,26 @@ export class RoutineComponent implements OnInit {
     const hide = ['Follow', 'Priority', 'From', 'Status', 'Watch Video', 'Deputy', 'Period Type'];
     for (const item of hide) {
       this.treeGridObj.hideColumns([item, 'Ship Name']);
+    }
+  }
+  // event
+  toolbarClick(args: any): void {
+    switch (args.item.text) {
+      case 'PDF Export':
+        this.treeGridObj.pdfExport({ hierarchyExportMode: 'All' });
+        break;
+      case 'Excel Export':
+        this.treeGridObj.excelExport({ hierarchyExportMode: 'All' });
+        break;
+      case 'Add New':
+        this.openAddMainTaskModal();
+        break;
+      case 'All columns':
+        this.showAllColumnsTreegrid();
+        break;
+      case 'Default columns':
+        this.defaultColumnsTreegrid();
+        break;
     }
   }
   dataBound($event) {
@@ -398,6 +405,27 @@ export class RoutineComponent implements OnInit {
         break;
     }
   }
+  rowSelected(args?) {
+    this.ocId = args.data.key;
+    if (this.listOCs.includes(this.ocId)) {
+      this.showTasks = true;
+    } else {
+      this.showTasks = false;
+      this.alertify.validation('Warning!', 'You don\'t belong to this department');
+    }
+    this.getTasks();
+  }
+  // end event
+  openRoutineDetailModal(arg) {
+    const modalRef = this.modalService.open(RoutineDetailComponent, { size: 'xxl' });
+    modalRef.componentInstance.title = 'Routine Detail';
+    modalRef.componentInstance.tasks = arg;
+    modalRef.result.then((result) => {
+      console.log('openRoutineDetailModal', result);
+    }, (reason) => {
+    });
+    this.jobtypeService.changeMessage(JobType.Routine);
+  }
   openAddMainTaskModal() {
     const modalRef = this.modalService.open(AddTaskModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Add Routine Main Task';
@@ -414,7 +442,7 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.ocid = this.ocId;
     modalRef.componentInstance.parentId = this.parentId;
     modalRef.result.then((result) => {
-      console.log('openAddSubTaskModal', result)
+      console.log('openAddSubTaskModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Routine);
@@ -422,6 +450,7 @@ export class RoutineComponent implements OnInit {
   openEditTaskModal(args) {
     const modalRef = this.modalService.open(AddTaskModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Edit Routine Task';
+    modalRef.componentInstance.ocid = this.ocId;
     modalRef.componentInstance.edit = this.editTask(args);
     modalRef.result.then((result) => {
       console.log('openEditTaskModal', result);
@@ -434,6 +463,7 @@ export class RoutineComponent implements OnInit {
     const modalRef = this.modalService.open(TutorialModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Add Tutorial Routine Task';
     modalRef.componentInstance.taskId = this.taskId;
+    modalRef.componentInstance.ocid = this.ocId;
     modalRef.componentInstance.jobType = JobType.Routine;
     modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
@@ -448,6 +478,8 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.taskId = this.taskId;
     modalRef.componentInstance.tutorialID = args.rowInfo.rowData.Entity.ID;
     modalRef.componentInstance.jobType = JobType.Routine;
+    modalRef.componentInstance.ocid = this.ocId;
+
     modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
       console.log('openEditTutorialModal', result);
@@ -488,16 +520,7 @@ export class RoutineComponent implements OnInit {
     }, (reason) => {
     });
   }
-  rowSelected(args?) {
-    this.ocId = args.data.key;
-    if (this.listOCs.includes(this.ocId)) {
-      this.showTasks = true;
-    } else {
-      this.showTasks = false;
-      this.alertify.validation('Warning!', 'You don\'t belong to this department');
-    }
-    this.getTasks();
-  }
+ 
   private editTask(args?): Task {
     if ((args || null) === null) {
       return null;

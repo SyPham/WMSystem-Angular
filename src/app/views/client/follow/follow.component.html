@@ -35,7 +35,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="control-section">
-          <ejs-treegrid #treegrid [dataSource]='data' childMapping='ChildNodes' [treeColumnIndex]='1'
+          <ejs-treegrid #treegrid [dataSource]='data' childMapping='ChildNodes' [treeColumnIndex]='2'
             [pageSettings]='pageSetting' [filterSettings]='filterSettings' [contextMenuItems]='contextMenuItems'
             [toolbar]='toolbarOptions' allowPaging='true' [allowExcelExport]='true' [allowPdfExport]='true' gridLines='Both'
             [allowResizing]='true' showColumnMenu='true' allowSorting='true' allowFiltering='true'
@@ -71,7 +71,7 @@
               <e-column field="Entity.DeputyName" headerText="Deputy" width="180" textAlign="Center"></e-column>
               <e-column field="Entity.state" headerText="Status" width="120" textAlign="Center">
                 <ng-template #template let-data>
-                  <span id="priority" [class]="data.Entity.state == 'Undone' ? 'badge bg-danger' : 'badge bg-success'"
+                  <span id="priority" [class]="data.Entity.state == 'Delay' ? 'badge bg-danger' : 'badge bg-primary'"
                     style="padding:4px;color:white">{{data.Entity.state}}</span>
                 </ng-template>
               </e-column>

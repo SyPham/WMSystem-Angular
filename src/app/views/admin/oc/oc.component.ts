@@ -34,6 +34,7 @@ export class OcComponent implements OnInit {
     this.resolver();
     this.optionTreeGrid();
     this.onService();
+
   }
   onService() {
     this.ocService.currentMessage
@@ -72,7 +73,7 @@ export class OcComponent implements OnInit {
   resolver() {
     this.route.data.subscribe(res => {
       this.data = res.ocs;
-      console.log('Ocs: ', this.data)
+      console.log('Ocs: ', this.data);
     });
   }
   actionComplete(args) {

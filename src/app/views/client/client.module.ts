@@ -53,6 +53,7 @@ import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { UploaderModule  } from '@syncfusion/ej2-angular-inputs';
 import { NgxGalleryModule } from 'ngx-gallery-9';
+import { RoutineDetailComponent } from './modals/routine-detail/routine-detail.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -106,6 +107,7 @@ import { NgxGalleryModule } from 'ngx-gallery-9';
     NodeTreeComponent,
     ContentEditableFormDirective,
     TreeComponent,
+    RoutineDetailComponent,
   ],
   providers: [
     RoutineResolver

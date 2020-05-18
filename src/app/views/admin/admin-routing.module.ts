@@ -45,6 +45,7 @@ const routes: Routes = [
       {
         path: 'oc-user',
         component: OcUserComponent,
+        resolve: { ocs: OcResolver },
         data: {
           title: 'OC User'
         }

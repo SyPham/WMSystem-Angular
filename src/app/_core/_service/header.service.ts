@@ -42,17 +42,6 @@ export class HeaderService {
   seen(item) {
     return this.http.get(`${this.baseUrl}Home/Seen/${item.ID}`);
   }
-  test() {
-    return this.http.post('https: //notify-bot.line.me/oauth/authorize',
-      {
-        grant_type: 'authorization_code',
-        code: token,
-        redirect_uri: 'http://10.4.4.224:106/',
-        client_id: clientId,
-        client_secret: clientSecret,
-    }, httpOptions);
-  }
-
   checkTask(userId = 0) {
     return this.http.get(`${this.baseUrl}Home/TaskListIsLate`);
   }
