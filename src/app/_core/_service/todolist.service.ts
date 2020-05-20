@@ -54,4 +54,7 @@ export class TodolistService {
   uncompleted() {
     return this.http.get(`${this.baseUrl}Tasks/SortBy/Undone`);
   }
+  saveLineCode(code, state) {
+    return this.http.get(`${this.baseUrl}Tasks/GetCodeLine/${code}/${state}`);
+  }
 }

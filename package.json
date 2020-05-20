@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open --host 10.4.4.224 --port 100 --disableHostCheck",
-    "pro": "ng serve --open --host 10.4.0.76 --port 97 --disableHostCheck",
+    "start_https": "ng serve --open --host 10.4.4.224 --port 100 --disableHostCheck --disableHostCheck --ssl true --ssl-key /node_modules/browser-sync/lib/server/certs/server.key --ssl-cert /node_modules/browser-sync/lib/server/certs/server.crt",
+    "pro": "ng serve --open --host 10.4.0.76 --port 97 --disableHostCheck --ssl true --ssl-key /node_modules/browser-sync/lib/server/certs/server.key --ssl-cert /node_modules/browser-sync/lib/server/certs/server.crt",
     "dev_henry": "ng serve --open --host 192.168.1.11 --port 1003 --disableHostCheck",
     "build": "ng build",
     "test": "ng test",
@@ -70,6 +71,7 @@
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
+    "browser-sync": "^2.26.7",
     "codelyzer": "^5.1.2",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",

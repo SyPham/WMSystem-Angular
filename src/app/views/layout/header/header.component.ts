@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.navAdmin = new Nav().getNavAdmin();
     this.navClient = new Nav().getNavClient();
-    this.checkServer();
+    // this.checkServer();
     this.checkAlert();
     this.getAvatar();
     this.role = JSON.parse(localStorage.getItem('user')).User.Role;
@@ -231,7 +231,6 @@ checkTask() {
   this.headerService.checkTask(this.userid)
     .subscribe(() => console.log('Vua moi kiem tra nhiem vu - ', this.userid));
 }
-
 seen(item) {
   console.log('seen: ', item);
   this.headerService.seen(item).subscribe(res => {

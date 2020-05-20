@@ -27,6 +27,14 @@ const routes: Routes = [
     },
     children: [
       {
+        path: 'todolist/:code/:state',
+        resolve: { todolist: TodolistResolver },
+        component: TodolistComponent,
+        data: {
+          title: 'To Do List'
+        }
+      },
+      {
         path: 'todolist',
         resolve: { todolist: TodolistResolver },
         component: TodolistComponent,
