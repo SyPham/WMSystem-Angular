@@ -102,11 +102,10 @@ export class TodolistComponent implements OnInit {
       });
     }
   }
-  genarateCodeLine(code, state) {
+  genarateCodeLine(code) {
     console.log('genarateCodeLine: ', code);
-
-    this.todolistSerivce.saveLineCode(code, state).subscribe( res => {
-      console.log(res);
+    this.todolistSerivce.saveLineCode(code).subscribe( res => {
+      console.log('getTokenLine:', res);
     });
   }
   onRouteChange() {
@@ -119,9 +118,10 @@ export class TodolistComponent implements OnInit {
         key: taskname?.replace(/-/g, ' ')?.replace(/_/g, '-') || '',
         ignoreCase: true
       };
-      const code = window.location.href.split('?')[1].split('&')[0].replace("code=","");
-      const state = "dsasdas";
-      this.genarateCodeLine(code, state);
+      const code = window.location.href.split('?')[1].split('&')[0].replace('code=', '');
+      if (code) {
+        this.genarateCodeLine(code);
+      }
     });
   }
   notification() {

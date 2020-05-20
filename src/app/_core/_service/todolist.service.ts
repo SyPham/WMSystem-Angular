@@ -6,8 +6,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('token')}`
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Access-Control-Allow-Origin': '*'
   })
 };
 @Injectable({
@@ -15,7 +15,7 @@ const httpOptions = {
 })
 export class TodolistService {
   baseUrl = environment.apiUrl;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private http2: HttpClient) {}
   getTasks() {
     return this.http.get(`${this.baseUrl}Tasks/Todolist/%20/%20/%20/%20/%20/%20/%20`).pipe(
       map(response => {
@@ -54,7 +54,17 @@ export class TodolistService {
   uncompleted() {
     return this.http.get(`${this.baseUrl}Tasks/SortBy/Undone`);
   }
-  saveLineCode(code, state) {
-    return this.http.get(`${this.baseUrl}Tasks/GetCodeLine/${code}/${state}`);
+  saveLineCode(code) {
+    return this.http.get(`${this.baseUrl}Tasks/GetCodeLine/${code}/${'state'}`);
+  }
+  getTokenLine(code) {
+    const body = new HttpParams()
+    .set('grant_type', 'authorization_code')
+    .set('code', code)
+    .set('redirect_uri', 'https://localhost:4200//todolist')
+    .set('client_id', 'HF6qOCM9xL4lXFsqOLPzhJ')
+    .set('client_secret', 'IvjiGAE8TAD8DOONBJ0Z71Ir9daUNlqMsy69ebokcQN');
+    return this.http2.post(`https://notify-bot.line.me/oauth/token`, body.toString(),
+    httpOptions);
   }
 }

@@ -4,9 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open --host 10.4.4.224 --port 100 --disableHostCheck",
-    "start_https": "ng serve --open --host 10.4.4.224 --port 100 --disableHostCheck --disableHostCheck --ssl true --ssl-key /node_modules/browser-sync/lib/server/certs/server.key --ssl-cert /node_modules/browser-sync/lib/server/certs/server.crt",
-    "pro": "ng serve --open --host 10.4.0.76 --port 97 --disableHostCheck --ssl true --ssl-key /node_modules/browser-sync/lib/server/certs/server.key --ssl-cert /node_modules/browser-sync/lib/server/certs/server.crt",
-    "dev_henry": "ng serve --open --host 192.168.1.11 --port 1003 --disableHostCheck",
+    "start_https": "ng serve --disableHostCheck --ssl true --ssl-key /node_modules/browser-sync/lib/server/certs/server.key --ssl-cert /node_modules/browser-sync/lib/server/certs/server.crt",
+     "pro": "ng serve --open --host 10.4.0.76 --port 97 --disableHostCheck --ssl true --ssl-key /node_modules/browser-sync/lib/server/certs/server.key --ssl-cert /node_modules/browser-sync/lib/server/certs/server.crt",
+    "dev_henry": "ng serve --open --host 192.168.1.13 --port 1003 --disableHostCheck",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
