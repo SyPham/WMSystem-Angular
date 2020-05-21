@@ -79,7 +79,7 @@ export class Nav {
         },
         {
             id: 9,
-            title: 'To Do List',
+            title: 'Todolist',
             path: '/todolist',
             icon: 'fas fa-shopping-cart',
             status: true,

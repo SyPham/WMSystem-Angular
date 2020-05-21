@@ -118,10 +118,15 @@ export class TodolistComponent implements OnInit {
         key: taskname?.replace(/-/g, ' ')?.replace(/_/g, '-') || '',
         ignoreCase: true
       };
-      const code = window.location.href.split('?')[1].split('&')[0].replace('code=', '');
-      if (code) {
-        this.genarateCodeLine(code);
-      }
+      // this.todolistSerivce.replyBot().subscribe(res => {
+      //   console.log('reply bot: ', res);
+      // });
+      // const code = window.location.href.split('?')[1].split('&')[0].replace('code=', '');
+      // if (code) {
+      //   this.todolistSerivce.getTokenLine(code).subscribe(res => {
+      //     console.log(res);
+      //   });
+      // }
     });
   }
   notification() {
