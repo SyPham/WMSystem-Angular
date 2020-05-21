@@ -27,24 +27,19 @@ export class SignalrService {
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
                             .withUrl(environment.hub)
+                            .configureLogging(signalR.LogLevel.Information)
                             .build();
-    this.hubConnection
-      .start()
-      .then(() => {
-         console.log('Connection started');
-        })
-      .catch(err => console.log('Error while starting connection: ' + err))
+    this.start();
   }
-  // public addTransferChartDataListener = () => {
-  //   this.hubConnection.on('transferchartdata', (data) => {
-  //     //this.data = data;
-  //     console.log(data);
-  //   });
-  // }
-  // public broadcastChartData = () => {
-  //   this.hubConnection.invoke('broadcastchartdata', this.data)
-  //   .catch(err => console.error(err));
-  // }
+  public async start() {
+    try {
+        await this.hubConnection.start();
+        console.log('connected');
+    } catch (err) {
+        console.log(err);
+        setTimeout(() => this.start(), 5000);
+    }
+}
  public joiGroup(room: string, user: string) {
    this.hubConnection
    .invoke('JoinGroup', room.toString(), user.toString())
