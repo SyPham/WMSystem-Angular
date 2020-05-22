@@ -11,3 +11,22 @@
     text-overflow: ellipsis;
     overflow-y: scroll !important;
   }
+  #line-notify {
+    /* background-image: url('../../../../assets/img/line.ico'); */
+    background: #28a745;
+    border-radius: 50%;
+    font-size: 12px;
+    color: white;
+    height: 20px;
+    /* left: 18px; */
+    line-height: 20px;
+    /* position: absolute; */
+    text-align: center;
+    /* top: 0; */
+    width: 20px;
+  }
+  #right-menu li:hover {
+    background-color: #cccccc;
+    border-radius: 50rem;
+    color: #000;
+  }

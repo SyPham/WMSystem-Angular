@@ -37,7 +37,7 @@
     </div>
 
     <!-- Right navbar links -->
-    <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+    <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto" id="right-menu">
       <li class="nav-item user-menu" (click)='openAvatarModal()'>
         <a class="nav-link">
           <i class="fa fa-sign-out"></i>
@@ -131,6 +131,11 @@
           >
         </div>
       </li> -->
+      <li class="nav-item">
+        <a href="https://notify-bot.line.me/oauth/authorize?response_type=code&client_id=HF6qOCM9xL4lXFsqOLPzhJ&redirect_uri=http://10.4.4.224:106/api/LineNotify/Callback&scope=notify&state=NO_STATE" class="nav-link">
+            <i id='line-notify' class="fas fa-bell"></i> Get Line Notify
+        </a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="javascript:;" (click)="logout()"
           ><i class="fas fa-sign-out-alt"></i> Sign-out

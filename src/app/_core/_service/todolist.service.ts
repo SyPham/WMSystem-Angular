@@ -85,4 +85,10 @@ export class TodolistService {
     return this.http2.post(`https://notify-bot.line.me/oauth/token`, body.toString(),
     httpOptions);
   }
+  getAuthorize() {
+    return this.http.get(`${this.baseUrl}LineNotify`);
+  }
+  updateTokenLineForUser(id, token) {
+    return this.http.get(`${this.baseUrl}Users/UpdateTokenLineForUser/${id}/${token}`);
+  }
 }

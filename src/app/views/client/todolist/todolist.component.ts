@@ -127,6 +127,21 @@ export class TodolistComponent implements OnInit {
       //     console.log(res);
       //   });
       // }
+      if (window.location.href.indexOf('token=') > 0) {
+        let token = window.location.href.split('?')[1].replace('token=', '');
+        this.todolistSerivce.updateTokenLineForUser(this.currentUser, token).subscribe(res => {
+          console.log(res);
+          if (res) {
+            this.router.navigate(['/todolist']);
+            this.alertify.success('You have already get line notify successfully!');
+          }
+        });
+      }
+    });
+  }
+  getAuthorize() {
+    this.todolistSerivce.getAuthorize().subscribe(res => {
+
     });
   }
   notification() {
