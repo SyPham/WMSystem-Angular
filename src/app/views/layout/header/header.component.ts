@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../../_core/_service/auth.service';
 import { AlertifyService } from '../../../_core/_service/alertify.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SignalrService } from 'src/app/_core/_service/signalr.service';
 import { HeaderService } from 'src/app/_core/_service/header.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -12,6 +12,8 @@ import { Nav } from 'src/app/_core/_model/nav';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AvatarModalComponent } from './avatar-modal/avatar-modal.component';
 import { environment } from '../../../../environments/environment';
+import { TodolistService } from 'src/app/_core/_service/todolist.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -23,23 +25,29 @@ export class HeaderComponent implements OnInit {
   private intervalSignalr: any;
   public navAdmin: any;
   public navClient: any;
+  public navClient2: any;
   public total: number;
   public totalCount: number;
   public page: number;
   public pageSize: number;
   public currentTime: any;
+  public urlLineAuth = environment.redirectLineAuthorize;
   userid: number;
   role: number;
   avatar: any;
   currentUser = JSON.parse(localStorage.getItem('user')).User.ID;
+  subscribeLine: boolean;
+  subscription: Subscription;
   constructor(
     private authService: AuthService,
     private alertify: AlertifyService,
     private signalrService: SignalrService,
     private headerService: HeaderService,
     private calendarsService: CalendarsService,
+    private todolistService: TodolistService,
     private sanitizer: DomSanitizer,
     private router: Router,
+    private route: ActivatedRoute,
     private modalService: NgbModal,
 
   ) {
@@ -50,6 +58,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.navAdmin = new Nav().getNavAdmin();
     this.navClient = new Nav().getNavClient();
+    this.navClient2 = new Nav().getNavClient2();
     // this.checkServer();
     this.checkAlert();
     this.getAvatar();
@@ -62,6 +71,8 @@ export class HeaderComponent implements OnInit {
     this.getNotifications();
     this.onService();
     this.receiveGroupNotification();
+    this.onRouteChange();
+    this.subscribeLine = JSON.parse(localStorage.getItem('user')).User.SubscribeLine;
   }
   ngOnDestroy() {
     if (this.intervalID) {
@@ -70,6 +81,7 @@ export class HeaderComponent implements OnInit {
     if (this.intervalSignalr) {
       clearInterval(this.intervalSignalr);
     }
+    this.subscription.unsubscribe();
   }
   receiveGroupNotification() {
     if (this.signalrService.hubConnection.state) {
@@ -85,6 +97,12 @@ export class HeaderComponent implements OnInit {
        // }
       });
     }
+  }
+  onRouteChange() {
+    this.subscription = this.todolistService.currentreceiveMessage.subscribe( res => {
+      console.log('onRouteChange Header', res);
+      this.subscribeLine = res;
+    });
   }
   onService() {
     this.headerService.currentImage
@@ -245,5 +263,12 @@ seen(item) {
   this.headerService.changeMessage(obj);
   this.router.navigate([item.URL]);
   }
-
+  removeTokenLine() {
+    this.headerService.removeTokenLineForUser(this.userid).subscribe(res => {
+      if (res) {
+        this.alertify.success('You have already unsubcribe LINE notify');
+        this.subscribeLine = false;
+      }
+    });
+  }
 }

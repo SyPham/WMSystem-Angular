@@ -105,6 +105,77 @@ export class Nav {
             type: 'client',
         }
     ];
+    Client = [
+        {
+            id: 1,
+            title: 'Project',
+            path: '/project',
+            icon: 'fas fa-shopping-cart',
+            status: true,
+            index: 1,
+            type: 'client',
+            childs: []
+        },
+         {
+            id: 2,
+            title: 'Job Type',
+            path: '/',
+            icon: 'fas fa-shopping-cart',
+            status: true,
+            index: 2,
+            type: 'client',
+            childs: [
+                {
+                    id: 1,
+                    title: 'Routine',
+                    path: '/routine',
+                    icon: 'fas fa-shopping-cart',
+                    status: true,
+                    index: 1,
+                    type: 'client',
+                },
+                {
+                    id: 2,
+                    title: 'Abnormal',
+                    path: '/abnormal',
+                    icon: 'fas fa-shopping-cart',
+                    status: true,
+                    index: 2,
+                    type: 'client',
+                },
+            ]
+        },
+        {
+            id: 3,
+            title: 'Todolist',
+            path: '/todolist',
+            icon: 'fas fa-shopping-cart',
+            status: true,
+            index: 3,
+            type: 'client',
+            childs: []
+        },
+        {
+            id: 4,
+            title: 'History',
+            path: '/history',
+            icon: 'fas fa-shopping-cart',
+            status: true,
+            index: 4,
+            type: 'client',
+            childs: []
+        },
+        {
+            id: 5,
+            title: 'Follow',
+            path: '/follow',
+            icon: 'fas fa-shopping-cart',
+            status: true,
+            index: 5,
+            type: 'client',
+            childs: []
+        }
+    ];
     constructor() {}
     // constructor(id, title, icon, status) {
     //     this.id = id;
@@ -121,6 +192,10 @@ export class Nav {
     }
     getNavClient() {
         return this.Nav.filter(this.isClient);
+    }
+    getNavClient2() {
+        console.log(this.Client)
+        return this.Client;
     }
     private isAdminShowDash(element, index, array) {
         return (element.type === 'admin');

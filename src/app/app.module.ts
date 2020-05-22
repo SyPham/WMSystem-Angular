@@ -55,6 +55,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { AvatarModalComponent } from './views/layout/header/avatar-modal/avatar-modal.component';
 import { PreviewModalComponent } from './views/layout/header/preview-modal/preview-modal.component';
 import { MaintenanceComponent} from './views/maintenance/maintenance.component';
+import { SidebarComponent} from './views/sidebar/sidebar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,7 +68,8 @@ import { MaintenanceComponent} from './views/maintenance/maintenance.component';
     P500Component,
     AvatarModalComponent,
     PreviewModalComponent,
-    MaintenanceComponent
+    MaintenanceComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

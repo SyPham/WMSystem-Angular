@@ -17,7 +17,12 @@ const httpOptions = {
 })
 export class TodolistService {
   baseUrl = environment.apiUrl;
+  receivedMessage = new BehaviorSubject<boolean>(null);
+  currentreceiveMessage = this.receivedMessage.asObservable();
   constructor(private http: HttpClient, private http2: HttpClient) {}
+  changeReceiveMessage(message) {
+    this.receivedMessage.next(message);
+  }
   getTasks() {
     return this.http.get(`${this.baseUrl}Tasks/Todolist/%20/%20/%20/%20/%20/%20/%20`).pipe(
       map(response => {

@@ -131,14 +131,20 @@
           >
         </div>
       </li> -->
-      <li class="nav-item">
-        <a href="https://notify-bot.line.me/oauth/authorize?response_type=code&client_id=HF6qOCM9xL4lXFsqOLPzhJ&redirect_uri=http://10.4.4.224:106/api/LineNotify/Callback&scope=notify&state=NO_STATE" class="nav-link">
-            <i id='line-notify' class="fas fa-bell"></i> Get Line Notify
+      <li class="nav-item" *ngIf="!subscribeLine">
+        <a href="{{urlLineAuth}}" class="nav-link">
+            <i id='line-notify' class="fas fa-bell"></i> LINE Notify
+        </a>
+      </li>
+      <li class="nav-item disabled" *ngIf="subscribeLine">
+        <a (click)='removeTokenLine()' class="nav-link">
+            <i id='line-notify' style="background-color: red;" class="fas fa-bell-slash"></i> LINE Notify
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="javascript:;" (click)="logout()"
-          ><i class="fas fa-sign-out-alt"></i> Sign-out
+        <a class="nav-link" href="javascript:;" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+           Sign-out
         </a>
       </li>
     </ul>

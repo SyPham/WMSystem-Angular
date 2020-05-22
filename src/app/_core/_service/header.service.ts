@@ -45,5 +45,10 @@ export class HeaderService {
   checkTask(userId = 0) {
     return this.http.get(`${this.baseUrl}Home/TaskListIsLate`);
   }
-
+  removeTokenLineForUser(id) {
+    return this.http.delete(`${this.baseUrl}Users/RemoveTokenLineForUser/${id}`);
+  }
+  updateTokenLineForUser(id, token) {
+    return this.http.get(`${this.baseUrl}Users/UpdateTokenLineForUser/${id}/${token}`);
+  }
 }

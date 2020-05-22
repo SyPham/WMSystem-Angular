@@ -86,6 +86,7 @@ export class TodolistComponent implements OnInit {
     this.notification();
     this.signalrService.startConnection();
     this.receiveSignalr();
+    this.onRouteChange();
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -118,15 +119,6 @@ export class TodolistComponent implements OnInit {
         key: taskname?.replace(/-/g, ' ')?.replace(/_/g, '-') || '',
         ignoreCase: true
       };
-      // this.todolistSerivce.replyBot().subscribe(res => {
-      //   console.log('reply bot: ', res);
-      // });
-      // const code = window.location.href.split('?')[1].split('&')[0].replace('code=', '');
-      // if (code) {
-      //   this.todolistSerivce.getTokenLine(code).subscribe(res => {
-      //     console.log(res);
-      //   });
-      // }
       if (window.location.href.indexOf('token=') > 0) {
         let token = window.location.href.split('?')[1].replace('token=', '');
         this.todolistSerivce.updateTokenLineForUser(this.currentUser, token).subscribe(res => {
@@ -134,6 +126,7 @@ export class TodolistComponent implements OnInit {
           if (res) {
             this.router.navigate(['/todolist']);
             this.alertify.success('You have already get line notify successfully!');
+            this.todolistSerivce.changeReceiveMessage(true);
           }
         });
       }
