@@ -13,6 +13,7 @@ import { RoutineService } from 'src/app/_core/_service/routine.service';
 import { ProjectDetailService } from 'src/app/_core/_service/projectDetail.service';
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
 import { JobTypeService } from 'src/app/_core/_service/jobType.service';
+import { AddTask } from 'src/app/_core/_model/add.task';
 
 @Component({
   selector: 'app-add-task-modal',
@@ -164,7 +165,6 @@ export class AddTaskModalComponent implements OnInit {
     }
   }
   private loadEdit(edit: Task) {
-    debugger
     if (edit !== null) {
       this.Id = edit._ID;
       this.jobname = edit._JobName;
@@ -246,7 +246,7 @@ export class AddTaskModalComponent implements OnInit {
       } else {
         deputy = this.deputies;
       }
-      const task = new Task().create(this.Id,
+      const task = new Task(this.Id,
         this.jobname,
         beAsigned,
         this.who,
@@ -266,9 +266,9 @@ export class AddTaskModalComponent implements OnInit {
           console.log('createSubTask: ', res);
           this.clearForm();
           if (this.jobtype === JobType.Abnormal){
-            this.addTaskService.changeMessage([JobType.Abnormal, this.ocid]);
+            this.addTaskService.changeMessage(new AddTask(JobType.Abnormal, this.ocid));
           } else {
-            this.addTaskService.changeMessage([JobType.Routine, this.ocid]);
+            this.addTaskService.changeMessage(new AddTask(JobType.Routine, this.ocid));
           }
           this.activeModal.close('createSubTask');
         });
@@ -277,9 +277,9 @@ export class AddTaskModalComponent implements OnInit {
           console.log('createMainTask: ', res);
           this.clearForm();
           if (this.jobtype === JobType.Abnormal){
-            this.addTaskService.changeMessage([JobType.Abnormal, this.ocid]);
+            this.addTaskService.changeMessage(new AddTask(JobType.Abnormal, this.ocid));
           } else {
-            this.addTaskService.changeMessage([JobType.Routine, this.ocid]);
+            this.addTaskService.changeMessage(new AddTask(JobType.Abnormal, this.ocid));
           }
           this.activeModal.close('createMainTask');
         });

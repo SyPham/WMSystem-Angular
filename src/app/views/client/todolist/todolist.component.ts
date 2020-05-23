@@ -30,6 +30,8 @@ import { DragScrollComponent } from 'ngx-drag-scroll';
 import { Subscription } from 'rxjs';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 import { SignalrService } from 'src/app/_core/_service/signalr.service';
+import * as signalr from 'src/assets/js/signalr';
+
 declare let $: any;
 @Component({
   selector: 'app-todolist',
@@ -87,6 +89,8 @@ export class TodolistComponent implements OnInit {
     this.signalrService.startConnection();
     this.receiveSignalr();
     this.onRouteChange();
+    console.log('Demo todolist---------------------------', signalr.CONNECTION_HUB);
+
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();

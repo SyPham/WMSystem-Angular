@@ -111,7 +111,7 @@
           <div class="form-group">
             <label for="JobType">Due Date Time</label>
             <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [(ngModel)]="deadline" [format]="format" placeholder='Select due date time'></ejs-datetimepicker>
+            <ejs-datetimepicker [(ngModel)]="deadline" [format]="format" step="1" placeholder='Select due date time'></ejs-datetimepicker>
           </div>
         </div>
        
@@ -120,7 +120,7 @@
           <div class="form-group">
             <label for="JobType">1st Due Date Time</label>
             <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [format]="format" [(ngModel)]="duedatedaily" placeholder='Select due date time of daily'></ejs-datetimepicker>
+            <ejs-datetimepicker [format]="format" step="1" [(ngModel)]="duedatedaily" placeholder='Select due date time of daily'></ejs-datetimepicker>
           </div>
         </div>
         <!-- ----Daily -->
@@ -128,14 +128,14 @@
         <div [class]="weekly?'col-md-8 d-none':'col-md-8'">
           <div class="form-group">
             <label for="JobType">1st Due Date Time</label>  <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [format]="format"  placeholder='Select due date time of weekly' [(ngModel)]="duedateweekly"></ejs-datetimepicker>
+            <ejs-datetimepicker [format]="format" step="1"  placeholder='Select due date time of weekly' [(ngModel)]="duedateweekly"></ejs-datetimepicker>
           </div>
         </div>
         <!-- Monthly -->
         <div [class]="monthly?'col-md-8 d-none':'col-md-8'">
           <div class="form-group">
             <label for="JobType">1st Due Date Time</label>  <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [format]="format" placeholder='Select due date time of monthly' [(ngModel)]="duedatemonthly"></ejs-datetimepicker>
+            <ejs-datetimepicker [format]="format" step="1" placeholder='Select due date time of monthly' [(ngModel)]="duedatemonthly"></ejs-datetimepicker>
           </div>
         </div>
         <!-- End monthly -->    

@@ -23,6 +23,7 @@ import { JobTypeService } from 'src/app/_core/_service/jobType.service';
 import { SignalrService } from 'src/app/_core/_service/signalr.service';
 import { CommentComponent } from '../modals/comment/comment.component';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
+import { AddTask } from 'src/app/_core/_model/add.task';
 declare let $: any;
 @Component({
   selector: 'app-abnormal',
@@ -84,14 +85,14 @@ export class AbnormalComponent implements OnInit {
     this.checkRole();
   }
   ngOnDestroy() {
-    this.addTaskService.changeMessage([]);
+    this.addTaskService.changeMessage(new AddTask());
   }
   resolver() {
     this.route.data.subscribe(data => {
       this.ocs = data.ocs;
-      this.addTaskService.currentMessage.subscribe(res => {
-        if (res[0] === JobType.Abnormal) {
-          this.ocId = res[1];
+      this.addTaskService.currentMessage.subscribe((res: AddTask) => {
+        if (res.Jobtype === JobType.Abnormal) {
+          this.ocId = res.OcId;
           this.getTasks();
         }
       });

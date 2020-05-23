@@ -189,52 +189,36 @@ export class Task {
     set _DepartmentID(value: number) {
         this.DepartmentID = value || 0;
     }
-    createNewTask(
+    constructor(
         ID: number = 0,
         taskname: string = 'Task Demo',
-        PIC: any = 0,
+        PIC: any = [],
         who: number = 0,
         where: number = 0,
-        SpecificDate: string = '',
-        daily: string = new Date().toLocaleDateString(),
-        weekly: string = '',
-        monthly: string = '',
-        quarterly: string = '',
-        yearly: string = '',
         Status: boolean = true,
         Priority: string = 'M',
         ParentID: number = 0,
         periodtype: PeriodType = PeriodType.Daily,
         ProjectID: number = 0,
         JobTypeID: JobType = JobType.Routine,
-        DateOfWeekly: string = '',
         Deputies: any = [],
         OCID: number = 0,
         DueDate: string = '',
     ) {
-        const task = new Task();
-        task.ID = ID;
-        task.JobName = taskname;
-        task.FromWhoID = who;
-        task.DepartmentID = where;
-        task.DueDateWeekly = weekly;
-        task.DueDateMonthly = monthly;
-        task.DueDateQuarterly = quarterly;
-        task.DueDateYearly = yearly;
-        task.Status = Status;
-        task.Priority = Priority;
-        task.ParentID = ParentID;
-        task.periodtype = periodtype;
-        task.JobTypeID = JobTypeID;
-        task.PIC = PIC;
-        task.DueDateDaily = daily;
-        task.ProjectID = ProjectID;
-        task.SpecificDate = SpecificDate;
-        task.DateOfWeekly = DateOfWeekly;
-        task.Deputies = Deputies;
-        task.OCID = OCID;
-        task.DueDate = DueDate;
-        return task;
+        this.ID = ID;
+        this.JobName = taskname;
+        this.FromWhoID = who;
+        this.DepartmentID = where;
+        this.Status = Status;
+        this.Priority = Priority;
+        this.ParentID = ParentID;
+        this.periodtype = periodtype;
+        this.JobTypeID = JobTypeID;
+        this.PIC = PIC;
+        this.ProjectID = ProjectID;
+        this.Deputies = Deputies;
+        this.OCID = OCID;
+        this.DueDate = DueDate !== '' ? new Date(DueDate).toISOString() : '';
     }
     create(
         ID: number = 0,
@@ -266,7 +250,7 @@ export class Task {
         task.ProjectID = ProjectID;
         task.Deputies = Deputies;
         task.OCID = OCID;
-        task.DueDate = DueDate;
+        task.DueDate = DueDate !== '' ? new Date(DueDate).toISOString() : '';
         return task;
     }
 }

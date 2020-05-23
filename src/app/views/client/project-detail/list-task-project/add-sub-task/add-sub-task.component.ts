@@ -10,6 +10,7 @@ import { CalendarsService } from 'src/app/_core/_service/calendars.service';
 import { Task } from 'src/app/_core/_model/Task';
 import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
 import { AddTaskService } from 'src/app/_core/_service/addTask.service';
+import { AddTask } from 'src/app/_core/_model/add.task';
 
 @Component({
   selector: 'app-add-sub-task',
@@ -97,7 +98,7 @@ export class AddSubTaskComponent implements OnInit {
   ngOnInit() {
     this.getListUsers();
     this.getAreas();
-    this.task = new Task();
+    // this.task = new Task();
     this.jobtype = JobType.Project;
     if (this.edit !== undefined) {
       console.log('Edit Modal: ', this.edit);
@@ -222,7 +223,7 @@ export class AddSubTaskComponent implements OnInit {
       beAsigned = this.pic;
     }
 
-    const task = new Task().create(this.Id,
+    const task = new Task(this.Id,
       this.jobname,
       beAsigned,
       this.who,
@@ -241,14 +242,14 @@ export class AddSubTaskComponent implements OnInit {
       this.projectDetailService.createSubTask(task).subscribe(res => {
         console.log('createSubTask: ', res);
         this.clearForm();
-        this.addTaskService.changeMessage(JobType.Project);
+        this.addTaskService.changeMessage(new AddTask(JobType.Project, 0));
         this.activeModal.close('createSubTask');
       });
     } else {
       this.projectDetailService.createMainTask(task).subscribe(res => {
         console.log('createMainTask: ', res);
         this.clearForm();
-        this.addTaskService.changeMessage(JobType.Project);
+        this.addTaskService.changeMessage(new AddTask(JobType.Project, 0));
         this.activeModal.close('createMainTask');
       });
     }

@@ -8,6 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CalendarsService } from 'src/app/_core/_service/calendars.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
 import * as moment from 'moment';
+import * as signalr from 'src/assets/js/signalr';
 import { Nav } from 'src/app/_core/_model/nav';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AvatarModalComponent } from './avatar-modal/avatar-modal.component';
@@ -73,6 +74,7 @@ export class HeaderComponent implements OnInit {
     this.receiveGroupNotification();
     this.onRouteChange();
     this.subscribeLine = JSON.parse(localStorage.getItem('user')).User.SubscribeLine;
+    // console.log('Demo Header---------------------------', signalr.CONNECTION_HUB);
   }
   ngOnDestroy() {
     if (this.intervalID) {
@@ -91,10 +93,10 @@ export class HeaderComponent implements OnInit {
         }
       });
       this.signalrService.hubConnection.on('ReceiveCheckAlert', (user) => {
-        // if (user.indexOf(this.currentUser)) {
+        if (user.indexOf(this.currentUser) > -1) {
           this.getNotifications();
           console.log('there are late tasks');
-       // }
+        }
       });
     }
   }

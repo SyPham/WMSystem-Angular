@@ -3,7 +3,8 @@ export enum JobType
     Project = 1,
     Routine = 2,
     Abnormal = 3,
-    Tutorial = 3
+    Tutorial = 3,
+    Unknown = 0
 
 }
 export enum PeriodType

@@ -19,6 +19,7 @@ import { CommentComponent } from '../../modals/comment/comment.component';
 import { JobType, PeriodType } from 'src/app/_core/enum/task.enum';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 import { SignalrService } from 'src/app/_core/_service/signalr.service';
+import { AddTask } from 'src/app/_core/_model/add.task';
 // tslint:disable-next-line:no-conflicting-lifecycle
 declare let $: any;
 @Component({
@@ -66,8 +67,8 @@ export class ListTaskProjectComponent implements OnInit {
     this.projectID = +this.route.snapshot.paramMap.get('id');
   }
   onService() {
-    this.addTaskService.currentMessage.subscribe(res => {
-      if (res[0] === JobType.Project) {
+    this.addTaskService.currentMessage.subscribe((res: AddTask) => {
+      if (res.Jobtype === JobType.Project) {
         this.getListTree(this.Id);
       }
     });
@@ -183,7 +184,7 @@ export class ListTaskProjectComponent implements OnInit {
   delete() {
     if (this.taskId > 0) {
       this.projectDetailService.delete(this.taskId).subscribe(res => {
-        this.alertify.success('Delete Successfully!')
+        this.alertify.success('Delete Successfully!');
         this.getListTree(this.Id);
       });
     }

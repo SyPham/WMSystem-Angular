@@ -23,6 +23,7 @@ import { JobTypeService } from 'src/app/_core/_service/jobType.service';
 import { CommentComponent } from '../modals/comment/comment.component';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 import { RoutineDetailComponent } from '../modals/routine-detail/routine-detail.component';
+import { AddTask } from 'src/app/_core/_model/add.task';
 declare let $: any;
 @Component({
   selector: 'app-routine',
@@ -68,7 +69,7 @@ export class RoutineComponent implements OnInit {
     this.checkRole();
   }
   ngOnDestroy() {
-    this.addTaskService.changeMessage([]);
+    this.addTaskService.changeMessage(new AddTask());
   }
   optionGridTree() {
     this.filterSettings = { type: 'CheckBox' };
@@ -91,9 +92,9 @@ export class RoutineComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.ocs = data.ocs;
       // $('#overlay').fadeOut();
-      this.addTaskService.currentMessage.subscribe(res => {
-        if (res[0] === JobType.Routine) {
-          this.ocId = res[1];
+      this.addTaskService.currentMessage.subscribe((res: AddTask) => {
+        if (res.Jobtype === JobType.Routine) {
+          this.ocId = res.OcId;
           this.getTasks();
         }
       });
@@ -120,7 +121,7 @@ export class RoutineComponent implements OnInit {
         $('#overlay').fadeIn();
         this.routineService.getTasks(this.ocId).subscribe(res => {
          $('#overlay').fadeOut();
-        this.tasks = res;
+         this.tasks = res;
       });
     } else {
       this.alertify.message('Please select on OC!!!');

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { environment } from '../../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
@@ -7,7 +7,10 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SignalrService {
   public hubConnection: signalR.HubConnection;
-
+  public SendMessageToGroup = new EventEmitter<any>();
+  public ReceiveTyping = new EventEmitter<any>();
+  public ReceiveStopTyping = new EventEmitter<any>();
+  // public ReceiveTyping = new EventEmitter<any>();
   receivedMessageGroup = new BehaviorSubject<number>(0);
   currentreceiveMessageGroup = this.receivedMessageGroup.asObservable();
   // method này để change source message
@@ -27,7 +30,7 @@ export class SignalrService {
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
                             .withUrl(environment.hub)
-                            .configureLogging(signalR.LogLevel.Information)
+                           // .configureLogging(signalR.LogLevel.Information)
                             .build();
     this.start();
   }
@@ -40,6 +43,8 @@ export class SignalrService {
         setTimeout(() => this.start(), 5000);
     }
 }
+
+// emit event to server
  public joiGroup(room: string, user: string) {
    this.hubConnection
    .invoke('JoinGroup', room.toString(), user.toString())
@@ -68,6 +73,8 @@ export class SignalrService {
       console.error(err.toString());
    });
  }
+
+ // receive event to server
  public checkAlert(user: string) {
   this.hubConnection
   .invoke('CheckAlert', user)
