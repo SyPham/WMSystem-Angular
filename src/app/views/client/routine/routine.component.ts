@@ -431,6 +431,7 @@ export class RoutineComponent implements OnInit {
     const modalRef = this.modalService.open(AddTaskModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Add Routine Main Task';
     modalRef.componentInstance.ocid = this.ocId;
+    modalRef.componentInstance.jobType = JobType.Routine;
     modalRef.result.then((result) => {
       // console.log('openAddMainTaskModal', result)
     }, (reason) => {
@@ -441,6 +442,7 @@ export class RoutineComponent implements OnInit {
     const modalRef = this.modalService.open(AddTaskModalComponent, { size: 'xl' });
     modalRef.componentInstance.title = 'Add Routine Sub-Task';
     modalRef.componentInstance.ocid = this.ocId;
+    modalRef.componentInstance.jobType = JobType.Routine;
     modalRef.componentInstance.parentId = this.parentId;
     modalRef.result.then((result) => {
       // console.log('openAddSubTaskModal', result);
@@ -453,6 +455,8 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.title = 'Edit Routine Task';
     modalRef.componentInstance.ocid = this.ocId;
     modalRef.componentInstance.edit = this.editTask(args);
+    modalRef.componentInstance.jobType = JobType.Routine;
+
     modalRef.result.then((result) => {
       // console.log('openEditTaskModal', result);
     }, (reason) => {

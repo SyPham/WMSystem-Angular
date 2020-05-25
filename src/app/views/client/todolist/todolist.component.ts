@@ -31,6 +31,7 @@ import { Subscription } from 'rxjs';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 import { SignalrService } from 'src/app/_core/_service/signalr.service';
 import * as signalr from 'src/assets/js/signalr';
+import { FollowService } from 'src/app/_core/_service/follow.service';
 
 declare let $: any;
 @Component({
@@ -62,6 +63,7 @@ export class TodolistComponent implements OnInit {
     private routineService: RoutineService,
     private headerService: HeaderService,
     private router: Router,
+    private followService: FollowService,
     private signalrService: SignalrService,
     private alertify: AlertifyService) {
   }
@@ -333,7 +335,13 @@ export class TodolistComponent implements OnInit {
   }
   follow(id) {
     this.routineService.follow(id).subscribe(res => {
-      this.alertify.success('You have already followd this one!');
+      this.alertify.success('You have already followed this one!');
+      this.getListTree();
+    });
+  }
+  unfollow(id) {
+    this.followService.unfollow(id).subscribe(res => {
+      this.alertify.success('You have already unfollowed this one!');
       this.getListTree();
     });
   }
@@ -423,6 +431,9 @@ export class TodolistComponent implements OnInit {
         break;
       case 'Follow':
         this.follow(data.ID);
+        break;
+      case 'Unfollow':
+        this.unfollow(data.ID);
         break;
       case 'WatchVideo':
         this.openWatchTutorialWatchModal();

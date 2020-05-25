@@ -15,7 +15,7 @@
 @import '../node_modules/@syncfusion/ej2-grids/styles/material.css';
 @import '../node_modules/@syncfusion/ej2-treegrid/styles/material.css';
 @import '../node_modules/sweetalert2/dist/sweetalert2.min.css';
-
+@import '../node_modules/@progress/kendo-theme-material/dist/all.css';
 /*!
  * Load Awesome v1.1.0 (http://github.danielcardoso.net/load-awesome/)
  * Copyright 2015 Daniel Cardoso <@DanielCardoso>
