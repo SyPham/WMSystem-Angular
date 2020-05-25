@@ -86,10 +86,10 @@ export class TodolistComponent implements OnInit {
     this.optionGridTree();
     this.resolver();
     this.notification();
-    this.signalrService.startConnection();
+    // this.signalrService.startConnection();
     this.receiveSignalr();
     this.onRouteChange();
-    console.log('Demo todolist---------------------------', signalr.CONNECTION_HUB);
+   // console.log('Demo todolist---------------------------', signalr.CONNECTION_HUB);
 
   }
   ngOnDestroy() {
@@ -99,8 +99,8 @@ export class TodolistComponent implements OnInit {
     this.treeGridObj.search('Report');
   }
   receiveSignalr() {
-    if (this.signalrService.hubConnection.state) {
-      this.signalrService.hubConnection.on('ReceiveMessageForCurd', (user, username) => {
+    if (signalr.CONNECTION_HUB.state) {
+      signalr.CONNECTION_HUB.on('ReceiveMessageForCurd', (user, username) => {
         if (user.indexOf(this.currentUser) > -1) {
           this.getListTree();
         }

@@ -14,6 +14,8 @@ import { PeriodType } from 'src/app/_core/enum/task.enum';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 import { Subscription } from 'rxjs';
 import { SignalrService } from 'src/app/_core/_service/signalr.service';
+import * as signalr from 'src/assets/js/signalr';
+
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
@@ -71,12 +73,12 @@ export class HistoryComponent implements OnInit {
       this.optionGridTree();
       this.setCurrentDate();
       this.resolver();
-      this.signalrService.startConnection();
+      // this.signalrService.startConnection();
 
     }
     receiveSignalr() {
-      if (this.signalrService.hubConnection.state) {
-        this.signalrService.hubConnection.on('ReceiveMessageForCurd', (user, username) => {
+      if (signalr.CONNECTION_HUB.state) {
+        signalr.CONNECTION_HUB.on('ReceiveMessageForCurd', (user, username) => {
           if (user.indexOf(this.currentUser) > -1) {
             this.getListTree();
           }
@@ -271,7 +273,7 @@ export class HistoryComponent implements OnInit {
       this.defaultColumnsTreegrid();
     }
     onChangeDateRangepPicker(event) {
-      console.log('onChangeDateRangepPicker: ', event);
+     // console.log('onChangeDateRangepPicker: ', event);
       if (event.value == null) {
         this.ejDateRangePicker.value = [this.subtractDate, new Date()];
         this.filterDateRange();
@@ -282,7 +284,7 @@ export class HistoryComponent implements OnInit {
       }
     }
     onChangeDateRangepPickerForDueDateTime(event) {
-      console.log('onChangeDateRangepPicker: ', event);
+     // console.log('onChangeDateRangepPicker: ', event);
       if (event.value == null) {
         this.ejDateRangePicker.value = [this.subtractDate, new Date()];
         this.filterDateRange();
@@ -307,7 +309,7 @@ export class HistoryComponent implements OnInit {
       modalRef.componentInstance.src = data.VideoLink;
       modalRef.componentInstance.name = data.JobName;
       modalRef.result.then((result) => {
-        console.log('openWatchTutorialWatchModal From Todolist', result );
+       // console.log('openWatchTutorialWatchModal From Todolist', result );
       }, (reason) => {
       });
     }
@@ -325,9 +327,9 @@ export class HistoryComponent implements OnInit {
     }
     }
     contextMenuClick(args?: any): void {
-      console.log('contextMenuClick', args);
+     // console.log('contextMenuClick', args);
       const data = args.rowInfo.rowData.Entity;
-      console.log('contextMenuClickdata', data);
+     // console.log('contextMenuClickdata', data);
 
       this.taskId = data.ID;
       switch (args.item.id) {

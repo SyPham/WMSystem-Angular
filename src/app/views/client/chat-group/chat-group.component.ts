@@ -7,6 +7,8 @@ import { CalendarsService } from 'src/app/_core/_service/calendars.service';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery-9';
 import { environment } from '../../../../environments/environment';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import * as signalr from 'src/assets/js/signalr';
+
 @Component({
   selector: 'app-chat-group',
   templateUrl: './chat-group.component.html',
@@ -74,7 +76,7 @@ export class ChatGroupComponent implements OnInit {
     ];
     this.projectName = '';
     this.getProjects();
-    this.hub.startConnection();
+   // this.hub.startConnection();
     this.receivedMessage();
     this.receiveTyping();
     this.receivedStopTyping();
@@ -136,7 +138,7 @@ export class ChatGroupComponent implements OnInit {
     if (managers.concat(members).includes(this.currentUser)) {
       this.room = item.Room;
       this.projectName = item.Name;
-      this.hub.hubConnection
+      signalr.CONNECTION_HUB
         .invoke('JoinGroup', this.room.toString(), this.currentUser.toString())
         .catch((err) => {
           console.error(err.toString());
@@ -155,38 +157,38 @@ export class ChatGroupComponent implements OnInit {
   }
   stillTyping() {
     // this.typing = 'typing';
-    this.hub.hubConnection
+    signalr.CONNECTION_HUB
       .invoke('Typing', this.room.toString(), this.currentUser.toString())
       .catch((err) => {
         console.error(err.toString());
       });
   }
   stopTyping() {
-    this.hub.hubConnection
+    signalr.CONNECTION_HUB
       .send('StopTyping', this.room.toString(), this.currentUser.toString())
       .catch((err) => {
         console.error(err.toString());
       });
   }
   receiveTyping() {
-    this.hub.hubConnection.on('ReceiveTyping', (user, username) => {
+    signalr.CONNECTION_HUB.on('ReceiveTyping', (user, username) => {
       if (this.currentUser !== Number(user)) {
         this.typing = `${username} is typing`;
       }
     });
   }
   receivedMessage() {
-    this.hub.hubConnection.on('ReceiveMessageGroup', (message) => {
+    signalr.CONNECTION_HUB.on('ReceiveMessageGroup', (message) => {
       this.getChatMessage();
     });
   }
   receivedStopTyping() {
-    this.hub.hubConnection.on('ReceiveStopTyping', (message) => {
+    signalr.CONNECTION_HUB.on('ReceiveStopTyping', (message) => {
       this.typing = '';
     });
   }
   receivedJoinGroup() {
-    this.hub.hubConnection.on('ReceiveJoinGroup', (user, username) => {
+    signalr.CONNECTION_HUB.on('ReceiveJoinGroup', (user, username) => {
       if (Number(this.currentUser) !== Number(user)) {
         this.joinGroupMesasge = `${username} already joined this group!`;
         this.alertify.message(this.joinGroupMesasge);

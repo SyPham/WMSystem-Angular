@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, ViewChild, DoCheck, Input } from '@angular/core';
 import { PageService, ToolbarItems, TreeGridComponent, EditSettingsModel, FilterSettingsModel } from '@syncfusion/ej2-angular-treegrid';
-
+import * as signalr from 'src/assets/js/signalr';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   NgbModalConfig,
@@ -62,7 +62,7 @@ export class ListTaskProjectComponent implements OnInit {
   ngOnInit(): void {
     this.optionGridTree();
     this.onService();
-    this.signalrService.startConnection();
+   // this.signalrService.startConnection();
     this.receiveSignalr();
     this.projectID = +this.route.snapshot.paramMap.get('id');
   }
@@ -74,8 +74,8 @@ export class ListTaskProjectComponent implements OnInit {
     });
   }
   receiveSignalr() {
-    if (this.signalrService.hubConnection.state) {
-      this.signalrService.hubConnection.on('ReceiveMessageForCurd', (user, username) => {
+    if (signalr.CONNECTION_HUB.state) {
+      signalr.CONNECTION_HUB.on('ReceiveMessageForCurd', (user, username) => {
         if (user.indexOf(this.currentUser) > -1) {
           this.getListTree(this.Id);
         }

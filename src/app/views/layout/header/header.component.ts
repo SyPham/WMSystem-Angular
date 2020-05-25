@@ -67,7 +67,7 @@ export class HeaderComponent implements OnInit {
     this.currentUser = JSON.parse(localStorage.getItem('user')).User.Username;
     this.page = 1;
     this.pageSize = 10;
-    this.signalrService.startConnection();
+    // this.signalrService.startConnection();
     this.userid = JSON.parse(localStorage.getItem('user')).User.ID;
     this.getNotifications();
     this.onService();
@@ -86,13 +86,13 @@ export class HeaderComponent implements OnInit {
     this.subscription.unsubscribe();
   }
   receiveGroupNotification() {
-    if (this.signalrService.hubConnection.state) {
-      this.signalrService.hubConnection.on('ReceiveMessage', (user, username) => {
+    if (signalr.CONNECTION_HUB.state) {
+      signalr.CONNECTION_HUB.on('ReceiveMessage', (user, username) => {
         if (user.indexOf(this.currentUser) > -1) {
           this.getNotifications();
         }
       });
-      this.signalrService.hubConnection.on('ReceiveCheckAlert', (user) => {
+      signalr.CONNECTION_HUB.on('ReceiveCheckAlert', (user) => {
         if (user.indexOf(this.currentUser) > -1) {
           this.getNotifications();
           console.log('there are late tasks');
@@ -193,7 +193,7 @@ export class HeaderComponent implements OnInit {
   checkServer() {
     let user = JSON.parse(localStorage.getItem('user')).User.Username;
     this.intervalSignalr = setInterval(() => {
-      if (this.signalrService.hubConnection.state) {
+      if (signalr.CONNECTION_HUB.state) {
         console.log(user + ' yeu cau server check alert');
         this.checkAlert();
       } else {
@@ -204,10 +204,10 @@ export class HeaderComponent implements OnInit {
     }, 30000);
   }
   checkAlert() {
-    if (this.signalrService.hubConnection.state === 'Connected') {
+    if (signalr.CONNECTION_HUB.state === 'Connected') {
       let user = JSON.parse(localStorage.getItem('user')).User.Username;
       let userId = JSON.parse(localStorage.getItem('user')).User.ID;
-      this.signalrService.hubConnection
+      signalr.CONNECTION_HUB
         .invoke('CheckAlert', userId.toString())
         .catch((err) => {
           console.error(err.toString());

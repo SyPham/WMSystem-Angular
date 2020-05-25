@@ -24,6 +24,8 @@ import { SignalrService } from 'src/app/_core/_service/signalr.service';
 import { CommentComponent } from '../modals/comment/comment.component';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 import { AddTask } from 'src/app/_core/_model/add.task';
+import * as signalr from 'src/assets/js/signalr';
+
 declare let $: any;
 @Component({
   selector: 'app-abnormal',
@@ -62,11 +64,11 @@ export class AbnormalComponent implements OnInit {
     private projectDetailService: ProjectDetailService,
     private abnormalService: AbnormalService,
     private alertify: AlertifyService,
-    private signalr: SignalrService,
+    // private signalr: SignalrService,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.signalr.startConnection();
+    // this.signalr.startConnection();
     this.resolver();
     this.filterSettings = { type: 'CheckBox' };
     this.pageSetting = { pageCount: 5, pageSizes: true };
