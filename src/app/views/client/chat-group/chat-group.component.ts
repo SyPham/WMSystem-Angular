@@ -101,7 +101,7 @@ export class ChatGroupComponent implements OnInit {
     return Number(this.currentUser) === Number(user) ? 'username-sent' : 'username-replies';
   }
   sendMessage(event) {
-    console.log(event);
+    // console.log(event);
     if (event.type === 'keyup') {
       this.stopTyping();
     }
@@ -141,7 +141,7 @@ export class ChatGroupComponent implements OnInit {
       signalr.CONNECTION_HUB
         .invoke('JoinGroup', this.room.toString(), this.currentUser.toString())
         .catch((err) => {
-          console.error(err.toString());
+          // console.error(err.toString());
         });
       this.getChatMessage();
     } else {
@@ -160,14 +160,14 @@ export class ChatGroupComponent implements OnInit {
     signalr.CONNECTION_HUB
       .invoke('Typing', this.room.toString(), this.currentUser.toString())
       .catch((err) => {
-        console.error(err.toString());
+        // console.error(err.toString());
       });
   }
   stopTyping() {
     signalr.CONNECTION_HUB
       .send('StopTyping', this.room.toString(), this.currentUser.toString())
       .catch((err) => {
-        console.error(err.toString());
+        // console.error(err.toString());
       });
   }
   receiveTyping() {
@@ -206,12 +206,12 @@ export class ChatGroupComponent implements OnInit {
     this.showImageList = true;
   }
   onChangeImageFile($event) {
-    console.log($event);
+    // console.log($event);
     this.urls = [];
     this.paths = [];
     this.fileList =[];
     this.files = $event.target.files;
-    console.log(this.files);
+    // console.log(this.files);
     if (this.files) {
       for (let file of this.files) {
         let reader = new FileReader();
@@ -224,7 +224,7 @@ export class ChatGroupComponent implements OnInit {
             fileSource: this.images,
             file
           });
-          console.log(this.myForm);
+          // console.log(this.myForm);
         };
         reader.readAsDataURL(file);
       }
@@ -233,9 +233,9 @@ export class ChatGroupComponent implements OnInit {
       this.urls = [];
       this.alertify.warning('You have picked too many files. Limit is 10', true);
     }
-    console.log(this.urls);
-    console.log(this.paths);
-    console.log(this.fileList);
+    // console.log(this.urls);
+    // console.log(this.paths);
+    // console.log(this.fileList);
     this.attachment.nativeElement.value = '';
   }
   bindImagebase64(img) {
@@ -248,8 +248,8 @@ export class ChatGroupComponent implements OnInit {
     if (this.urls.length === 0) {
       this.showImageList = false;
     }
-    console.log(this.fileList);
-    console.log(this.urls);
+    // console.log(this.fileList);
+    // console.log(this.urls);
 
   }
   onBlurInputChat(event) {
@@ -264,7 +264,7 @@ export class ChatGroupComponent implements OnInit {
     };
     this.chatService.addMessageGroup(chat)
       .subscribe(arg => {
-        console.log('Successfully!');
+        // console.log('Successfully!');
         this.uploadImage(arg);
       });
   }
@@ -276,7 +276,7 @@ export class ChatGroupComponent implements OnInit {
       }
       formData.append('Chat', chat.ID);
       this.chatService.uploadImages(formData).subscribe( res => {
-        console.log(res);
+        // console.log(res);
         this.showImageList = false;
         this.urls = [];
         this.paths = [];

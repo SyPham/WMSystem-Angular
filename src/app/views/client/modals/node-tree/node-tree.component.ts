@@ -54,7 +54,7 @@ export class NodeTreeComponent implements OnInit {
       allowSpace: true,
       maxItems: 10,
       mentionSelect($event) {
-        console.log($event);
+        // console.log($event);
         return `\r@${$event.label}\r `;
       }
     };
@@ -86,8 +86,8 @@ export class NodeTreeComponent implements OnInit {
   }
   addSubComment(event, parentid) {
     if (event.target.value || this.fileList) {
-      console.log('addSubComment');
-      console.log(event);
+      // console.log('addSubComment');
+      // console.log(event);
       const subComment: IComment = {
         Content: event.target.value,
         TaskID: this.taskID,
@@ -98,7 +98,7 @@ export class NodeTreeComponent implements OnInit {
       };
       this.commentService.addSubComment(subComment).subscribe(res => {
         if (res) {
-          console.log('addSubComment: ', res);
+          // console.log('addSubComment: ', res);
           this.uploadImage(res);
           this.getAllComment();
           this.alertify.success('You have already added the comment successfully!');
@@ -145,12 +145,12 @@ export class NodeTreeComponent implements OnInit {
     document.getElementById('image-file-node-tre').click();
   }
   onChangeImageFile($event) {
-    console.log($event);
+    // console.log($event);
     this.showImageList = true;
     this.urls = [];
     this.fileList = [];
     this.files = $event.target.files;
-    console.log(this.files);
+    // console.log(this.files);
     if (this.files) {
       for (let file of this.files) {
         let reader = new FileReader();
@@ -165,8 +165,8 @@ export class NodeTreeComponent implements OnInit {
       this.urls = [];
       this.alertify.warning('You have picked too many files. Limit is 10', true);
     }
-    console.log(this.urls);
-    console.log(this.fileList);
+    // console.log(this.urls);
+    // console.log(this.fileList);
   }
   uploadImage(comment) {
     if (this.fileList) {
@@ -176,7 +176,7 @@ export class NodeTreeComponent implements OnInit {
       }
       formData.append('Comment', comment.ID);
       this.commentService.uploadImages(formData).subscribe( res => {
-        console.log(res);
+        // console.log(res);
         this.showImageList = false;
         this.fileList = [];
         this.urls = [];
@@ -189,8 +189,8 @@ export class NodeTreeComponent implements OnInit {
     if (this.urls.length === 0) {
       this.showImageList = false;
     }
-    console.log(this.fileList);
-    console.log(this.urls);
+    // console.log(this.fileList);
+    // console.log(this.urls);
   }
   renderGalleryImages(item) {
     let listAll = [];

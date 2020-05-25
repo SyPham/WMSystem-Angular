@@ -67,7 +67,7 @@ export class CommentComponent implements OnInit {
     });
   }
   addComment() {
-    console.log('addComment', this.comment);
+    // console.log('addComment', this.comment);
     this.comment.Content = this.content;
     this.commentService.addComment(this.comment).subscribe(res => {
       if (res) {
@@ -81,12 +81,12 @@ export class CommentComponent implements OnInit {
     });
   }
   onChangeImageFile($event) {
-    console.log($event);
+    // console.log($event);
     this.showImageList = true;
     this.urls = [];
     this.fileList = [];
     this.files = $event.target.files;
-    console.log(this.files);
+    // console.log(this.files);
     if (this.files) {
       for (let file of this.files) {
         let reader = new FileReader();
@@ -101,8 +101,8 @@ export class CommentComponent implements OnInit {
       this.urls = [];
       this.alertify.warning('You have picked too many files. Limit is 10', true);
     }
-    console.log(this.urls);
-    console.log(this.fileList);
+    // console.log(this.urls);
+    // console.log(this.fileList);
   }
   uploadImage(comment) {
     if (this.fileList) {
@@ -113,7 +113,7 @@ export class CommentComponent implements OnInit {
       formData.append('Comment', comment.ID);
       this.commentService.uploadImages(formData).subscribe( res => {
         this.getAllComment();
-        console.log(res);
+        // console.log(res);
         this.showImageList = false;
         this.fileList = [];
         this.urls = [];
@@ -129,8 +129,8 @@ export class CommentComponent implements OnInit {
     if (this.urls.length === 0) {
       this.showImageList = false;
     }
-    console.log(this.fileList);
-    console.log(this.urls);
+    // console.log(this.fileList);
+    // console.log(this.urls);
   }
   renderGalleryImages(item) {
     let listAll = [];

@@ -88,7 +88,7 @@ export class HistoryComponent implements OnInit {
     notification() {
       this.subscription = this.headerService.currentMessage
       .subscribe((arg: IHeader) => {
-        console.log('notification ', arg);
+        // console.log('notification ', arg);
         if (arg?.router?.toLowerCase() === 'history') {
           this.search = arg.message;
         }
@@ -116,7 +116,7 @@ export class HistoryComponent implements OnInit {
       modalRef.componentInstance.taskID = id;
       modalRef.componentInstance.clientRouter = ClientRouter.History;
       modalRef.result.then((result) => {
-        console.log('open Comment Modal From Todolist', result);
+        // console.log('open Comment Modal From Todolist', result);
       }, (reason) => {
       });
     }
@@ -126,7 +126,7 @@ export class HistoryComponent implements OnInit {
       modalRef.componentInstance.taskID = args.rowData.Entity.ID;
       modalRef.componentInstance.clientRouter = ClientRouter.History;
       modalRef.result.then((result) => {
-          console.log('openCommentModal From Todolist', result );
+          // console.log('openCommentModal From Todolist', result );
         }, (reason) => {
         });
     }
@@ -175,7 +175,7 @@ export class HistoryComponent implements OnInit {
         ];
     }
     toolbarClick(args: any): void {
-      console.log(args.item.text);
+      // console.log(args.item.text);
       switch (args.item.text) {
         case 'PDF Export':
           this.treeGridObj.pdfExport({hierarchyExportMode: 'All'});
@@ -196,7 +196,7 @@ export class HistoryComponent implements OnInit {
       let end = this.calendarsService.toFormatDate(this.daterange[1]);
 
       this.historyService.filterDateRange(start, end).subscribe((res) => {
-        console.log('filterDateRange: ', res);
+        // console.log('filterDateRange: ', res);
         this.data = res;
       });
     }
@@ -205,19 +205,19 @@ export class HistoryComponent implements OnInit {
       let end = this.calendarsService.toFormatDate(this.daterangeForDueDateTime[1]);
 
       this.historyService.filterDateRangeByDueDateTime(start, end).subscribe((res) => {
-        console.log('filterDateRangeByDueDateTime: ', res);
+        // console.log('filterDateRangeByDueDateTime: ', res);
         this.data = res;
       });
     }
     getListTree() {
       this.historyService.getTasks().subscribe((res) => {
-        console.log('getTasks: ', res);
+        // console.log('getTasks: ', res);
         this.data = res;
       });
     }
     undo(id) {
       this.historyService.undo(id).subscribe((res) => {
-        console.log('undo: ', res);
+        // console.log('undo: ', res);
         if (res) {
           this.alertify.success('You have already undoed this one');
           this.getListTree();
@@ -245,14 +245,14 @@ export class HistoryComponent implements OnInit {
       }
     }
     cleared(event) {
-      console.log('Cleared');
+      // console.log('Cleared');
     }
     onFocus(args: any): void {
-      console.log('onFocus: ', args);
+      // console.log('onFocus: ', args);
       this.ejDateRangePicker.show();
     }
     onFocusForDueDateTime(args: any): void {
-      console.log('onFocusForDueDateTime: ', args);
+      // console.log('onFocusForDueDateTime: ', args);
       this.ejDateRangePickerForDueDateTime.show();
     }
     showAllColumnsTreegrid() {
@@ -273,7 +273,7 @@ export class HistoryComponent implements OnInit {
       this.defaultColumnsTreegrid();
     }
     onChangeDateRangepPicker(event) {
-     // console.log('onChangeDateRangepPicker: ', event);
+     // // console.log('onChangeDateRangepPicker: ', event);
       if (event.value == null) {
         this.ejDateRangePicker.value = [this.subtractDate, new Date()];
         this.filterDateRange();
@@ -284,7 +284,7 @@ export class HistoryComponent implements OnInit {
       }
     }
     onChangeDateRangepPickerForDueDateTime(event) {
-     // console.log('onChangeDateRangepPicker: ', event);
+     // // console.log('onChangeDateRangepPicker: ', event);
       if (event.value == null) {
         this.ejDateRangePicker.value = [this.subtractDate, new Date()];
         this.filterDateRange();
@@ -300,7 +300,7 @@ export class HistoryComponent implements OnInit {
       modalRef.componentInstance.src = this.srcTutorial;
       modalRef.componentInstance.name = this.tutorialName;
       modalRef.result.then((result) => {
-        console.log('openWatchTutorialWatchModal From Todolist', result );
+        // console.log('openWatchTutorialWatchModal From Todolist', result );
       }, (reason) => {
       });
     }
@@ -309,12 +309,12 @@ export class HistoryComponent implements OnInit {
       modalRef.componentInstance.src = data.VideoLink;
       modalRef.componentInstance.name = data.JobName;
       modalRef.result.then((result) => {
-       // console.log('openWatchTutorialWatchModal From Todolist', result );
+       // // console.log('openWatchTutorialWatchModal From Todolist', result );
       }, (reason) => {
       });
     }
     contextMenuOpen(arg?: any): void {
-      console.log('contextMenuOpen: ', arg);
+      // console.log('contextMenuOpen: ', arg);
       let data = arg.rowInfo.rowData.Entity;
       if (data.VideoStatus) {
         document
@@ -327,9 +327,9 @@ export class HistoryComponent implements OnInit {
     }
     }
     contextMenuClick(args?: any): void {
-     // console.log('contextMenuClick', args);
+     // // console.log('contextMenuClick', args);
       const data = args.rowInfo.rowData.Entity;
-     // console.log('contextMenuClickdata', data);
+     // // console.log('contextMenuClickdata', data);
 
       this.taskId = data.ID;
       switch (args.item.id) {

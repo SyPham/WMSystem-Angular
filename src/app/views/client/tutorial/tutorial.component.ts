@@ -78,7 +78,7 @@ export class TutorialComponent implements OnInit {
     this.getTutorials();
   }
   rowSelected(args) {
-    console.log('rowSelected: ', args);
+    // console.log('rowSelected: ', args);
     // this.srcTutorial = args.data.URL;
     // this.title = args.data.name;
     // this.tutorial = {
@@ -93,7 +93,7 @@ export class TutorialComponent implements OnInit {
   getTutorials() {
     this.tutorialService.getTutorials(this.projectId)
       .subscribe((arg) => {
-        console.log('getTutorials: ', arg);
+        // console.log('getTutorials: ', arg);
         this.data = arg;
       });
   }
@@ -106,7 +106,7 @@ export class TutorialComponent implements OnInit {
     modalRef.componentInstance.src = data.URL;
     modalRef.componentInstance.name = data.Name;
     modalRef.result.then((result) => {
-      console.log('openWatchTutorialWatchModal From Tutorial', result );
+      // console.log('openWatchTutorialWatchModal From Tutorial', result );
     }, (reason) => {
     });
   }
@@ -114,7 +114,7 @@ export class TutorialComponent implements OnInit {
     this.clipboardService.copyFromContent(linkpath);
   }
   actionComplete(args) {
-    console.log('actionComplete', args)
+    // console.log('actionComplete', args)
     if (args.requestType === 'save') {
       this.edit.ID = args.data.ID;
       this.edit.Name = args.data.Name;
@@ -142,7 +142,7 @@ export class TutorialComponent implements OnInit {
     modalRef.componentInstance.projectid = this.projectId;
     modalRef.componentInstance.jobType = JobType.Tutorial;
     modalRef.result.then((result) => {
-      console.log('openMainTutorialModal', result );
+      // console.log('openMainTutorialModal', result );
     }, (reason) => {
     });
   }
@@ -154,7 +154,7 @@ export class TutorialComponent implements OnInit {
     modalRef.componentInstance.jobname =  args.rowInfo.rowData.JobName;
     modalRef.componentInstance.jobType = JobType.Tutorial;
     modalRef.result.then((result) => {
-      console.log('openEditTutorialModal', result );
+      // console.log('openEditTutorialModal', result );
     }, (reason) => {
     });
   }
@@ -164,7 +164,7 @@ export class TutorialComponent implements OnInit {
     modalRef.componentInstance.taskId = 0;
     modalRef.componentInstance.taskId = 0;
     modalRef.result.then((result) => {
-      console.log('openTutorialModal', result );
+      // console.log('openTutorialModal', result );
     }, (reason) => {
     });
   }

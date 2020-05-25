@@ -32,6 +32,8 @@ export class AddTaskModalComponent implements OnInit {
   fromWho: any;
   beAssigned: any;
   // config datetimepicker
+  public value2: Date = new Date(2019, 5, 1, 22);
+  public format2 = 'MM/dd/yyyy HH:mm';
   public month: number = new Date().getMonth();
   public fullYear: number = new Date().getFullYear();
   public minDate: Date = new Date(this.fullYear, this.month, 22, 12);
@@ -90,7 +92,7 @@ export class AddTaskModalComponent implements OnInit {
   // end getlist
   // event datetimepciker
   public changeBeAssigned: EmitType<ChangeEventArgs> = (e: ChangeEventArgs) => {
-    console.log(e);
+    // console.log(e);
     if (e.isInteracted) {
     }
   }
@@ -117,9 +119,9 @@ export class AddTaskModalComponent implements OnInit {
     private routineService: RoutineService) { }
 
   ngOnInit() {
-    console.log('load Edit......................', this.edit);
+    // console.log('load Edit......................', this.edit);
     this.jobtypeService.currentMessage.subscribe(res => {
-      console.log('Add-Task-Modal: ', res);
+      // console.log('Add-Task-Modal: ', res);
       if (res === JobType.Routine) {
         this.checkRoutine();
       } else if (res === JobType.Abnormal) {
@@ -138,17 +140,17 @@ export class AddTaskModalComponent implements OnInit {
     ];
     this.selectedPeriodMain = 'DueDate';
     this.changeStatus(true, true, true, false);
-    console.log('Open add Modal from Abnormal');
+    // console.log('Open add Modal from Abnormal');
     this.jobtype = JobType.Abnormal;
     if (this.edit !== undefined) {
-      console.log('Edit Modal Abnormal: ', this.edit);
+      // console.log('Edit Modal Abnormal: ', this.edit);
       this.loadEdit(this.edit);
     } else {
       this.changeStatus(true, true, true, false);
     }
   }
   checkRoutine() {
-    console.log('Open add Modal from Routine');
+    // console.log('Open add Modal from Routine');
     this.period = [
       'Daily',
       'Weekly',
@@ -158,7 +160,7 @@ export class AddTaskModalComponent implements OnInit {
     this.periodtype = PeriodType.Daily;
     this.jobtype = JobType.Routine;
     if (this.edit !== undefined) {
-      console.log('Edit Modal Routine: ', this.edit);
+      // console.log('Edit Modal Routine: ', this.edit);
       this.loadEdit(this.edit);
     } else {
       this.changeStatus(false);
@@ -230,7 +232,7 @@ export class AddTaskModalComponent implements OnInit {
     return result;
   }
   createTask() {
-    console.log('create Task duedateweekly: ', this.duedateweekly);
+    // console.log('create Task duedateweekly: ', this.duedateweekly);
     if (this.checkValidation()) {
       let beAsigned: any;
       this.pic = this.pic || 0;
@@ -260,10 +262,10 @@ export class AddTaskModalComponent implements OnInit {
         deputy,
         this.ocid,
         this.mapDueDateWithPeriod(this.periodtype));
-      console.log(task);
+      // console.log(task);
       if (this.parentId > 0) {
         this.projectDetailService.createSubTask(task).subscribe(res => {
-          console.log('createSubTask: ', res);
+          // console.log('createSubTask: ', res);
           this.clearForm();
           if (this.jobtype === JobType.Abnormal){
             this.addTaskService.changeMessage(new AddTask(JobType.Abnormal, this.ocid));
@@ -274,7 +276,7 @@ export class AddTaskModalComponent implements OnInit {
         });
       } else {
         this.projectDetailService.createMainTask(task).subscribe(res => {
-          console.log('createMainTask: ', res);
+          // console.log('createMainTask: ', res);
           this.clearForm();
           if (this.jobtype === JobType.Abnormal){
             this.addTaskService.changeMessage(new AddTask(JobType.Abnormal, this.ocid));
@@ -309,7 +311,7 @@ export class AddTaskModalComponent implements OnInit {
     this.periodtype = PeriodType.Monthly;
   }
   change(arg?) {
-    console.log('change: ', arg.value);
+    // console.log('change: ', arg.value);
     switch (this.selectedPeriodMain) {
       case 'reset': this.changeStatus(); break;
       case 'Daily':

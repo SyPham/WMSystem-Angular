@@ -38,7 +38,7 @@ export class AvatarModalComponent implements OnInit {
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
-    // console.log('imageCropped: ', this.croppedImage)
+    // // console.log('imageCropped: ', this.croppedImage)
   }
   imageLoaded() {
     // show cropper
@@ -61,7 +61,7 @@ export class AvatarModalComponent implements OnInit {
       imagebase64: this.croppedImage.replace('data:image/png;base64,', '')
     };
     this.userService.changeAvatar(user).subscribe( res => {
-      console.log('changeAvatar: ', res);
+      // console.log('changeAvatar: ', res);
       if (res) {
         this.alertify.success('The avatar has been uploaded!!');
         this.headerService.changeImage(this.croppedImage);
@@ -76,7 +76,7 @@ export class AvatarModalComponent implements OnInit {
     modalRef.componentInstance.title = 'Add Routine Main Task';
     // modalRef.componentInstance.user = 1;
     modalRef.result.then((result) => {
-      console.log('openPreviewModal', result);
+      // console.log('openPreviewModal', result);
     }, (reason) => {
     });
   }

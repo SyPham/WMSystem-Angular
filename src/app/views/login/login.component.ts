@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
   login(): void {
-    console.log(this.user);
+    // console.log(this.user);
     this.authService.login(this.user).subscribe(
       next => {
         this.role = JSON.parse(localStorage.getItem('user')).User.Role;

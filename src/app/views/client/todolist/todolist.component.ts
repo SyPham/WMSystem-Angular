@@ -108,9 +108,9 @@ export class TodolistComponent implements OnInit {
     }
   }
   genarateCodeLine(code) {
-    console.log('genarateCodeLine: ', code);
+   // console.log('genarateCodeLine: ', code);
     this.todolistSerivce.saveLineCode(code).subscribe( res => {
-      console.log('getTokenLine:', res);
+      // console.log('getTokenLine:', res);
     });
   }
   onRouteChange() {
@@ -126,7 +126,7 @@ export class TodolistComponent implements OnInit {
       if (window.location.href.indexOf('token=') > 0) {
         let token = window.location.href.split('?')[1].replace('token=', '');
         this.todolistSerivce.updateTokenLineForUser(this.currentUser, token).subscribe(res => {
-          console.log(res);
+         // console.log(res);
           if (res) {
             this.router.navigate(['/todolist']);
             this.alertify.success('You have already get line notify successfully!');
@@ -144,7 +144,7 @@ export class TodolistComponent implements OnInit {
   notification() {
    this.subscription = this.headerService.currentMessage
       .subscribe((arg: IHeader) => {
-        console.log('notification ', arg);
+       // console.log('notification ', arg);
         const url = arg?.router?.toLowerCase();
         if (arg?.router?.toLowerCase() === 'todolist') {
           this.search = arg.message?.replace(/-/g, ' ')?.replace(/_/g, '-');
@@ -223,7 +223,7 @@ export class TodolistComponent implements OnInit {
     }
   }
   toolbarClick(args: any): void {
-    console.log(args.item.text);
+   // console.log(args.item.text);
     switch (args.item.text) {
       case 'PDF Export':
         this.treeGridObj.pdfExport({ hierarchyExportMode: 'All' });
@@ -241,61 +241,61 @@ export class TodolistComponent implements OnInit {
   }
   sortProject() {
     this.todolistSerivce.sortProject().subscribe((res) => {
-      console.log('sortProject: ', res);
+     // console.log('sortProject: ', res);
       this.data = res;
     });
   }
   sortRoutine() {
     this.todolistSerivce.sortRoutine().subscribe((res) => {
-      console.log('sortRoutine: ', res);
+     // console.log('sortRoutine: ', res);
       this.data = res;
     });
   }
   sortAbnormal() {
     this.todolistSerivce.sortAbnormal().subscribe((res) => {
-      console.log('sortAbnormal: ', res);
+     // console.log('sortAbnormal: ', res);
       this.data = res;
     });
   }
   sortHigh() {
     this.todolistSerivce.sortHigh().subscribe((res) => {
-      console.log('sortHigh: ', res);
+     // console.log('sortHigh: ', res);
       this.data = res;
     });
   }
   sortMedium() {
     this.todolistSerivce.sortMedium().subscribe((res) => {
-      console.log('sortMedium: ', res);
+     // console.log('sortMedium: ', res);
       this.data = res;
     });
   }
   sortLow() {
     this.todolistSerivce.sortLow().subscribe((res) => {
-      console.log('sortLow: ', res);
+     // console.log('sortLow: ', res);
       this.data = res;
     });
   }
   sortByAssignedJob() {
     this.todolistSerivce.sortByAssignedJob().subscribe((res) => {
-      console.log('sortByAssignedJob: ', res);
+     // console.log('sortByAssignedJob: ', res);
       this.data = res;
     });
   }
   sortByBeAssignedJob() {
     this.todolistSerivce.sortByBeAssignedJob().subscribe((res) => {
-      console.log('sortByBeAssignedJob: ', res);
+     // console.log('sortByBeAssignedJob: ', res);
       this.data = res;
     });
   }
   sortUncompleted() {
     this.todolistSerivce.uncompleted().subscribe((res) => {
-      console.log('sortUncompleted: ', res);
+     // console.log('sortUncompleted: ', res);
       this.data = res;
     });
   }
   sortCompleted() {
     this.todolistSerivce.completed().subscribe((res) => {
-      console.log('sortCompleted: ', res);
+     // console.log('sortCompleted: ', res);
       this.data = res;
     });
   }
@@ -303,13 +303,13 @@ export class TodolistComponent implements OnInit {
     this.getListTree();
     this.search = '';
     this.treeGridObj.search('');
-    console.log(this.router.url.split('?')[0]);
+   // console.log(this.router.url.split('?')[0]);
     this.router.navigate(['/todolist']);
   }
   getListTree() {
     // $('#overlay').fadeIn();
     this.todolistSerivce.getTasks().subscribe((res) => {
-      console.log('getTasks: ', res);
+     // console.log('getTasks: ', res);
      // $('#overlay').fadeOut();
       this.data = res;
     });
@@ -321,7 +321,7 @@ export class TodolistComponent implements OnInit {
   done() {
     if (this.taskId > 0) {
       this.projectDetailService.done(this.taskId).subscribe((res: any) => {
-        console.log('DOne: ', res);
+       // console.log('DOne: ', res);
         if (res.status) {
           this.alertify.success(res.message);
           this.getListTree();
@@ -346,7 +346,7 @@ export class TodolistComponent implements OnInit {
     modalRef.componentInstance.taskID = id;
     modalRef.componentInstance.clientRouter = ClientRouter.ToDoList;
     modalRef.result.then((result) => {
-      console.log('open Comment Modal From Todolist', result);
+     // console.log('open Comment Modal From Todolist', result);
     }, (reason) => {
     });
   }
@@ -356,7 +356,7 @@ export class TodolistComponent implements OnInit {
     modalRef.componentInstance.taskID = args.rowData.Entity.ID;
     modalRef.componentInstance.clientRouter = ClientRouter.ToDoList;
     modalRef.result.then((result) => {
-      console.log('open Comment Modal From Todolist', result);
+     // console.log('open Comment Modal From Todolist', result);
     }, (reason) => {
     });
   }
@@ -365,7 +365,7 @@ export class TodolistComponent implements OnInit {
     modalRef.componentInstance.src = this.srcTutorial;
     modalRef.componentInstance.name = this.tutorialName;
     modalRef.result.then((result) => {
-      console.log('openWatchTutorialWatchModal From Todolist', result);
+     // console.log('openWatchTutorialWatchModal From Todolist', result);
     }, (reason) => {
     });
   }
@@ -374,12 +374,12 @@ export class TodolistComponent implements OnInit {
     modalRef.componentInstance.src = data.VideoLink;
     modalRef.componentInstance.name = data.JobName;
     modalRef.result.then((result) => {
-      console.log('openWatchTutorialWatchModal From Todolist', result);
+     // console.log('openWatchTutorialWatchModal From Todolist', result);
     }, (reason) => {
     });
   }
   contextMenuOpen(arg?: any): void {
-    console.log('contextMenuOpen: ', arg);
+   // console.log('contextMenuOpen: ', arg);
     let data = arg.rowInfo.rowData.Entity;
     if (data.VideoStatus) {
       document
@@ -411,9 +411,9 @@ export class TodolistComponent implements OnInit {
     this.defaultColumnsTreegrid();
   }
   contextMenuClick(args?: any): void {
-    console.log('contextMenuClick', args);
+   // console.log('contextMenuClick', args);
     const data = args.rowInfo.rowData.Entity;
-    console.log('contextMenuClickdata', data);
+   // console.log('contextMenuClickdata', data);
     this.tutorialName = data.JobName;
     this.srcTutorial = data.VideoLink;
     this.taskId = data.ID;

@@ -131,19 +131,19 @@ export class ListTaskProjectComponent implements OnInit {
   }
   sortHigh() {
     this.listTaskProjectService.sortHigh(this.Id).subscribe((res) => {
-      console.log('sortHigh From list task: ', res);
+      // console.log('sortHigh From list task: ', res);
       this.data = res;
     });
   }
   sortMedium() {
     this.listTaskProjectService.sortMedium(this.Id).subscribe((res) => {
-      console.log('sortMedium: ', res);
+      // console.log('sortMedium: ', res);
       this.data = res;
     });
   }
   sortLow() {
     this.listTaskProjectService.sortLow(this.Id).subscribe((res) => {
-      console.log('sortLow: ', res);
+      // console.log('sortLow: ', res);
       this.data = res;
     });
   }
@@ -152,7 +152,7 @@ export class ListTaskProjectComponent implements OnInit {
     this.treeGridObj.search('');
   }
   toolbarClick(args: any): void {
-    console.log(args.item.text);
+    // console.log(args.item.text);
     switch (args.item.text) {
       case 'PDF Export':
         this.treeGridObj.pdfExport({ hierarchyExportMode: 'All' });
@@ -172,13 +172,13 @@ export class ListTaskProjectComponent implements OnInit {
     $('#overlay').fadeIn();
     this.listTaskProjectService.getListTree(id).subscribe((res) => {
       $('#overlay').fadeOut();
-      console.log('getListTree: ', res);
+      // console.log('getListTree: ', res);
       this.data = res;
     });
   }
   create(): void {
     this.getListTree(this.Id);
-    console.log('create: ');
+    // console.log('create: ');
 
   }
   delete() {
@@ -198,7 +198,7 @@ export class ListTaskProjectComponent implements OnInit {
   done() {
     if (this.taskId > 0) {
       this.projectDetailService.done(this.taskId).subscribe((res: any )=> {
-        console.log('DOne: ', res);
+        // console.log('DOne: ', res);
         if (res.status) {
           this.alertify.success(res.message);
           this.getListTree(this.Id);
@@ -216,7 +216,7 @@ export class ListTaskProjectComponent implements OnInit {
     modalRef.componentInstance.parentId = 0;
     modalRef.componentInstance.projectID = this.projectID;
     modalRef.result.then((result) => {
-      console.log('openAddMainTaskModal', result)
+      // console.log('openAddMainTaskModal', result)
     }, (reason) => {
       this.parentId = 0;
     });
@@ -228,7 +228,7 @@ export class ListTaskProjectComponent implements OnInit {
     modalRef.componentInstance.parentId = this.parentId;
     modalRef.componentInstance.projectID = this.projectID;
     modalRef.result.then((result) => {
-      console.log('openAddSubTaskModal', result)
+      // console.log('openAddSubTaskModal', result)
     }, (reason) => {
       this.parentId = 0;
     });
@@ -241,7 +241,7 @@ export class ListTaskProjectComponent implements OnInit {
     modalRef.componentInstance.projectID = this.projectID;
     modalRef.componentInstance.edit = this.editTask(args);
     modalRef.result.then((result) => {
-      console.log('openEditTaskModal', result)
+      // console.log('openEditTaskModal', result)
     }, (reason) => {
       this.parentId = 0;
     });
@@ -298,9 +298,9 @@ export class ListTaskProjectComponent implements OnInit {
     // }
   }
   contextMenuClick(args?: any): void {
-    console.log('contextMenuClick', args);
+    // console.log('contextMenuClick', args);
     const data = args.rowInfo.rowData.Entity;
-    console.log('contextMenuClickdata', data);
+    // console.log('contextMenuClickdata', data);
 
     this.taskId = data.ID;
     switch (args.item.id) {
@@ -328,7 +328,7 @@ export class ListTaskProjectComponent implements OnInit {
     modalRef.componentInstance.taskID = args.rowData.Entity.ID;
     modalRef.componentInstance.clientRouter = ClientRouter.ProjectDetail;
     modalRef.result.then((result) => {
-      console.log('openCommentModal From Todolist', result);
+      // console.log('openCommentModal From Todolist', result);
     }, (reason) => {
     });
   }

@@ -49,9 +49,9 @@ export class ProjectComponent implements OnInit {
       $('#overlay').fadeOut();
       this.projects = data.projects.result;
       this.pagination = data.projects.pagination;
-      console.log('getProjects: ', this.pagination);
+      // console.log('getProjects: ', this.pagination);
     });
-    console.log('Data: ', this.projects);
+    // console.log('Data: ', this.projects);
   }
   open(content) {
     this.isAdd = true;
@@ -111,7 +111,7 @@ export class ProjectComponent implements OnInit {
       ID : this.id,
       Name : this.name
     };
-    console.log(project);
+    // console.log(project);
     this.projectService.update(project as Project).subscribe(res => {
       this.alertify.success('Update Successfully!');
       this.load();
@@ -185,7 +185,7 @@ export class ProjectComponent implements OnInit {
           (res: PaginatedResult<Project[]>) => {
             this.projects = res.result;
             this.pagination = res.pagination;
-            console.log('Search: ', this.projects);
+            // console.log('Search: ', this.projects);
           },
           error => {
             this.alertify.error(error);

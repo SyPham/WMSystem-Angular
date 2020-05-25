@@ -6,6 +6,7 @@ import { RoutineService } from 'src/app/_core/_service/routine.service';
 import { Tutorial } from 'src/app/_core/_model/tutorial';
 import { TutorialService } from 'src/app/_core/_service/tutorial.service';
 import { JobType } from 'src/app/_core/enum/task.enum';
+import { AddTask } from 'src/app/_core/_model/add.task';
 
 @Component({
   selector: 'app-tutorial-modal',
@@ -20,7 +21,7 @@ export class TutorialModalComponent implements OnInit {
   @Input() parentid = 0;
   @Input() projectid = 0;
   @Input() ocid = 0;
-  @Input() jobType = JobType;
+  @Input() jobType: JobType;
   public item: Tutorial;
   public file: any;
   constructor(
@@ -90,7 +91,7 @@ export class TutorialModalComponent implements OnInit {
       this.tutorialService.create(formData).subscribe(res => {
         if (res) {
           this.alertify.success('Successfully!');
-          this.addTaskService.changeMessage([this.jobType, this.ocid]);
+          this.addTaskService.changeMessage(new AddTask(this.jobType, this.ocid));
           this.activeModal.close('createTutorialVideo');
           this.clearForm();
         }
@@ -106,7 +107,7 @@ export class TutorialModalComponent implements OnInit {
         this.tutorialService.create(formData).subscribe(res => {
           if (res) {
             this.alertify.success('Successfully!');
-            this.addTaskService.changeMessage([this.jobType, this.ocid]);
+            this.addTaskService.changeMessage(new AddTask(this.jobType, this.ocid));
             this.clearForm();
             this.activeModal.close('createTutorialVideo');
           }

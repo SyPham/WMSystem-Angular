@@ -1,18 +1,18 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-const lineConfig = {
-  authorizeUrl: 'https://notify-bot.line.me/oauth/authorize',
-  client_id: 'zFiiSbHKIIZhQ7Q9Op0os8',
-  redirect_uri: 'http://10.4.0.76:96/api/LineNotify/Callback',
-  state: 'NO_STATE',
-};
 // const lineConfig = {
 //   authorizeUrl: 'https://notify-bot.line.me/oauth/authorize',
 //   client_id: 'zFiiSbHKIIZhQ7Q9Op0os8',
 //   redirect_uri: 'http://10.4.0.76:96/api/LineNotify/Callback',
 //   state: 'NO_STATE',
 // };
+const lineConfig = {
+  authorizeUrl: 'https://notify-bot.line.me/oauth/authorize',
+  client_id: 'HF6qOCM9xL4lXFsqOLPzhJ',
+  redirect_uri: 'http://10.4.4.224:106/api/LineNotify/Callback',
+  state: 'NO_STATE',
+};
 // const lineConfig = {
 //   authorizeUrl: 'https://notify-bot.line.me/oauth/authorize',
 //   client_id: 'HF6qOCM9xL4lXFsqOLPzhJ',

@@ -54,6 +54,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { UploaderModule  } from '@syncfusion/ej2-angular-inputs';
 import { NgxGalleryModule } from 'ngx-gallery-9';
 import { RoutineDetailComponent } from './modals/routine-detail/routine-detail.component';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -86,7 +88,8 @@ import { RoutineDetailComponent } from './modals/routine-detail/routine-detail.c
     PickerModule,
     UploaderModule,
     NgxGalleryModule,
-    TextBoxModule
+    TextBoxModule,
+    DateInputsModule
       ],
   declarations: [
     TodolistComponent,

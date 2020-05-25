@@ -74,7 +74,7 @@ export class HeaderComponent implements OnInit {
     this.receiveGroupNotification();
     this.onRouteChange();
     this.subscribeLine = JSON.parse(localStorage.getItem('user')).User.SubscribeLine;
-    // console.log('Demo Header---------------------------', signalr.CONNECTION_HUB);
+    // // console.log('Demo Header---------------------------', signalr.CONNECTION_HUB);
   }
   ngOnDestroy() {
     if (this.intervalID) {
@@ -95,27 +95,27 @@ export class HeaderComponent implements OnInit {
       signalr.CONNECTION_HUB.on('ReceiveCheckAlert', (user) => {
         if (user.indexOf(this.currentUser) > -1) {
           this.getNotifications();
-          console.log('there are late tasks');
+          // console.log('there are late tasks');
         }
       });
     }
   }
   onRouteChange() {
     this.subscription = this.todolistService.currentreceiveMessage.subscribe( res => {
-      console.log('onRouteChange Header', res);
+      // console.log('onRouteChange Header', res);
       this.subscribeLine = res;
     });
   }
   onService() {
     this.headerService.currentImage
       .subscribe(arg => {
-        console.log('onService header: ', arg);
+        // console.log('onService header: ', arg);
         if (arg) {
           this.changeAvatar(arg);
         }
       });
     // this.headerService.imgSource.subscribe(res => {
-    //   console.log('on Service Avatar', res);
+    //   // console.log('on Service Avatar', res);
     //   if (res) {
     //      ;
     //   }
@@ -135,7 +135,7 @@ export class HeaderComponent implements OnInit {
 
   }
   onScrollDown() {
-    console.log('scrolled down!!');
+    // console.log('scrolled down!!');
     if (this.pageSize >= 200) {
       this.pageSize -= 10;
       this.getNotifications();
@@ -147,7 +147,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onScrollUp() {
-    console.log('scrolled up!!');
+    // console.log('scrolled up!!');
     if (this.pageSize >= 200) {
       this.pageSize -= 10;
       this.getNotifications();
@@ -177,7 +177,7 @@ export class HeaderComponent implements OnInit {
     modalRef.componentInstance.title = 'Add Routine Main Task';
     // modalRef.componentInstance.user = 1;
     modalRef.result.then((result) => {
-      console.log('openAvatarModal', result);
+      // console.log('openAvatarModal', result);
     }, (reason) => {
     });
   }
@@ -194,7 +194,7 @@ export class HeaderComponent implements OnInit {
     let user = JSON.parse(localStorage.getItem('user')).User.Username;
     this.intervalSignalr = setInterval(() => {
       if (signalr.CONNECTION_HUB.state) {
-        console.log(user + ' yeu cau server check alert');
+        // console.log(user + ' yeu cau server check alert');
         this.checkAlert();
       } else {
         setTimeout(() => {
@@ -210,18 +210,18 @@ export class HeaderComponent implements OnInit {
       signalr.CONNECTION_HUB
         .invoke('CheckAlert', userId.toString())
         .catch((err) => {
-          console.error(err.toString());
+          // console.error(err.toString());
         });
       }
   }
 getNotifications() {
-  console.log('getNotifications: ', this.userid);
+  // console.log('getNotifications: ', this.userid);
 
   this.headerService.getAllNotificationCurrentUser(this.page, this.pageSize, this.userid).subscribe((res: any) => {
     this.data = res.model;
     this.total = res.total;
     this.totalCount = res.TotalCount;
-    console.log('get Notifications data: ', this.data);
+    // console.log('get Notifications data: ', this.data);
 
   });
 }
@@ -249,10 +249,10 @@ datetime(d) {
 }
 checkTask() {
   this.headerService.checkTask(this.userid)
-    .subscribe(() => console.log('Vua moi kiem tra nhiem vu - ', this.userid));
+    .subscribe(() => {});
 }
 seen(item) {
-  console.log('seen: ', item);
+  // console.log('seen: ', item);
   this.headerService.seen(item).subscribe(res => {
     this.page = 1;
     this.data = [];

@@ -79,13 +79,13 @@ export class ProjectDetailComponent implements OnInit {
     e.updateData(this.usersData, query);
   }
   public changeManager: EmitType<ChangeEventArgs> = (e: ChangeEventArgs) => {
-    console.log(e);
+    // // console.log(e);
     if (e.isInteracted) {
       this.manager.users = e.value as number;
     }
   }
   public changeMember: EmitType<ChangeEventArgs> = (e: ChangeEventArgs) => {
-    console.log(e);
+    // // console.log(e);
     if (e.isInteracted) {
       this.member.users = e.value as number;
     }
@@ -127,7 +127,7 @@ export class ProjectDetailComponent implements OnInit {
   getListUsers() {
     this.projectDetailService.getListUsers().subscribe(res => {
       this.usersData = res;
-      console.log('getListUsers: ', this.usersData);
+      // // console.log('getListUsers: ', this.usersData);
     });
   }
   mapManagerSelected(manager: User[]) {
@@ -153,7 +153,7 @@ export class ProjectDetailComponent implements OnInit {
     this.projectDetailService
       .getUserByProjectID(this.projectId)
       .subscribe((res: Detail) => {
-        console.log('getUserByProjectID: ', res);
+        // // console.log('getUserByProjectID: ', res);
         this.mapManagerSelected(res.selectedManager);
         this.mapMemberSelected(res.selectedMember);
       });

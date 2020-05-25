@@ -149,7 +149,7 @@ export class RoutineComponent implements OnInit {
   done() {
     if (this.taskId > 0) {
       this.projectDetailService.done(this.taskId).subscribe((res: any) => {
-        console.log('DOne: ', res);
+        // console.log('DOne: ', res);
         if (res.status) {
           this.alertify.success(res.message);
           this.getTasks();
@@ -323,10 +323,10 @@ export class RoutineComponent implements OnInit {
     this.defaultColumnsTreegrid();
   }
   contextMenuOpen(arg?: any): void {
-    console.log('contextMenuOpen: ', arg);
+    // console.log('contextMenuOpen: ', arg);
     let data = arg.rowInfo.rowData.Entity;
     let users = [...data.Deputies, ...data.PICs].concat(data.FromWho.ID);
-    console.log(users);
+    // console.log(users);
     if (data.VideoStatus) {
       document
         .querySelectorAll('li#WatchVideo')[0]
@@ -374,9 +374,9 @@ export class RoutineComponent implements OnInit {
     }
   }
   contextMenuClick(args?: any): void {
-    console.log('contextMenuClick', args);
+    // console.log('contextMenuClick', args);
     const data = args.rowInfo.rowData.Entity;
-    console.log('contextMenuClickdata', data);
+    // console.log('contextMenuClickdata', data);
 
     this.taskId = data.ID;
     this.tutorialName = data.JobName;
@@ -422,7 +422,7 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.title = 'Routine Detail';
     modalRef.componentInstance.tasks = arg;
     modalRef.result.then((result) => {
-      console.log('openRoutineDetailModal', result);
+      // console.log('openRoutineDetailModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Routine);
@@ -432,7 +432,7 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.title = 'Add Routine Main Task';
     modalRef.componentInstance.ocid = this.ocId;
     modalRef.result.then((result) => {
-      console.log('openAddMainTaskModal', result)
+      // console.log('openAddMainTaskModal', result)
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Routine);
@@ -443,7 +443,7 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.ocid = this.ocId;
     modalRef.componentInstance.parentId = this.parentId;
     modalRef.result.then((result) => {
-      console.log('openAddSubTaskModal', result);
+      // console.log('openAddSubTaskModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Routine);
@@ -454,7 +454,7 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.ocid = this.ocId;
     modalRef.componentInstance.edit = this.editTask(args);
     modalRef.result.then((result) => {
-      console.log('openEditTaskModal', result);
+      // console.log('openEditTaskModal', result);
     }, (reason) => {
       this.parentId = 0;
     });
@@ -468,7 +468,7 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.jobType = JobType.Routine;
     modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
-      console.log('openTutorialModal', result);
+      // console.log('openTutorialModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Routine);
@@ -483,7 +483,7 @@ export class RoutineComponent implements OnInit {
 
     modalRef.componentInstance.jobname = args.rowInfo.rowData.Entity.JobName;
     modalRef.result.then((result) => {
-      console.log('openEditTutorialModal', result);
+      // console.log('openEditTutorialModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Routine);
@@ -493,7 +493,7 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.src = this.srcTutorial;
     modalRef.componentInstance.name = this.tutorialName;
     modalRef.result.then((result) => {
-      console.log('openWatchTutorialWatchModal', result);
+      // console.log('openWatchTutorialWatchModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Routine);
@@ -503,7 +503,7 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.src = data.VideoLink;
     modalRef.componentInstance.name = data.JobName;
     modalRef.result.then((result) => {
-      console.log('openWatchTutorialWatchModal', result);
+      // console.log('openWatchTutorialWatchModal', result);
     }, (reason) => {
     });
     this.jobtypeService.changeMessage(JobType.Routine);
@@ -517,7 +517,7 @@ export class RoutineComponent implements OnInit {
     modalRef.componentInstance.taskID = args.rowData.Entity.ID;
     modalRef.componentInstance.clientRouter = ClientRouter.Routine;
     modalRef.result.then((result) => {
-      console.log('openCommentModal From Todolist', result);
+      // console.log('openCommentModal From Todolist', result);
     }, (reason) => {
     });
   }
