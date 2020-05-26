@@ -66,8 +66,9 @@ export class TutorialComponent implements OnInit {
       this.created();
     });
     this.addTaskService.currentMessage.subscribe(res => {
-      if (res[0] === JobType.Tutorial) {
+      if (res.Jobtype === JobType.Tutorial) {
          this.dataSourceChanged();
+         this.getTutorials();
       }
     });
   }

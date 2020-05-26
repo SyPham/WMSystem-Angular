@@ -52,8 +52,8 @@ export class AddSubTaskComponent implements OnInit {
   who: number;
   where: number;
   pic: number;
-  deadline: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
-  duedatedaily?: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
+  deadline: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 0);
+  duedatedaily?: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 0);
   duedateweekly?: Date;
   duedatemonthly?: Date;
   duedatequarterly: string;
@@ -172,10 +172,10 @@ export class AddSubTaskComponent implements OnInit {
       this.duedatemonthly = null;
     }
    if (!daily) {
-    this.duedatedaily = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
+    this.duedatedaily = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 0);
     }
    if (!deadline) {
-    this.deadline = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
+    this.deadline = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 0);
     }
   }
   clearForm() {
@@ -261,7 +261,7 @@ export class AddSubTaskComponent implements OnInit {
       case 'Daily':
       this.changeStatus(false);
       this.clearPeriod(true, false, false, false);
-      this.duedatedaily  = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
+      this.duedatedaily  = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 0);
       this.periodtype = PeriodType.Daily;
       break;
       case 'Weekly':

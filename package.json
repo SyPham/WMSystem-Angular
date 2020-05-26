@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve --open --host 10.4.4.224 --port 100 --disableHostCheck",
     "start_https": "ng serve --open --host 10.4.4.224 --port 100 --disableHostCheck --ssl true --ssl-key /node_modules/browser-sync/lib/server/certs/server.key --ssl-cert /node_modules/browser-sync/lib/server/certs/server.crt",
-    "pro": "ng serve --open --host 10.4.0.76 --port 97 --disableHostCheck --ssl true --ssl-key /node_modules/browser-sync/lib/server/certs/server.key --ssl-cert /node_modules/browser-sync/lib/server/certs/server.crt",
+    "pro": "ng serve --open --host 10.4.0.76 --port 97 --disableHostCheck",
     "home": "ng serve --open --host localhost --port 1003 --disableHostCheck",
     "build": "ng build",
     "test": "ng test",

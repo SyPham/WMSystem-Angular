@@ -69,8 +69,8 @@ export class AddTaskModalComponent implements OnInit {
   public jobname: string;
   public who: number;
   public pic: number;
-  public deadline: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
-  public duedatedaily?: Date = new Date();
+  public deadline: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 0);
+  public duedatedaily?: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 0);
   public duedateweekly?: Date;
   public duedatemonthly?: Date;
   public duedatequarterly: string;
@@ -318,7 +318,7 @@ export class AddTaskModalComponent implements OnInit {
       case 'Daily':
         this.changeStatus(false);
         this.clearPeriod(true, false, false, false, false, false);
-        this.duedatedaily = new Date();
+        this.duedatedaily = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
         this.periodtype = PeriodType.Daily;
         break;
       case 'Weekly':
@@ -398,8 +398,8 @@ export class AddTaskModalComponent implements OnInit {
     this.duedatemonthly = null;
     this.duedatequarterly = '';
     this.duedateyearly = '';
-    this.duedatedaily = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
-    this.deadline = null;
+    this.duedatedaily = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 0);
+    this.deadline =new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 0);
     this.priority = 'M';
     this.pic = 0;
     this.jobtypeService.currentMessage.subscribe(res => {
