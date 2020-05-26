@@ -1,0 +1,6 @@
+kendo-datetimepicker {min-width: 100%;}
+.crimson .k-calendar-header,
+.crimson .k-calendar-header .k-today {
+    background: crimson;
+    color: white;
+}

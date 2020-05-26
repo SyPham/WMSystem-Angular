@@ -18,25 +18,6 @@
         /> 
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="form-group">
-       <label for="JobType">From</label>
-       <small class="text-danger">(*) Require</small>
-       <ejs-dropdownlist [dataSource]='beAssigned' [(ngModel)]="who" [fields]='fields' [placeholder]='waterMark'></ejs-dropdownlist>
-     </div>
-     </div>
-    <div class="col-md-4">
-     <div class="form-group">
-      <label for="JobType">Be Assigned</label>
-      <ejs-multiselect [dataSource]='beAssigned'[mode]='box' [(ngModel)]="pic" [fields]='fields' [placeholder]='waterMark'></ejs-multiselect>
-    </div>
-    </div>
-    <div class="col-md-4">
-      <div class="form-group">
-       <label for="JobType">Deputy</label>
-       <ejs-multiselect [dataSource]='beAssigned'[mode]='box' [(ngModel)]="deputies" [fields]='fields' [placeholder]='waterMark'></ejs-multiselect>
-     </div>
-     </div>
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-4">
@@ -64,7 +45,13 @@
           <div class="form-group">
             <label for="JobType">Due Date Time</label>
             <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [format]="format" step="1" [(ngModel)]="deadline" placeholder='Select due date time'></ejs-datetimepicker>
+            <!-- <ejs-datetimepicker [format]="format" step="1" [(ngModel)]="deadline" placeholder='Select due date time'></ejs-datetimepicker> -->
+            <kendo-datetimepicker
+            [format]="format2"
+            [(ngModel)]="deadline"
+            placeholder='Select due date time of specific date'
+        >
+        </kendo-datetimepicker>
           </div>
         </div>
        
@@ -73,11 +60,11 @@
           <div class="form-group">
             <label for="JobType">1st Due Date Time</label>
             <small class="text-danger">(*) Require</small> 
-            <ejs-datetimepicker [format]="format" step="1" [(ngModel)]="duedatedaily"  placeholder='Select due date time of daily'></ejs-datetimepicker>
+            <!-- <ejs-datetimepicker [format]="format" step="1" [(ngModel)]="duedatedaily"  placeholder='Select due date time of daily'></ejs-datetimepicker> -->
             <kendo-datetimepicker
-            class="e-input"
             [format]="format2"
-            [(value)]="value2"
+            [(ngModel)]="duedatedaily"
+            placeholder='Select due date time of daily'
         >
         </kendo-datetimepicker>
           </div>
@@ -87,19 +74,52 @@
         <div [class]="weekly?'col-md-8 d-none':'col-md-8'">
           <div class="form-group">
             <label for="JobType">1st Due Date Time</label>  <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [format]="format" step="1" placeholder='Select due date time of weekly' [(ngModel)]="duedateweekly"></ejs-datetimepicker>
+            <!-- <ejs-datetimepicker [format]="format" step="1" placeholder='Select due date time of weekly' [(ngModel)]="duedateweekly"></ejs-datetimepicker> -->
+            <kendo-datetimepicker
+            [format]="format2"
+            [(ngModel)]="duedateweekly"
+            placeholder='Select due date time of weekly'
+        >
+        </kendo-datetimepicker>
           </div>
         </div>
         <!-- Monthly -->
         <div [class]="monthly?'col-md-8 d-none':'col-md-8'">
           <div class="form-group">
             <label for="JobType">1st Due Date Time</label>  <small class="text-danger">(*) Require</small>
-            <ejs-datetimepicker [format]="format" step="1" placeholder='Select due date time of monthly' [(ngModel)]="duedatemonthly"></ejs-datetimepicker>
+            <!-- <ejs-datetimepicker [format]="format" step="1" placeholder='Select due date time of monthly' [(ngModel)]="duedatemonthly"></ejs-datetimepicker> -->
+             <!-- <ejs-datetimepicker [format]="format" step="1" placeholder='Select due date time of weekly' [(ngModel)]="duedateweekly"></ejs-datetimepicker> -->
+             <kendo-datetimepicker
+             [format]="format2"
+             [(ngModel)]="duedatemonthly"
+             placeholder='Select due date time of monthly'
+         >
+         </kendo-datetimepicker>
           </div>
         </div>
         <!-- End monthly -->
       </div>
     </div>
+    <div class="col-md-4">
+      <div class="form-group">
+       <label for="JobType">From</label>
+       <small class="text-danger">(*) Require</small>
+       <ejs-dropdownlist [dataSource]='beAssigned' [(ngModel)]="who" [fields]='fields' [placeholder]='waterMark'></ejs-dropdownlist>
+     </div>
+     </div>
+    <div class="col-md-4">
+     <div class="form-group">
+      <label for="JobType">Be Assigned</label>
+      <ejs-multiselect [dataSource]='beAssigned'[mode]='box' [(ngModel)]="pic" [fields]='fields' [placeholder]='waterMark'></ejs-multiselect>
+    </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+       <label for="JobType">Deputy</label>
+       <ejs-multiselect [dataSource]='beAssigned'[mode]='box' [(ngModel)]="deputies" [fields]='fields' [placeholder]='waterMark'></ejs-multiselect>
+     </div>
+     </div>
+ 
 
     <div class="col-md-6">
       <label>Priority</label>

@@ -34,7 +34,7 @@ export class AddSubTaskComponent implements OnInit {
   allowEdit = false;
   Areas: any;
   public months = Months;
-  public format = 'dd MMM, yyyy hh:mm:ss a';
+  public format = 'dd MMM, yyyy hh:mm a';
   weekday: any;
   monthSelected: any;
   userSelected: number;
@@ -52,10 +52,10 @@ export class AddSubTaskComponent implements OnInit {
   who: number;
   where: number;
   pic: number;
-  deadline: string;
-  duedatedaily: any;
-  duedateweekly: string;
-  duedatemonthly: string;
+  deadline: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
+  duedatedaily?: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
+  duedateweekly?: Date;
+  duedatemonthly?: Date;
   duedatequarterly: string;
   duedateyearly: string;
   priority = 'M';
@@ -132,24 +132,24 @@ export class AddSubTaskComponent implements OnInit {
         this.periodtype = PeriodType.Daily;
         this.selectedPeriodMain = 'Daily';
         this.changeStatus(false, true, true, true);
-        this.duedatedaily = item._DueDate;
+        this.duedatedaily = new Date(item._DueDate);
         break;
       case PeriodType.Weekly:
         this.periodtype = PeriodType.Weekly;
         this.selectedPeriodMain = 'Weekly';
-        this.duedateweekly = item._DueDate;
+        this.duedateweekly = new Date(item._DueDate);
         this.changeStatus(true, false, true);
         break;
         case PeriodType.Monthly:
         this.periodtype = PeriodType.Monthly;
         this.selectedPeriodMain = 'Monthly';
-        this.duedatemonthly = item._DueDate;
+        this.duedatemonthly = new Date(item._DueDate);
         this.changeStatus(true, true, false, true);
         break;
       case PeriodType.SpecificDate:
         this.periodtype = PeriodType.SpecificDate;
         this.selectedPeriodMain = 'DueDate';
-        this.deadline = item._DueDate;
+        this.deadline = new Date(item._DueDate);
         this.changeStatus(true, true, true, false);
         break;
       default:
@@ -166,16 +166,16 @@ export class AddSubTaskComponent implements OnInit {
   }
   clearPeriod(daily = false, weekly = false, monthly = false, deadline= false) {
    if (!weekly) {
-    this.duedateweekly = '';
+    this.duedateweekly = null;
    }
    if (!monthly) {
-      this.duedatemonthly = '';
+      this.duedatemonthly = null;
     }
    if (!daily) {
-    this.duedatedaily = '';
+    this.duedatedaily = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
     }
    if (!deadline) {
-    this.deadline = '';
+    this.deadline = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
     }
   }
   clearForm() {
@@ -183,31 +183,31 @@ export class AddSubTaskComponent implements OnInit {
     this.jobname = '';
     this.who = 0;
     this.where = 0;
-    this.duedateweekly = '';
-    this.duedatemonthly = '';
+    this.duedateweekly = null;
+    this.duedatemonthly = null;
     this.priority = 'M';
     this.pic = 0;
-    this.duedatedaily = '';
-    this.deadline = '';
+    this.duedatedaily = null;
+    this.deadline = null;
   }
   mapDueDateWithPeriod(periodType: PeriodType): string {
     let result: string;
     switch (periodType) {
       case PeriodType.Daily:
         this.periodtype = PeriodType.Daily;
-        result = this.duedatedaily;
+        result = this.duedatedaily.toISOString();
         break;
       case PeriodType.Weekly:
         this.periodtype = PeriodType.Weekly;
-        result = this.duedateweekly;
+        result = this.duedateweekly.toISOString();
         break;
       case PeriodType.Monthly:
         this.periodtype = PeriodType.Monthly;
-        result = this.duedatemonthly;
+        result = this.duedatemonthly.toISOString();
         break;
       case PeriodType.SpecificDate:
         this.periodtype = PeriodType.SpecificDate;
-        result = this.deadline;
+        result = this.deadline.toISOString();
         break;
       default:
         break;
@@ -261,7 +261,7 @@ export class AddSubTaskComponent implements OnInit {
       case 'Daily':
       this.changeStatus(false);
       this.clearPeriod(true, false, false, false);
-      this.duedatedaily = new Date();
+      this.duedatedaily  = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
       this.periodtype = PeriodType.Daily;
       break;
       case 'Weekly':

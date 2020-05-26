@@ -22,17 +22,17 @@ const lineConfig = {
 export const environment = {
   production: false,
   // demo
-  // imagePath: 'http://10.4.0.76:96/images/',
-  // apiUrl: 'http://10.4.0.76:96/api/',
-  // hub: 'http://10.4.0.76:96/working-management-hub',
-  // // tslint:disable-next-line:max-line-length
-  // redirectLineAuthorize: `${lineConfig.authorizeUrl}?response_type=code&client_id=${lineConfig.client_id}&redirect_uri=${lineConfig.redirect_uri}&scope=notify&state=NO_STATE`
+  imagePath: 'http://10.4.0.76:96/images/',
+  apiUrl: 'http://10.4.0.76:96/api/',
+  hub: 'http://10.4.0.76:96/working-management-hub',
+  // tslint:disable-next-line:max-line-length
+  redirectLineAuthorize: `${lineConfig.authorizeUrl}?response_type=code&client_id=${lineConfig.client_id}&redirect_uri=${lineConfig.redirect_uri}&scope=notify&state=NO_STATE`
 
   // home
-  imagePath: 'http://localhost:1000/images/',
-  apiUrl: 'http://localhost:1000/api/',
-  hub: 'http://localhost:1000/working-management-hub',
-  redirectLineAuthorize: `${lineConfig.authorizeUrl}?response_type=code&client_id=${lineConfig.client_id}&redirect_uri=${lineConfig.redirect_uri}&scope=notify&state=NO_STATE`
+  // imagePath: 'http://localhost:1000/images/',
+  // apiUrl: 'http://localhost:1000/api/',
+  // hub: 'http://localhost:1000/working-management-hub',
+  // redirectLineAuthorize: `${lineConfig.authorizeUrl}?response_type=code&client_id=${lineConfig.client_id}&redirect_uri=${lineConfig.redirect_uri}&scope=notify&state=NO_STATE`
 
   // product
   // imagePath: 'http://10.4.0.76:96/images/',

@@ -32,8 +32,9 @@ export class AddTaskModalComponent implements OnInit {
   fromWho: any;
   beAssigned: any;
   // config datetimepicker
-  public value2: Date = new Date(2019, 5, 1, 22);
-  public format2 = 'MM/dd/yyyy HH:mm';
+  // public value2: Date = new Date(2019, 5, 1, 22);
+  public format2 = 'dd MMM, yyyy hh:mm a';
+  public test: any;
   public month: number = new Date().getMonth();
   public fullYear: number = new Date().getFullYear();
   public minDate: Date = new Date(this.fullYear, this.month, 22, 12);
@@ -68,10 +69,10 @@ export class AddTaskModalComponent implements OnInit {
   public jobname: string;
   public who: number;
   public pic: number;
-  public deadline: string;
-  public duedatedaily: any = new Date();
-  public duedateweekly: string;
-  public duedatemonthly: string;
+  public deadline: Date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
+  public duedatedaily?: Date = new Date();
+  public duedateweekly?: Date;
+  public duedatemonthly?: Date;
   public duedatequarterly: string;
   public duedateyearly: string;
   public priority = 'M';
@@ -183,24 +184,24 @@ export class AddTaskModalComponent implements OnInit {
         this.periodtype = PeriodType.Daily;
         this.selectedPeriodMain = 'Daily';
         this.changeStatus(false, true, true, true);
-        this.duedatedaily = item._DueDate;
+        this.duedatedaily = new Date(item._DueDate);
         break;
       case PeriodType.Weekly:
         this.periodtype = PeriodType.Weekly;
         this.selectedPeriodMain = 'Weekly';
-        this.duedateweekly = item._DueDate;
+        this.duedateweekly = new Date(item._DueDate);
         this.changeStatus(true, false, true);
         break;
         case PeriodType.Monthly:
         this.periodtype = PeriodType.Monthly;
         this.selectedPeriodMain = 'Monthly';
-        this.duedatemonthly = item._DueDate;
+        this.duedatemonthly = new Date(item._DueDate);
         this.changeStatus(true, true, true, true, true, false);
         break;
       case PeriodType.SpecificDate:
         this.periodtype = PeriodType.SpecificDate;
         this.selectedPeriodMain = 'DueDate';
-        this.deadline = item._DueDate;
+        this.deadline = new Date(item._DueDate);
         this.changeStatus(true, true, true, false);
         break;
       default:
@@ -212,19 +213,19 @@ export class AddTaskModalComponent implements OnInit {
     switch (periodType) {
       case PeriodType.Daily:
         this.periodtype = PeriodType.Daily;
-        result = this.duedatedaily;
+        result = this.duedatedaily.toISOString();
         break;
       case PeriodType.Weekly:
         this.periodtype = PeriodType.Weekly;
-        result = this.duedateweekly;
+        result = this.duedateweekly.toISOString();
         break;
       case PeriodType.Monthly:
         this.periodtype = PeriodType.Monthly;
-        result = this.duedatemonthly;
+        result = this.duedatemonthly.toISOString();
         break;
       case PeriodType.SpecificDate:
         this.periodtype = PeriodType.SpecificDate;
-        result = this.deadline;
+        result = this.deadline.toISOString();
         break;
       default:
         break;
@@ -281,7 +282,7 @@ export class AddTaskModalComponent implements OnInit {
           if (this.jobtype === JobType.Abnormal){
             this.addTaskService.changeMessage(new AddTask(JobType.Abnormal, this.ocid));
           } else {
-            this.addTaskService.changeMessage(new AddTask(JobType.Abnormal, this.ocid));
+            this.addTaskService.changeMessage(new AddTask(JobType.Routine, this.ocid));
           }
           this.activeModal.close('createMainTask');
         });
@@ -339,10 +340,10 @@ export class AddTaskModalComponent implements OnInit {
   }
   clearPeriod(daily = false, weekly = false, monthly = false, quarterly = false, yearly = false, deadline = false) {
     if (!weekly) {
-      this.duedateweekly = '';
+      this.duedateweekly = null;
     }
     if (!monthly) {
-      this.duedatemonthly = '';
+      this.duedatemonthly = null;
     }
     if (!quarterly) {
       this.duedatequarterly = '';
@@ -351,10 +352,10 @@ export class AddTaskModalComponent implements OnInit {
       this.duedateyearly = '';
     }
     if (!daily) {
-      this.duedatedaily = new Date().toISOString();
+      this.duedatedaily = null;
     }
     if (!deadline) {
-      this.deadline = '';
+      this.deadline = null;
     }
   }
   checkValidation() {
@@ -367,19 +368,19 @@ export class AddTaskModalComponent implements OnInit {
     } else if (this.selectedPeriodMain !== '') {
       switch (this.selectedPeriodMain) {
         case 'Weekly':
-          if (this.duedateweekly === undefined) {
+          if (this.duedateweekly === undefined || this.duedateweekly === null) {
             this.alertify.validation('Warning!', 'Please select on weekly!');
             return false;
           }
           break;
         case 'Monthly':
-          if (this.duedatemonthly === undefined) {
+          if (this.duedatemonthly === undefined || this.duedatemonthly === null) {
             this.alertify.validation('Warning!', 'Please select on monthly!');
             return false;
           }
           break;
         case 'DueDate':
-          if (this.deadline === undefined) {
+          if (this.deadline === undefined || this.deadline === null) {
             this.alertify.validation('Warning!', 'Please select on deadline!');
             return false;
           }
@@ -393,12 +394,12 @@ export class AddTaskModalComponent implements OnInit {
     this.jobname = '';
     this.who = 0;
     this.deputies = 0;
-    this.duedateweekly = '';
-    this.duedatemonthly = '';
+    this.duedateweekly = null;
+    this.duedatemonthly = null;
     this.duedatequarterly = '';
     this.duedateyearly = '';
-    this.duedatedaily = '';
-    this.deadline = '';
+    this.duedatedaily = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 30);
+    this.deadline = null;
     this.priority = 'M';
     this.pic = 0;
     this.jobtypeService.currentMessage.subscribe(res => {
