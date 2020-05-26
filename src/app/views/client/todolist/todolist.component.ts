@@ -213,13 +213,13 @@ export class TodolistComponent implements OnInit {
   showAllColumnsTreegrid() {
     const hide = ['Follow', 'From', 'Task Name',
       'Project Name', 'Created Date Time', 'Finished DateTime',
-      'PIC', 'Status', 'Deputy', 'Watch Video', 'Period Type'];
+      'PIC', 'Status', 'Deputy', 'Watch Video', 'Period Type', 'Last Comment'];
     for (const item of hide) {
       this.treeGridObj.showColumns([item, 'Ship Name']);
     }
   }
   defaultColumnsTreegrid() {
-    const hide = ['Follow', 'From', 'Watch Video', 'Period Type', 'Deputy'];
+    const hide = ['Follow', 'From', 'Watch Video', 'Period Type', 'Deputy', 'Created Date Time'];
     for (const item of hide) {
       this.treeGridObj.hideColumns([item, 'Ship Name']);
     }
