@@ -55,7 +55,7 @@ import { UploaderModule  } from '@syncfusion/ej2-angular-inputs';
 import { NgxGalleryModule } from 'ngx-gallery-9';
 import { RoutineDetailComponent } from './modals/routine-detail/routine-detail.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-
+import { ContextMenuModule  } from '@syncfusion/ej2-angular-navigations';
 @NgModule({
   imports: [
     CommonModule,
@@ -89,7 +89,8 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
     UploaderModule,
     NgxGalleryModule,
     TextBoxModule,
-    DateInputsModule
+    DateInputsModule,
+    ContextMenuModule
       ],
   declarations: [
     TodolistComponent,

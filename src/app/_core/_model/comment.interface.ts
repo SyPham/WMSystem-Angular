@@ -6,6 +6,7 @@ export interface IComment {
     TaskID: number;
     ParentID: number;
     UserID: number;
+    ID: number;
     ClientRouter: ClientRouter;
 }
 export interface ICommentTreeView {
@@ -17,7 +18,9 @@ export interface ICommentTreeView {
      ParentID: number;
      ImageBase64: string;
      CreatedTime: string;
+     Pin: boolean;
      Seen: boolean;
+     Images: string[];
      HasChildren: boolean;
      children: ICommentTreeView[];
 }

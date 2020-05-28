@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { CommentService } from 'src/app/_core/_service/comment.service';
-import { IComment } from 'src/app/_core/_model/comment.interface';
+import { IComment, ICommentTreeView } from 'src/app/_core/_model/comment.interface';
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
 import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
+import { Browser } from '@syncfusion/ej2-base';
+import { ContextMenuComponent, MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'app-tree',
@@ -11,7 +13,7 @@ import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 })
 export class TreeComponent implements OnInit {
   totalShow = 3;
- @Input() treeData: object;
+ @Input() treeData: ICommentTreeView;
  @Input() taskID: number;
  @Input() clientRouter: ClientRouter;
  comment: IComment;
@@ -22,6 +24,7 @@ export class TreeComponent implements OnInit {
   ) { }
   ngOnInit() {
     this.comment = {
+      ID: this.treeData.ID,
       Content: '',
       TaskCode: '',
       ParentID: 0,
@@ -30,4 +33,5 @@ export class TreeComponent implements OnInit {
       ClientRouter : this.clientRouter
     };
   }
+  
 }

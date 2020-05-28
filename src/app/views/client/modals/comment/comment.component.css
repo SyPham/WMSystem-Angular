@@ -66,7 +66,11 @@
     padding: 4px 20px;
     border-radius: 10px;
   }
-  
+  .pin-button {
+    margin-left: auto;
+    align-self: center;
+    padding-right: 10px;
+  }
   .commenter-head {
     display: block;
   }
@@ -173,3 +177,29 @@
   .imageList .image-preview .img-content .fa-close:hover{
     opacity: 0.5;
   }
+  .pin-container {
+    position: relative;
+  }
+  .pin {
+    position: absolute;
+    top: 0;
+    transform: translateY(260%);
+    z-index: 1000;
+    background-color:whitesmoke;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    border-radius: 10px;
+    border-left: 2px solid teal;
+    cursor: pointer;
+  }
+  .pin-image {
+    position: absolute;
+    top: 0;
+    transform: translateY(110%);
+    z-index: 1000;
+    background-color:whitesmoke;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    border-radius: 10px;
+    border-left: 2px solid teal;
+    cursor: pointer;
+  }
+ 

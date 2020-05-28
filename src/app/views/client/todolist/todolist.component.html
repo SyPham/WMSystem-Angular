@@ -73,7 +73,7 @@
                         style="padding:4px;color:white">{{data.Entity.Priority}}</span>
                     </ng-template>
                   </e-column> -->
-                  <e-column field="Entity.ProjectName" headerText="Project Name" clipMode='EllipsisWithTooltip' textAlign="Center"
+                  <e-column field="Entity.ProjectName" headerText="Job Type" clipMode='EllipsisWithTooltip' textAlign="Center"
                     width="240">
                   </e-column>
                   <e-column field="Entity.JobName" headerText="Task Name" clipMode='EllipsisWithTooltip' textAlign="Left"
@@ -102,7 +102,7 @@
                   </e-column>
                   <!-- <e-column field="Entity.ModifyDateTime" headerText="Finished DateTime" width="200" textAlign="Center"></e-column> -->
                   <e-column field="Entity.CreatedDate" type='date' format='d MMM, yyyy hh:mm:ss a' headerText="Created Date Time" width="200" textAlign="Center"></e-column>
-                  <e-column field="" type='date' format='d MMM, yyyy hh:mm:ss a' headerText="Last Comment" width="200" textAlign="Center"></e-column>
+                  <e-column field="Entity.LastComment" headerText="Last Comment" width="200" textAlign="Center"></e-column>
                   <e-column field="Entity.WatchVideo" headerText="Watch Video" width="200"
                     textAlign="Center">
                     <ng-template #template let-data>
@@ -119,62 +119,3 @@
     </div>
   </div>
 </div>
-
-
-
-<ng-template #addSubTaskModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">
-
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <label for="Name">Name</label>
-          <!-- <ejs-multiselect [dataSource]='usersData' [(ngModel)]='managerSelected' (change)="changeManager($event)" [mode]='default' [value]='managerSelected' (filtering)='onFiltering($event)' [allowFiltering]='true'  [fields]='fields' [placeholder]='waterMark'></ejs-multiselect> -->
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer justify-content-between">
-    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">
-      Close
-    </button>
-    <button type="button" class="btn btn-outline-dark">
-      Save
-    </button>
-  </div>
-</ng-template>
-<ng-template #commentModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">
-
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <label for="Name">Name</label>
-          <!-- <ejs-multiselect [dataSource]='usersData' [(ngModel)]='managerSelected' (change)="changeManager($event)" [mode]='default' [value]='managerSelected' (filtering)='onFiltering($event)' [allowFiltering]='true'  [fields]='fields' [placeholder]='waterMark'></ejs-multiselect> -->
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer justify-content-between">
-    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">
-      Close
-    </button>
-    <button type="button" class="btn btn-outline-dark">
-      Save
-    </button>
-  </div>
-</ng-template>

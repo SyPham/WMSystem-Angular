@@ -32,13 +32,11 @@ import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 import { SignalrService } from 'src/app/_core/_service/signalr.service';
 import * as signalr from 'src/assets/js/signalr';
 import { FollowService } from 'src/app/_core/_service/follow.service';
-
 declare let $: any;
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
   styleUrls: ['./todolist.component.css'],
-  providers: [FilterService],
 })
 export class TodolistComponent implements OnInit {
   @Input() Id: number;
@@ -359,7 +357,7 @@ export class TodolistComponent implements OnInit {
     });
   }
   openCommentModal(args) {
-    const modalRef = this.modalService.open(CommentComponent, { size: 'xl' });
+    const modalRef = this.modalService.open(CommentComponent, { size: 'xl'});
     modalRef.componentInstance.title = args.rowData.Entity.JobName;
     modalRef.componentInstance.taskID = args.rowData.Entity.ID;
     modalRef.componentInstance.clientRouter = ClientRouter.ToDoList;

@@ -1,6 +1,7 @@
 <ng-container *ngIf="node.Images.length !== 0">
-<div class="comment-box-wrapper">
-    <div class="comment-box" >
+  <div class="comment-box-wrapper">
+    <div class="comment-box" [id]="'app-tree-' + node.ID" >
+      <ejs-contextmenu #contextmenu [target]='"#app-tree-" + node.ID' (select)="select($event)" [items]='menuItems' (beforeItemRender)='addDisabled($event)' (created)='onCreated()'></ejs-contextmenu>  
       <img [src]="imageBase64(node.ImageBase64)" class="commenter-image" alt="commenter_image" />
       <div class="comment-content" style="background: #ffffff;">
         <div class="commenter-head">
@@ -38,7 +39,7 @@
         (click)="increseTotalShow()"
         class="text-center text-primary d-block"
       >
-        Load more 
+        See more 
         <i class="fas fa-chevron-down text-small"></i>
       </small>
       </div>
@@ -69,8 +70,9 @@
 </div>
 </ng-container>
 <ng-container *ngIf="node.Content.length !== 0">
-<div class="comment-box-wrapper">
-  <div class="comment-box" >
+<div class="comment-box-wrapper" >
+  <div class="comment-box" [id]="'app-tree-' + node.ID" >
+    <ejs-contextmenu #contextmenu [target]='"#app-tree-" + node.ID' (select)="select($event)" [items]='menuItems' (beforeItemRender)='addDisabled($event)' (created)='onCreated()'></ejs-contextmenu>
     <img [src]="imageBase64(node.ImageBase64)" class="commenter-image" alt="commenter_image" />
     <div class="comment-content">
       <div class="commenter-head">
@@ -107,7 +109,7 @@
       (click)="increseTotalShow()"
       class="text-center text-primary d-block"
     >
-      Load more 
+      See more 
       <i class="fas fa-chevron-down text-small"></i>
     </small>
     

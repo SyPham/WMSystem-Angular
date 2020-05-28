@@ -47,5 +47,17 @@ export class CommentService {
   uploadImages(images: any) {
     return this.http.post(`${this.baseUrl}Comments/Created`, images);
   }
+  delete(id) {
+    return this.http.delete(`${this.baseUrl}Comments/Delete/${id}`);
+  }
+  pin(id, taskid, userid) {
+    return this.http.put(`${this.baseUrl}Comments/Pin/${id}/${taskid}/${userid}`, {});
+  }
+  unpin(id) {
+    return this.http.put(`${this.baseUrl}Comments/Unpin/${id}`, {});
+  }
+  edit(id, message) {
+    return this.http.put(`${this.baseUrl}Comments/edit/${id}`,  {message});
+  }
 }
 
