@@ -56,8 +56,11 @@ import { NgxGalleryModule } from 'ngx-gallery-9';
 import { RoutineDetailComponent } from './modals/routine-detail/routine-detail.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ContextMenuModule  } from '@syncfusion/ej2-angular-navigations';
+import { ClipboardModule } from 'ngx-clipboard';
+
 @NgModule({
   imports: [
+    ClipboardModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

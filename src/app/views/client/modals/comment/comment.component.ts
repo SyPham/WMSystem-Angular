@@ -107,7 +107,7 @@ export class CommentComponent implements OnInit {
     this.commentService.getAllComment(this.taskID, this.userid).subscribe((res: ICommentTreeView[]) => {
       this.dataComment = [];
       this.dataComment = res;
-      // console.log('flatTree :', this.flatListTree(res));
+      console.log('flatTree :', this.flatListTree(res));
       this.pin = this.flatListTree(res).filter(item => {
         return item.Pin === true;
       })[0];

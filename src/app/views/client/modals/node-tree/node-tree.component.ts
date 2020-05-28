@@ -9,7 +9,7 @@ import { ClientRouter } from 'src/app/_core/enum/ClientRouter';
 import { environment } from '../../../../../environments/environment';
 import { Browser } from '@syncfusion/ej2-base';
 import { ContextMenuComponent, MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
-
+import { ClipboardService } from 'ngx-clipboard';
 @Component({
   selector: 'app-node-tree',
   templateUrl: './node-tree.component.html',
@@ -72,7 +72,8 @@ export class NodeTreeComponent implements OnInit {
     private commentService: CommentService,
     private alertify: AlertifyService,
     private sanitizer: DomSanitizer,
-    private calendar: CalendarsService
+    private calendar: CalendarsService,
+    private clipboardService: ClipboardService
   ) { }
 
   ngOnInit() {
@@ -80,6 +81,16 @@ export class NodeTreeComponent implements OnInit {
     this.totalShow = 3;
     this.initialParams();
     this.content = '';
+  }
+  copy() {
+    if (this.node.Images.length > 0) {
+      const images = this.node.Images.map(item => {
+          return environment.imagePath + item;
+      });
+      this.clipboardService.copyFromContent(images.join(','));
+    } else {
+      this.clipboardService.copyFromContent(this.node.Content);
+    }
   }
   initialParams() {
     this.getUsernames();
@@ -254,6 +265,7 @@ export class NodeTreeComponent implements OnInit {
   select($event) {
     switch ($event.item.text) {
       case 'Copy':
+      this.copy();
       break;
       case 'Edit':
       this.edit();
