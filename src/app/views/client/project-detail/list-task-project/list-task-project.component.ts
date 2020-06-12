@@ -183,10 +183,33 @@ export class ListTaskProjectComponent implements OnInit {
   }
   delete() {
     if (this.taskId > 0) {
-      this.projectDetailService.delete(this.taskId).subscribe(res => {
-        this.alertify.success('Delete Successfully!');
-        this.getListTree(this.Id);
-      });
+      this.alertify.confirm(
+        'Delete Routine Task',
+        'Are you sure you want to delete this ProjectID "' + this.taskId + '" ?',
+        () => {
+          this.projectDetailService.delete(this.taskId).subscribe(
+            (res: any) => {
+              if (res.status === -1) {
+               this.alertify.warning(res.message, true);
+              }
+              if (res.status === 1) {
+                this.alertify.success(res.message);
+                this.getListTree(this.Id);
+               }
+              if (res.status === 0) {
+                this.alertify.warning(res.message, true);
+               }
+            },
+            error => {
+              this.alertify.error('Failed to delete the Project');
+            }
+          );
+        }
+      );
+      // this.projectDetailService.delete(this.taskId).subscribe(res => {
+      //   this.alertify.success('Delete Successfully!');
+      //   this.getListTree(this.Id);
+      // });
     }
   }
   follow(id) {

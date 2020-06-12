@@ -30,7 +30,7 @@ export class CommentService {
   getAllComment(taskID: number, userid: number): Observable<ICommentTreeView[]> {
     return this.http.get<ICommentTreeView[]>(`${this.baseUrl}Comments/GetAll/${taskID}/${userid}`).pipe(
       map(response => {
-        console.log('getAllComment: ', response);
+        // console.log('getAllComment: ', response);
         return response;
       })
     );

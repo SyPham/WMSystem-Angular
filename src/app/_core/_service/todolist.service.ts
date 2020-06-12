@@ -26,7 +26,7 @@ export class TodolistService {
   getTasks() {
     return this.http.get(`${this.baseUrl}Tasks/Todolist/%20/%20/%20/%20/%20/%20/%20`).pipe(
       map(response => {
-        console.log('get tasks todolist: ', response);
+        // console.log('get tasks todolist: ', response);
         return response;
       })
     );

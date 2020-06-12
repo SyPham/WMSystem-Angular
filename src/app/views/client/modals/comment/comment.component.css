@@ -183,8 +183,9 @@
   .pin {
     position: absolute;
     top: 0;
+    -webkit-transform: translateY(260%);
     transform: translateY(260%);
-    z-index: 1000;
+    z-index: 2;
     background-color:whitesmoke;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     border-radius: 10px;
@@ -192,10 +193,11 @@
     cursor: pointer;
   }
   .pin-image {
-    position: absolute;
-    top: 0;
-    transform: translateY(110%);
-    z-index: 1000;
+    /* position: absolute;
+    top: 130px; */
+    /* -webkit-transform: translateY(100%);
+    transform: translateY(110%); */
+    z-index: 2;
     background-color:whitesmoke;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     border-radius: 10px;

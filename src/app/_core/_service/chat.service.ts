@@ -21,7 +21,7 @@ export class ChatService {
   getProjects(keyword = '') {
     return this.http.get(`${this.baseUrl}Projects/GetAllPaging/1/1000/${keyword}`).pipe(
       map(response => {
-        console.log('get getProjects chat: ', response['data']);
+        // console.log('get getProjects chat: ', response['data']);
         return response['data'];
       })
     );
@@ -29,7 +29,7 @@ export class ChatService {
   getChatMessage(room) {
     return this.http.get(`${this.baseUrl}Chat/GetAllMessageByRoomAndProject/${room}`).pipe(
       map(response => {
-        console.log('get getChatMessage: ', response);
+        // console.log('get getChatMessage: ', response);
         return response;
       })
     );

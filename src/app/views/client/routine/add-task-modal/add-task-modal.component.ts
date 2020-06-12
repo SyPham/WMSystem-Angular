@@ -306,6 +306,7 @@ export class AddTaskModalComponent implements OnInit {
   getFromWho() {
     this.routineService.getWho().subscribe(res => {
       this.Users = res;
+      this.beAssigned = res;
     });
   }
   onChangeMonthly(arg?) {

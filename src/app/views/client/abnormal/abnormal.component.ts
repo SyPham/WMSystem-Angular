@@ -126,9 +126,17 @@ export class AbnormalComponent implements OnInit {
         'Are you sure you want to delete this ProjectID "' + this.taskId + '" ?',
         () => {
           this.projectDetailService.delete(this.taskId).subscribe(
-            () => {
-              this.alertify.success('Project has been deleted');
-              this.getTasks();
+            (res: any) => {
+              if (res.status === -1) {
+               this.alertify.warning(res.message, true);
+              }
+              if (res.status === 1) {
+                this.alertify.success(res.message);
+                this.getTasks();
+               }
+              if (res.status === 0) {
+                this.alertify.warning(res.message, true);
+               }
             },
             error => {
               this.alertify.error('Failed to delete the Project');

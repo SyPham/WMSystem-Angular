@@ -23,7 +23,7 @@ export class AlertifyService {
       text: message,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Yes',
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
@@ -73,7 +73,7 @@ export class AlertifyService {
     } else {
     Swal.fire('Error!', message, 'error');
     }
-    //alertify.error(message);
+    // alertify.error(message);
   }
 
   warning(message: string, noToast?: boolean, title?: string) {
@@ -85,7 +85,7 @@ export class AlertifyService {
     } else {
     Swal.fire('Warning!', message, 'warning');
     }
-    //alertify.warring(message);
+    // alertify.warring(message);
   }
 
   message(message: string, noToast?: boolean) {
@@ -97,6 +97,6 @@ export class AlertifyService {
     } else {
       Swal.fire('Info!', message, 'info');
     }
-    //alertify.message(message);
+    // alertify.message(message);
   }
 }

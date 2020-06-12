@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterViewChecked, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewChecked, OnDestroy } from '@angular/core';
 import { CommentService } from 'src/app/_core/_service/comment.service';
 import { IComment, ICommentTreeView } from 'src/app/_core/_model/comment.interface';
 import { AlertifyService } from 'src/app/_core/_service/alertify.service';
@@ -47,6 +47,8 @@ export class CommentComponent implements OnInit {
   }
   ngAfterViewChecked() {
     this.marginTop();
+  }
+  ngOnDestroy() {
   }
   marginTop() {
     if (this.pin) {
@@ -201,9 +203,9 @@ export class CommentComponent implements OnInit {
     let listAll = [];
     for (const iterator of item.Images) {
      let child = {
-       small: iterator,
-       medium: iterator,
-       big: iterator
+       small: environment.imagePath + iterator,
+       medium: environment.imagePath + iterator,
+       big: environment.imagePath + iterator
      };
      listAll.push(child);
     }
@@ -227,7 +229,7 @@ export class CommentComponent implements OnInit {
     if (img == null) {
       return this.defaultImage();
     } else {
-      return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64, ' + img);
+      return this.sanitizer.bypassSecurityTrustResourceUrl( 'data:image/png;base64,' + img);
     }
   }
 }

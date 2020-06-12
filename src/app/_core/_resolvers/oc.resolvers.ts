@@ -20,6 +20,7 @@ export class OcResolver implements Resolve<object> {
         this.alertify.error('Problem retrieving data');
         localStorage.removeItem('user');
         localStorage.removeItem('token');
+        localStorage.removeItem('avatar');
         this.router.navigate(['/login']);
         return of(null);
       })

@@ -106,7 +106,7 @@ export class ProjectService {
       })
       .pipe(
         map(response => {
-          console.log(response);
+          // console.log(response);
           paginatedResult.result = response.body;
           if (response.headers.get('Pagination') != null) {
             paginatedResult.pagination = JSON.parse(

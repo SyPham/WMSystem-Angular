@@ -34,7 +34,7 @@ export class HeaderService {
   getAllNotificationCurrentUser(page, pageSize, userid) {
     return this.http.get(`${this.baseUrl}Home/getAllNotificationCurrentUser/${page}/${pageSize}/${userid}`).pipe(
       map(response => {
-        console.log('getAllNotificationCurrentUser: ', response);
+        // console.log('getAllNotificationCurrentUser: ', response);
         return response;
       })
     );

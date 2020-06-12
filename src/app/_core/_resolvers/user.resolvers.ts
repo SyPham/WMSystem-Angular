@@ -26,6 +26,7 @@ export class UserResolver implements Resolve<UserGetAll[]> {
         this.alertify.error('Problem retrieving data');
         localStorage.removeItem('user');
         localStorage.removeItem('token');
+        localStorage.removeItem('avatar');
         this.router.navigate(['/login']);
         return of(null);
       })

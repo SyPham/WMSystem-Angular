@@ -112,14 +112,14 @@ export class ProjectDetailComponent implements OnInit {
   addManager() {
     this.projectDetailService.addManager(this.manager).subscribe(res => {
       this.getUserByProjectID();
-      this.alertify.success("Add Manager Successfully!");
+      this.alertify.success('Add Manager Successfully!');
       this.close();
     });
   }
   addMember() {
     this.projectDetailService.addMember(this.member).subscribe(res => {
       this.getUserByProjectID();
-      this.alertify.success("Add Member Successfully!");
+      this.alertify.success('Add Member Successfully!');
       this.close();
     });
   }

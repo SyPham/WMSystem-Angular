@@ -194,7 +194,7 @@ export class Nav {
         return this.Nav.filter(this.isClient);
     }
     getNavClient2() {
-        console.log(this.Client)
+        // console.log(this.Client)
         return this.Client;
     }
     private isAdminShowDash(element, index, array) {

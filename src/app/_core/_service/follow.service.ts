@@ -21,7 +21,7 @@ export class FollowService {
   getTasks() {
     return this.http.get(`${this.baseUrl}Follow/LoadFollow`).pipe(
       map(response => {
-        console.log('get tasks follow: ', response);
+        // console.log('get tasks follow: ', response);
         return response;
       })
     );

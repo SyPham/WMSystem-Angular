@@ -44,7 +44,7 @@ export class ProjectDetailService {
     const detail: Detail = new Detail();
     return this.http.get<Detail>(this.baseUrl + 'Projects/GetUserByProjectID/' + id).pipe(
       map(response => {
-        console.log('getUserByProjectID: ', response);
+        // console.log('getUserByProjectID: ', response);
         detail.createdBy = response.createdBy;
         detail.status  = response.status;
         detail.selectedManager = response.selectedManager;
@@ -57,7 +57,7 @@ export class ProjectDetailService {
   follow(ID) {
     return this.http.get(`${this.baseUrl}Tasks/Follow/${ID}`).pipe(
       map(response => {
-        console.log('Follow: ', response);
+        // console.log('Follow: ', response);
         return response;
       })
     );

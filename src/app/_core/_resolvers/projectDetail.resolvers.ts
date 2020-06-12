@@ -20,9 +20,10 @@ export class ProjectDetailResolver implements Resolve<Detail> {
     const id: number = route.params.id;
     return this.projectDetailService.getUserByProjectID(id).pipe(
       catchError(error => {
-        this.alertify.error("Problem retrieving data");
+        this.alertify.error('Problem retrieving data');
         localStorage.removeItem('user');
         localStorage.removeItem('token');
+        localStorage.removeItem('avatar');
         this.router.navigate(['/login']);
         return of(null);
       })

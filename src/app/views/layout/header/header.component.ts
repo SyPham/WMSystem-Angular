@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CalendarsService } from 'src/app/_core/_service/calendars.service';
 import { IHeader } from 'src/app/_core/_model/header.interface';
 import * as moment from 'moment';
-import * as signalr from 'src/assets/js/signalr';
+import * as signalr from 'src/assets/js/signalr.js';
 import { Nav } from 'src/app/_core/_model/nav';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AvatarModalComponent } from './avatar-modal/avatar-modal.component';

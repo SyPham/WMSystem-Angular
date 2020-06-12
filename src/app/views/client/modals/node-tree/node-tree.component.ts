@@ -27,6 +27,7 @@ export class NodeTreeComponent implements OnInit {
   isShow = false;
   isShowIcon = false;
   totalShow: number;
+  subComment: IComment;
   content: string;
   id: number;
   usernames: any;
@@ -110,6 +111,7 @@ export class NodeTreeComponent implements OnInit {
   }
   clickReply($event, item) {
     this.content = '';
+    this.id = 0;
     if (item.Level === 2 || item.Level === 1) {
       if (this.userid !== item.UserID) {
         this.content = `\r@${item.Username}\r `;
@@ -135,16 +137,16 @@ export class NodeTreeComponent implements OnInit {
     if (event.target.value || this.fileList) {
       // console.log('addSubComment');
       // console.log(event);
-      const subComment: IComment = {
+      this.subComment = {
         Content: event.target.value,
         TaskID: this.taskID,
         ParentID: parentid,
         TaskCode: '',
-        ID: this.node.ID,
+        ID: this.id,
         UserID: this.userid,
         ClientRouter: this.clientRouter
       };
-      this.commentService.addSubComment(subComment).subscribe(res => {
+      this.commentService.addSubComment(this.subComment).subscribe(res => {
         if (res) {
           // console.log('addSubComment: ', res);
           this.uploadImage(res);
@@ -313,5 +315,6 @@ export class NodeTreeComponent implements OnInit {
   edit() {
     this.isShow = !this.isShow;
     this.content = this.node.Content;
+    this.id = this.node.ID;
   }
 }

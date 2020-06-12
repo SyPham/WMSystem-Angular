@@ -21,7 +21,7 @@ export class HistoryService {
   getTasks() {
     return this.http.get(`${this.baseUrl}Tasks/History`).pipe(
       map(response => {
-        console.log('get tasks todolist: ', response);
+        // console.log('get tasks todolist: ', response);
         return response;
       })
     );
@@ -32,7 +32,7 @@ export class HistoryService {
     end = new Date(end).toISOString();
     return this.http.get(`${this.baseUrl}Tasks/History/${start}/${end}`).pipe(
       map(response => {
-        console.log('sortDateRange: ', response);
+        // console.log('sortDateRange: ', response);
         return response;
       })
     );
@@ -42,7 +42,7 @@ export class HistoryService {
     end = new Date(end).toISOString();
     return this.http.get(`${this.baseUrl}Tasks/HistoryFilterByDueDateTime/${start}/${end}`).pipe(
       map(response => {
-        console.log('sortDateRange: ', response);
+        // console.log('sortDateRange: ', response);
         return response;
       })
     );

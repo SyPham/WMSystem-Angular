@@ -15,36 +15,12 @@
         <div class="row">
           <div class="col-12">
             <!-- <h2>Comments</h2> -->
-            <div class="comment-form comment-post pin-container" >
+            <div class="comment-form comment-post" >
               <!-- <ejs-uploader #defaultupload class="ejs-uploader" ></ejs-uploader> -->
               <i (click)="displayImage()" class="fas fa-camera attachment"></i>
               <textarea class="comment-area" [(ngModel)]="content" placeholder="Write your comment here"></textarea>
               <a (click)="addComment()" class="btn comment-btn text-white">Post</a>
-              <div *ngIf="pin" id='pin' [class]="pin.Images.length > 0 ? 'comment-box-wrapper pin-image' : 'comment-box-wrapper pin'" (click)='unpin()'>
-              <ejs-tooltip id='tooltip_2' content='Please click on this message to unpin!!!'>
-                <div class="comment-box" >
-                  <img [src]="imageBase64(pin.ImageBase64)" class="commenter-image" alt="commenter_image" />
-                  <div class="comment-content" style="background: transparent;">
-                    <div class="commenter-head">
-                      <span class="commenter-name">
-                        <a href>{{pin.Username}}</a>
-                      </span>
-                      <span class="comment-date">
-                        <i class="far fa-clock"></i>
-                        {{datetime(pin.CreatedTime)}} 
-                      </span>
-                    </div>
-                    <div class="comment-body">
-                      <span *ngIf="pin.Images.length > 0" class="comment"> <ngx-gallery [options]="galleryOptions" [images]="renderGalleryImages(pin)"></ngx-gallery></span>
-                      <div *ngIf="pin.Images.length === 0" class="comment">{{pin.Content}}</div>
-                    </div>
-                  </div>
-                  <div class="pin-button">
-                    <i class="fa fa-thumbtack"></i>
-                  </div>
-                </div>
-              </ejs-tooltip>
-            </div>
+             
             </div>
             <input type="file" #attachments multiple name="UploadedFile" (change)="onChangeImageFile($event)" class="d-none"
           accept="image/*" id="image-file-comment" />
@@ -63,8 +39,33 @@
         </div>
         <!-- =======COMMENTS START=======-->
         <div class="row" id='commentStart'>
+          <div *ngIf="pin" id='pin' [class]="pin.Images.length > 0 ? 'comment-box-wrapper pin-image' : 'comment-box-wrapper pin'" (click)='unpin()'>
+            <ejs-tooltip id='tooltip_2' content='Please click on this message to unpin!!!'>
+              <div class="comment-box" >
+                <img [src]="imageBase64(pin.ImageBase64)" class="commenter-image" alt="commenter_image" />
+                <div class="comment-content" style="background: transparent;">
+                  <div class="commenter-head">
+                    <span class="commenter-name">
+                      <a href>{{pin.Username}}</a>
+                    </span>
+                    <span class="comment-date">
+                      <i class="far fa-clock"></i>
+                      {{datetime(pin.CreatedTime)}} 
+                    </span>
+                  </div>
+                  <div class="comment-body">
+                    <span *ngIf="pin.Images.length > 0" class="comment"> <ngx-gallery [options]="galleryOptions" [images]="renderGalleryImages(pin)"></ngx-gallery></span>
+                    <div *ngIf="pin.Images.length === 0" class="comment">{{pin.Content}}</div>
+                  </div>
+                </div>
+                <div class="pin-button">
+                  <i class="fa fa-thumbtack"></i>
+                </div>
+              </div>
+            </ejs-tooltip>
+          </div>
           <div class="col-12">
-           
+          
           <ng-container *ngFor="let item of dataComment; let i = index">
                 <app-tree [treeData]="item" *ngIf="i < totalShow;" [clientRouter]='clientRouter' [taskID]="taskID"></app-tree>
               </ng-container>
